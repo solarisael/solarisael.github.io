@@ -80,10 +80,7 @@ if (Array.isArray(crumbs) && crumbs.length > 0) {
 // href-equality. The leaf often has href:null (it's the page you're on), so
 // matching on href would mark the wrong crumb (or none) at 2+ depth.
 const current_crumb_index = crumb_items.length - 1;
-const active_theme_color =
-  theme_color ??
-  phase_color_by_name[active_phase] ??
-  "var(--site_style_accent)";
+const active_theme_color = "var(--mono_ink)";
 ---
 
 <mantle
@@ -94,8 +91,6 @@ const active_theme_color =
   data-phase={active_phase}
   style={`--crumb_theme_color: ${active_theme_color};`}
 >
-  <div class="sol__breadcrumb_divider"></div>
-
   <ol>
     {
       crumb_items.map((crumb_item, crumb_index) => {

@@ -1,163 +1,18 @@
 .character-sheet {
-  --sheet-ink: rgb(0 0 0 / 92%);
-  --sheet-faint: rgb(0 0 0 / 56%);
-  --sheet-line: rgb(0 0 0 / 24%);
-  --sheet-accent: #8f1d22;
+  --sheet-ink: var(--mono_ink, #171717);
+  --sheet-faint: color-mix(in srgb, var(--sheet-ink) 62%, transparent);
+  --sheet-line: color-mix(in srgb, var(--sheet-ink) 24%, transparent);
   --sheet-pad: clamp(0.7rem, 1.5vw, 1.15rem);
-  color: var(--sheet-ink);
-
-  position: relative;
-  isolation: isolate;
+  box-sizing: border-box;
   width: min(100%, 76rem);
   margin-inline: auto;
   padding: var(--sheet-pad);
-  overflow: hidden;
-  border: 0;
-  background: rgb(249 249 249);
-  box-shadow:
-    0 1rem 3rem rgb(0 0 0 / 16%),
-    0.28rem 0.34rem 0 rgb(0 0 0 / 8%);
-}
-
-.character-sheet__frame {
-  position: absolute;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.character-sheet__frame--outer {
-  inset: 0;
-  z-index: 6;
-  --corner-track-size: 1.75rem;
-  --corner-box-size: 1rem;
-  display: grid;
-  grid-template:
-    "tl . tr" var(--corner-track-size)
-    ".  .  ." 1fr
-    "bl . br" var(--corner-track-size)
-    / var(--corner-track-size) 1fr var(--corner-track-size);
-  padding: 0;
-}
-
-.character-sheet__frame--outer::before,
-.character-sheet__frame--outer::after {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-}
-
-.character-sheet__frame--outer::before {
-  z-index: 10;
-  /* bg-stack-exception: four structural frame-corner edge highlights, not authored ornament art */
-  background:
-    linear-gradient(135deg, rgb(249 249 249) 0 48%, transparent 52%) top left /
-      0.8rem 0.8rem no-repeat,
-    linear-gradient(225deg, rgb(249 249 249) 0 48%, transparent 52%) top right /
-      0.8rem 0.8rem no-repeat,
-    linear-gradient(45deg, rgb(249 249 249) 0 48%, transparent 52%) bottom
-      left / 0.8rem 0.8rem no-repeat,
-    linear-gradient(315deg, rgb(249 249 249) 0 48%, transparent 52%) bottom
-      right / 0.8rem 0.8rem no-repeat;
-  filter: drop-shadow(0 0 0.045rem rgb(0 0 0 / 82%))
-    drop-shadow(0.1rem 0.12rem 0.08rem rgb(0 0 0 / 65%));
-}
-
-.character-sheet__frame--outer::after {
-  z-index: 5;
-  border: 1px solid rgb(0 0 0 / 48%);
-  clip-path: polygon(
-    0 0.8rem,
-    0.8rem 0,
-    calc(100% - 0.8rem) 0,
-    100% 0.8rem,
-    100% calc(100% - 0.8rem),
-    calc(100% - 0.8rem) 100%,
-    0.8rem 100%,
-    0 calc(100% - 0.8rem)
-  );
-}
-
-.character-sheet__frame--inner {
-  inset: 0.45rem;
-  border: 1px solid rgb(0 0 0 / 22%);
-  box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 72%),
-    0 0 0.3rem 0.1rem rgb(0 0 0 / 44%);
-}
-
-.character-sheet__corner {
-  display: flex;
-  width: var(--corner-box-size);
-  height: var(--corner-box-size);
-  place-self: center;
-  align-items: center;
-  justify-content: center;
-  background: rgb(249 249 249);
-  color: rgb(0 0 0);
-  font: 400 0.72rem / 1 var(--font_mono);
-  box-shadow: 0.0625rem 0.0625rem 0 rgb(0 0 0 / 24%);
-  transform: rotate3d(
-    var(--corner-rotate-x, 0),
-    var(--corner-rotate-y, 0),
-    var(--corner-rotate-z, 1),
-    var(--corner-rotate-angle, 0deg)
-  );
-  transform-style: preserve-3d;
-}
-
-.character-sheet__corner--tl {
-  grid-area: tl;
-}
-
-.character-sheet__corner--tr {
-  --corner-rotate-y: 1;
-  --corner-rotate-z: 0;
-  --corner-rotate-angle: 180deg;
-
-  grid-area: tr;
-}
-
-.character-sheet__corner--bl {
-  --corner-rotate-x: 1;
-  --corner-rotate-z: 0;
-  --corner-rotate-angle: 180deg;
-
-  grid-area: bl;
-}
-
-.character-sheet__corner--br {
-  --corner-rotate-angle: 180deg;
-
-  grid-area: br;
-}
-
-.character-sheet::before,
-.character-sheet::after {
-  position: absolute;
-  z-index: -1;
-  color: var(--sheet-faint);
-  font: 700 clamp(3rem, 10vw, 8rem) / 0.8 sans-serif;
-  letter-spacing: -0.08em;
-  opacity: 0.07;
-  content: "001";
-}
-
-.character-sheet::before {
-  top: 18%;
-  left: -0.04em;
-}
-
-.character-sheet::after {
-  right: -0.03em;
-  bottom: 13%;
-  transform: rotate(90deg);
+  color: var(--sheet-ink);
+  background: var(--mono_paper, #f7f4ed);
 }
 
 .character-sheet__masthead,
 .character-sheet__footer {
-  position: relative;
-  z-index: 3;
   display: flex;
   justify-content: space-between;
   gap: 1.5rem;
@@ -166,7 +21,7 @@
 .character-sheet__masthead {
   align-items: start;
   margin-inline: calc(var(--sheet-pad) * -1);
-  padding: 0 var(--sheet-pad) 0.3rem;
+  padding: 0 var(--sheet-pad) 0.7rem;
   border-bottom: 1px solid var(--sheet-line);
 }
 
@@ -176,6 +31,7 @@
 .character-sheet__footer span,
 .character-sheet__portrait small {
   margin: 0;
+  color: var(--sheet-faint);
   font: 400 var(--text_micro) / var(--leading_body) var(--font_mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -190,20 +46,16 @@
 
 .character-sheet__alias {
   margin-top: 0.15rem;
-  color: var(--sheet-faint);
   font-weight: 300;
 }
 
 .character-sheet__mark {
   margin: 0.15rem 0 0;
-  padding: 0.25rem 0.4rem;
-  border: 1px solid var(--sheet-accent);
-  color: var(--sheet-accent);
+  color: var(--sheet-ink);
   font: 400 var(--text_micro) / 1 var(--font_mono);
   letter-spacing: 0.08em;
-  text-align: center;
+  text-align: right;
   text-transform: uppercase;
-  transform: rotate(4deg);
 }
 
 .character-sheet__body {
@@ -278,25 +130,70 @@
   display: grid;
   gap: var(--orbit-gap);
 }
-
 .character-sheet__column--left {
-  transform: translateX(0.55rem);
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .character-sheet__column--right {
-  transform: translateX(-0.55rem);
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.character-sheet__portrait {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  grid-template-rows: minmax(0, 1fr) auto;
+  place-items: center;
+  align-self: stretch;
+  min-height: var(--pretext-spine-height, 48rem);
+  margin: 0 -3rem;
+  pointer-events: none;
+}
+
+.character-sheet__portrait > picture {
+  display: block;
+  width: 34rem;
+  min-height: 0;
+  max-width: none;
+}
+
+.character-sheet__portrait img {
+  display: block;
+  width: 34rem;
+  max-width: none;
+  height: auto;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.character-sheet__portrait figcaption {
+  position: static;
+  display: grid;
+  justify-items: end;
+  width: min(100%, 34rem);
+  padding: 0.35rem 0.5rem;
+  color: var(--sheet-ink);
+  background: var(--mono_paper, #f7f4ed);
+}
+
+.character-sheet__portrait figcaption span {
+  font: 800 clamp(1.6rem, 4vw, 3rem) / 1 sans-serif;
+  letter-spacing: -0.04em;
 }
 
 .dossier-card {
   padding: 0.35rem 0;
-  border: 0;
-  background: transparent;
 }
 
 .dossier-card__number {
   padding-bottom: 0.28rem;
   border-bottom: 1px solid var(--sheet-line);
-  color: var(--sheet-faint);
 }
 
 .dossier-card dl,
@@ -311,7 +208,7 @@
   grid-template-columns: 4.75rem 1fr;
   gap: 0.4rem;
   padding-block: 0.34rem;
-  border-bottom: 1px solid rgb(0 0 0 / 10%);
+  border-bottom: 1px solid color-mix(in srgb, var(--sheet-ink) 10%, transparent);
 }
 
 .dossier-card dl > div:last-child {
@@ -347,76 +244,25 @@
   display: grid;
   gap: 0.22rem;
   margin: 0.42rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.dossier-card li::before {
-  margin-right: 0.55rem;
-  color: var(--sheet-accent);
-  content: "■";
+  padding-inline-start: 1.1rem;
 }
 
 .dossier-card li {
-  width: fit-content;
-  padding-inline: 0.15rem;
-  background: rgb(249 249 249);
   font-weight: 300;
-}
-
-.dossier-card--traits {
-  margin-inline-start: 34%;
 }
 
 .pretext-flow-line {
   display: block;
   min-height: 1lh;
   padding-inline: 0.1rem;
-  background: rgb(249 249 249);
-  box-shadow: 0 0 0 1px rgb(249 249 249);
+  color: var(--sheet-ink);
+  background: var(--mono_paper, #f7f4ed);
   white-space: pre;
-}
-
-.character-sheet__portrait {
-  position: relative;
-  z-index: 1;
-  align-self: stretch;
-  min-height: var(--pretext-spine-height, 48rem);
-  margin: 0 -3rem;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
-.character-sheet__portrait img {
-  width: auto;
-  max-width: none;
-  height: calc(var(--pretext-spine-height, 48rem) + 4rem);
-  min-height: 0;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: grayscale(1) contrast(1.08);
-}
-
-.character-sheet__portrait figcaption {
-  position: absolute;
-  z-index: 2;
-  right: 1.5rem;
-  bottom: 2rem;
-  display: grid;
-  justify-items: end;
-  color: white;
-  text-shadow: 0 1px 0.8rem black;
-}
-
-.character-sheet__portrait figcaption span {
-  font: 800 clamp(1.6rem, 4vw, 3rem) / 1 sans-serif;
-  letter-spacing: -0.04em;
 }
 
 .character-sheet__footer {
   align-items: end;
-  padding-top: 0.55rem;
+  padding-top: 0.7rem;
   border-top: 1px solid var(--sheet-line);
   font: 600 0.78rem / 1.4 monospace;
 }
@@ -427,11 +273,10 @@
 
 .character-sheet__footer span {
   display: block;
-  color: var(--sheet-faint);
 }
 
 .character-sheet__seal {
-  color: var(--sheet-accent);
+  color: var(--sheet-ink);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-align: right;
@@ -450,21 +295,20 @@
   }
 
   .character-sheet__portrait {
+    display: block;
     grid-column: 1 / -1;
     grid-row: 1;
-    height: min(80svh, 44rem);
+    height: auto;
     min-height: 0;
     margin: 0 -1rem;
   }
-
   .character-sheet__portrait > picture {
     display: block;
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    height: 100%;
+    height: min(80svh, 44rem);
   }
-
   .character-sheet__portrait img {
     display: block;
     width: 100%;
@@ -476,13 +320,9 @@
   }
 
   .character-sheet__column {
+    grid-column: auto;
     grid-row: 2;
-    margin-top: -5rem;
-  }
-
-  .character-sheet__column--left,
-  .character-sheet__column--right {
-    transform: none;
+    margin-top: 1.5rem;
   }
 
   .dossier-card--traits {
@@ -492,11 +332,8 @@
 
 @media (max-width: 620px) {
   .character-sheet {
-    box-sizing: border-box;
-    width: calc(100vw - 4rem);
-    max-width: calc(100vw - 4rem);
-    left: auto;
-    margin-inline: 0;
+    width: 100%;
+    max-width: 100%;
     padding: 0.75rem;
   }
 
@@ -510,21 +347,20 @@
     display: none;
   }
 
-  .character-sheet__body {
-    display: block;
-  }
-
   .character-sheet__portrait {
-    height: 34rem;
+    height: auto;
     margin: 0 -0.75rem;
   }
-
-  .character-sheet__column {
-    margin-top: 0;
+  .character-sheet__portrait > picture {
+    height: 34rem;
   }
 
-  .character-sheet__column--left {
-    margin-top: -4rem;
+  .character-sheet__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .character-sheet__column {
+    grid-row: auto;
+    margin-top: 1.5rem;
   }
 
   .dossier-card {

@@ -1,120 +1,32 @@
-/* wikilink.css — obsidian-style `[[]]` cross-references rendered in-site.
- *
- * Three shapes:
- *   .sol__wikilink                   — inline link with hover popup
- *   .sol__wikilink--broken           — visible-but-marked missing target
- *   .sol__wikilink_embed             — block embed card (from `![[]]`)
- *   .sol__wikilink_embed--broken     — block embed with missing target
- *
- * Phase tinting via [data-phase] attribute — nigredo (cool dark), albedo
- * (clean light), citrinitas (warm bright), rubedo (deep ceremonial),
- * codex (neutral reference). Colors derived from existing
- * --color-{phase} tokens in base.css `@theme`.
- *
- * Popup card is positioned + animated by `wikilink_popup.js` (see
- * public/js/modules/) which reads data attributes on .sol__wikilink to
- * build the hovering preview. Card itself is rendered into a singleton
- * element appended to <body>, not into the anchor — keeps z-index
- * stacking clean across htmx swaps.
- */
+/* Wikilinks keep their navigation and preview behavior while sharing the page
+ * paper/ink palette. The popup remains a body-level surface for clean stacking. */
 
 .sol__wikilink {
-  color: var(--color-citrinitas, oklch(78% 0.14 95));
+  color: var(--mono_ink, #171717);
   text-decoration: underline dotted;
   text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in oklch, currentColor 50%, transparent);
-  transition:
-    color 160ms ease-out,
-    text-decoration-color 160ms ease-out;
+  text-decoration-color: currentColor;
+  transition: opacity 160ms ease-out;
 }
 
 .sol__wikilink:hover,
 .sol__wikilink:focus-visible {
-  text-decoration-color: currentColor;
-}
-
-.sol__wikilink[data-phase="nigredo"] {
-  color: color-mix(
-    in oklch,
-    var(--color-nigredo, oklch(70% 0.05 280)) 92%,
-    white 8%
-  );
-}
-
-.sol__wikilink[data-phase="albedo"] {
-  color: color-mix(
-    in oklch,
-    var(--color-albedo, oklch(86% 0.04 240)) 92%,
-    white 8%
-  );
-}
-
-.sol__wikilink[data-phase="citrinitas"] {
-  color: color-mix(
-    in oklch,
-    var(--color-citrinitas, oklch(80% 0.14 95)) 92%,
-    white 8%
-  );
-}
-
-.sol__wikilink[data-phase="rubedo"] {
-  color: color-mix(
-    in oklch,
-    var(--color-rubedo, oklch(64% 0.18 25)) 88%,
-    white 12%
-  );
-}
-
-.sol__wikilink[data-phase="codex"] {
-  color: color-mix(
-    in oklch,
-    var(--color-codex, oklch(72% 0.04 220)) 92%,
-    white 8%
-  );
+  opacity: 0.65;
 }
 
 .sol__wikilink--broken {
-  color: oklch(58% 0.16 30);
+  color: var(--mono_ink, #171717);
   text-decoration: line-through wavy;
-  text-decoration-color: color-mix(in oklch, currentColor 60%, transparent);
   cursor: help;
 }
-
-/* ── embed card ─────────────────────────────────────────────────────── */
 
 .sol__wikilink_embed {
   display: block;
   margin: 1.25rem 0;
   padding: 1rem 1.15rem;
-  border-radius: 0.4rem;
-  border: var(--site_border_width_hairline) solid
-    color-mix(
-      in oklch,
-      var(--site_style_accent, oklch(70% 0.05 240)) 16%,
-      transparent
-    );
-  background: color-mix(
-    in oklch,
-    var(--site_style_accent, oklch(20% 0.02 240)) 4%,
-    transparent
-  );
+  border: var(--site_border_width_hairline, 1px) solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
   position: relative;
-}
-
-.sol__wikilink_embed[data-phase="nigredo"] {
-  border-color: color-mix(in oklch, var(--color-nigredo) 32%, transparent);
-}
-.sol__wikilink_embed[data-phase="albedo"] {
-  border-color: color-mix(in oklch, var(--color-albedo) 32%, transparent);
-}
-.sol__wikilink_embed[data-phase="citrinitas"] {
-  border-color: color-mix(in oklch, var(--color-citrinitas) 32%, transparent);
-}
-.sol__wikilink_embed[data-phase="rubedo"] {
-  border-color: color-mix(in oklch, var(--color-rubedo) 36%, transparent);
-}
-.sol__wikilink_embed[data-phase="codex"] {
-  border-color: color-mix(in oklch, var(--color-codex) 32%, transparent);
 }
 
 .sol__wikilink_embed_header {
@@ -135,24 +47,20 @@
   font-family: var(--font_reading_heading, inherit);
   font-size: var(--text_h3, 1.1rem);
   line-height: 1.3;
-  color: oklch(90% 0.014 258);
+  color: var(--mono_ink, #171717);
 }
 
 .sol__wikilink_embed_excerpt {
   margin: 0 0 0.6rem;
   font-size: var(--text_body, 1rem);
   line-height: 1.55;
-  color: oklch(78% 0.014 258);
+  color: var(--mono_ink, #171717);
 }
 
 .sol__wikilink_embed_more {
   font-size: var(--text_fine, 0.85rem);
   text-decoration: none;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent, oklch(70% 0.08 240)) 80%,
-    white 20%
-  );
+  color: var(--mono_ink, #171717);
 }
 
 .sol__wikilink_embed_more:hover,
@@ -162,36 +70,26 @@
 
 .sol__wikilink_embed--broken {
   border-style: dashed;
-  border-color: oklch(50% 0.14 30);
-  background: color-mix(in oklch, oklch(40% 0.1 30) 5%, transparent);
 }
 
 .sol__wikilink_embed_missing {
   margin: 0;
   font-size: var(--text_fine, 0.85rem);
-  color: oklch(70% 0.1 30);
+  color: var(--mono_ink, #171717);
 }
 
 .sol__wikilink_embed_missing code {
   font-family: var(--font_mono, ui-monospace, monospace);
-  color: oklch(80% 0.14 30);
+  color: inherit;
 }
-
-/* ── popup card (rendered by wikilink_popup.js, appended to body) ──── */
 
 .sol__wikilink_popup {
   position: fixed;
   max-width: min(28rem, calc(100vw - 2rem));
   padding: 0.85rem 1rem;
-  border-radius: 0.4rem;
-  background: oklch(14% 0.012 258);
-  border: var(--site_border_width_hairline) solid
-    color-mix(
-      in oklch,
-      var(--site_style_accent, oklch(70% 0.05 240)) 22%,
-      transparent
-    );
-  box-shadow: 0 12px 32px -8px oklch(0% 0 0 / 0.5);
+  background: var(--mono_paper, #f7f4ed);
+  color: var(--mono_ink, #171717);
+  border: var(--site_border_width_hairline, 1px) solid var(--mono_ink, #171717);
   pointer-events: none;
   opacity: 0;
   transform: translateY(2px);
@@ -206,28 +104,12 @@
   transform: translateY(0);
 }
 
-.sol__wikilink_popup[data-phase="nigredo"] {
-  border-color: color-mix(in oklch, var(--color-nigredo) 36%, transparent);
-}
-.sol__wikilink_popup[data-phase="albedo"] {
-  border-color: color-mix(in oklch, var(--color-albedo) 36%, transparent);
-}
-.sol__wikilink_popup[data-phase="citrinitas"] {
-  border-color: color-mix(in oklch, var(--color-citrinitas) 36%, transparent);
-}
-.sol__wikilink_popup[data-phase="rubedo"] {
-  border-color: color-mix(in oklch, var(--color-rubedo) 40%, transparent);
-}
-.sol__wikilink_popup[data-phase="codex"] {
-  border-color: color-mix(in oklch, var(--color-codex) 36%, transparent);
-}
-
 .sol__wikilink_popup_title {
   display: block;
   font-family: var(--font_reading_heading, inherit);
   font-size: var(--text_h4, 1rem);
   line-height: 1.3;
-  color: oklch(92% 0.014 258);
+  color: var(--mono_ink, #171717);
   margin-bottom: 0.35rem;
 }
 
@@ -235,7 +117,7 @@
   display: block;
   font-size: var(--text_fine, 0.85rem);
   line-height: 1.5;
-  color: oklch(75% 0.014 258);
+  color: var(--mono_ink, #171717);
 }
 
 .sol__wikilink_popup_kicker {
@@ -243,6 +125,6 @@
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: oklch(60% 0.014 258);
+  color: var(--mono_ink, #171717);
   margin-bottom: 0.15rem;
 }

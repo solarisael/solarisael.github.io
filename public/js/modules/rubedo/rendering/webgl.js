@@ -1,10 +1,7 @@
 import { resize_canvas_to_display_size } from "../../webgl/canvas.js";
-import { rgba, to_rgb, world_to_screen } from "../../webgl/math.js";
+import { rgba, world_to_screen } from "../../webgl/math.js";
 import { create_program } from "../../webgl/program.js";
-import {
-  RUBEDO_CONSTELLATION_THREADS,
-  RUBEDO_CONSTELLATION_VIEW,
-} from "../constellation_config.js";
+import { RUBEDO_CONSTELLATION_VIEW } from "../constellation_config.js";
 import {
   create_texture_source_list,
   create_texture_loader,
@@ -124,7 +121,9 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
         discard;
       }
       vec2 uv = vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y);
-      out_color = texture(u_texture, uv);
+      vec4 sample_color = texture(u_texture, uv);
+      float luminance = dot(sample_color.rgb, vec3(0.299, 0.587, 0.114));
+      out_color = vec4(vec3(luminance), sample_color.a);
     }`,
   );
 
@@ -389,14 +388,11 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
   };
 
   const draw_edges = () => {
-    draw_lines(payload.edges.branch || [], [165, 170, 184], 0.26);
-    draw_lines(payload.edges.trunk || [], [242, 246, 255], 0.64);
-    draw_lines(payload.edges.connectors || [], [154, 158, 168], 0.22);
+    draw_lines(payload.edges.branch || [], [23, 23, 23], 0.2);
+    draw_lines(payload.edges.trunk || [], [23, 23, 23], 0.62);
+    draw_lines(payload.edges.connectors || [], [23, 23, 23], 0.16);
     for (const edge of payload.edges.canonical || []) {
-      const rgb = RUBEDO_CONSTELLATION_THREADS.rgb[edge.thread_key] || [
-        214, 217, 226,
-      ];
-      draw_lines([edge], rgb, 0.42);
+      draw_lines([edge], [23, 23, 23], 0.44);
     }
   };
 
@@ -412,8 +408,8 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
       draw_points(
         [node],
         (entry) => entry.halo_radius * 1.3,
-        to_rgb(node.neon_rgb),
-        0.2,
+        [23, 23, 23],
+        0.18,
         0.72,
       );
     }
@@ -424,7 +420,7 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
       draw_rings(
         [node],
         (entry) => entry.highlight_radius,
-        to_rgb(node.neon_rgb),
+        [23, 23, 23],
         0.58,
         0.18,
       );
@@ -438,14 +434,14 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
       draw_points(
         [node],
         (entry) => entry.halo_radius * 1.44,
-        [255, 255, 255],
+        [23, 23, 23],
         0.12,
         0.82,
       );
       draw_rings(
         [node],
         (entry) => entry.highlight_radius,
-        [255, 255, 255],
+        [23, 23, 23],
         0.92,
         0.2,
       );
@@ -457,7 +453,7 @@ const create_webgl_renderer = (canvas, payload, view_state) => {
         y: node.y + Math.sin(angle) * node.highlight_radius,
       };
 
-      draw_points([spark], () => 0.72, [255, 255, 255], 1, 0.56);
+      draw_points([spark], () => 0.72, [23, 23, 23], 1, 0.56);
     }
   };
 

@@ -70,8 +70,20 @@ const blocked_interval = (root_rect, image_rect, line_top, line_height) => {
 export const slot_for_line = (side, root_rect, image_rect, y, line_height) => {
   const page_inset = 12;
   const blocked = blocked_interval(root_rect, image_rect, y, line_height);
-  if (!blocked)
-    return { left: page_inset, right: root_rect.width - page_inset };
+  if (!blocked) {
+    const center_gap = 24;
+    const center = root_rect.width / 2;
+    const left_edge = Math.max(page_inset, center - center_gap / 2);
+    const right_edge = Math.min(
+      root_rect.width - page_inset,
+      center + center_gap / 2,
+    );
+
+    return side === "left"
+      ? { left: page_inset, right: left_edge }
+      : { left: right_edge, right: root_rect.width - page_inset };
+  }
+
   return side === "left"
     ? {
         left: page_inset,

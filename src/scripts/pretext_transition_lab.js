@@ -1,4 +1,18 @@
-import { transition_pretext_content } from "scripts-of-folly/transitions";
+import {
+  layout_pretext_root,
+  reset_pretext_source,
+} from "scripts-of-folly/pretext";
+
+const transition_plain_content = (root, next_html) => {
+  if (!root || root.nodeType !== 1) {
+    return false;
+  }
+
+  root.innerHTML = String(next_html ?? "");
+  reset_pretext_source(root, { restore: false });
+  layout_pretext_root(root);
+  return true;
+};
 
 const LAB_SELECTOR = "[data-sol-transition-lab]";
 const TEXT_SELECTOR = "[data-sol-transition-lab-text]";
@@ -8,7 +22,7 @@ const SENTENCE_SELECTOR = "template[data-sol-transition-lab-sentence]";
 // a replaced node starts back at sentence zero, which is fine for a sandbox.
 const lab_state = new WeakMap();
 
-const step_lab = async (lab, effect) => {
+const step_lab = (lab) => {
   const text_root = lab.querySelector(TEXT_SELECTOR);
   const sentences = Array.from(lab.querySelectorAll(SENTENCE_SELECTOR)).map(
     (template) => template.innerHTML.trim(),
@@ -21,10 +35,7 @@ const step_lab = async (lab, effect) => {
   const state = lab_state.get(lab) ?? { index: 0 };
   state.index = (state.index + 1) % sentences.length;
   lab_state.set(lab, state);
-
-  await transition_pretext_content(text_root, sentences[state.index], {
-    effect,
-  });
+  transition_plain_content(text_root, sentences[state.index]);
 };
 
 if (typeof document !== "undefined") {
@@ -38,7 +49,7 @@ if (typeof document !== "undefined") {
     const lab = button.closest(LAB_SELECTOR);
 
     if (lab) {
-      step_lab(lab, button.dataset.solTransitionLabStep);
+      step_lab(lab);
     }
   });
 }

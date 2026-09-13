@@ -20,7 +20,10 @@
   --color-rubedo: oklch(64% 0.19 26deg);
   --color-codex: oklch(66% 0.06 290);
 
-  /* Reliquary palette */
+  /* Page-scoped monochrome surface; reliquary tokens below remain menu-owned. */
+  --mono_paper: #f7f4ed;
+  --mono_ink: #171717;
+
   --ui_bg_root: oklch(8.5% 0.005 280);
   --ui_bg_mantle: oklch(11.5% 0.003 280);
   --ui_bg_crust: oklch(5% 0.003 280);

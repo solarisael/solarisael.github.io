@@ -8,17 +8,9 @@
   max-width: calc(100vw - 2rem);
   margin: 1.5rem auto;
   padding: 1rem;
-  border: 1px solid
-    color-mix(in oklch, var(--site_style_accent) 24%, transparent);
-  border-radius: 18px;
-  background:
-    radial-gradient(
-      circle at 50% 18%,
-      color-mix(in oklch, var(--site_style_accent) 14%, transparent),
-      transparent 36%
-    ),
-    color-mix(in oklch, var(--ui_bg_mantle) 42%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in oklch, white 8%, transparent);
+  border: 1px solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
+  color: var(--mono_ink, #171717);
 }
 
 .sol__pretext_shape_lab.sol__pretext_shaped {
@@ -34,7 +26,7 @@
     width: min(100%, calc(100vw - 1.25rem));
     max-width: calc(100vw - 1.25rem);
     padding: 0.75rem;
-    font-size: clamp(0.82rem, 3.5vw, 0.95rem);
+    font-size: 0.95rem;
   }
 }
 
@@ -43,18 +35,14 @@
   max-width: calc(100vw - 2rem);
   margin: 2rem auto;
   --sol_shader_chalice_text_blur: 0rem;
-  --sol_shader_chalice_text_opacity: 0.9;
-  --sol_shader_chalice_inner_padding: clamp(0.7rem, 2vw, 1.35rem);
+  --sol_shader_chalice_text_opacity: 1;
+  --sol_shader_chalice_inner_padding: 1rem;
 }
 
 .sol__shader_chalice_note {
   max-width: 42rem;
   margin: 0 auto 1rem;
-  color: color-mix(
-    in oklch,
-    var(--ui_text_secondary) 86%,
-    var(--site_style_accent)
-  );
+  color: var(--mono_ink, #171717);
   text-align: center;
 }
 
@@ -84,18 +72,6 @@
   z-index: 1;
   inset: 0;
   overflow: hidden;
-  clip-path: polygon(
-    12% 6%,
-    88% 6%,
-    76% 22%,
-    60% 59%,
-    55% 76%,
-    76% 94%,
-    24% 94%,
-    45% 76%,
-    40% 59%,
-    24% 22%
-  );
 }
 
 .sol__shader_chalice_text_box {
@@ -107,22 +83,6 @@
   padding: var(--sol_shader_chalice_inner_padding);
   overflow: visible;
   transform: translateX(-50%);
-  -webkit-mask-image: radial-gradient(
-    ellipse at center,
-    black 0 42%,
-    rgb(0 0 0 / 0.62) 58%,
-    transparent 88%
-  );
-  mask-image: radial-gradient(
-    ellipse at center,
-    black 0 42%,
-    rgb(0 0 0 / 0.62) 58%,
-    transparent 88%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
 }
 
 .sol__shader_chalice_text {
@@ -130,17 +90,11 @@
   max-width: none;
   box-sizing: border-box;
   margin: 0;
-  color: color-mix(
-    in oklch,
-    var(--ui_text_primary) 88%,
-    var(--site_style_accent)
-  );
+  color: var(--mono_ink, #171717);
   font-size: clamp(0.78rem, 1.45vw, 0.96rem);
   line-height: 1.34;
-  opacity: var(--sol_shader_chalice_text_opacity, 0.9);
+  opacity: var(--sol_shader_chalice_text_opacity, 1);
   filter: blur(var(--sol_shader_chalice_text_blur, 0rem));
-  text-shadow: 0 0 0.65rem
-    color-mix(in oklch, var(--site_style_accent) 28%, transparent);
   will-change: opacity, filter;
 }
 
@@ -158,6 +112,9 @@
     font-size: clamp(0.72rem, 3.1vw, 0.88rem);
   }
 }
+#sol_page_shell .sol__shader_chalice_canvas {
+  display: none;
+}
 
 .sol__pretext_transition_lab {
   max-width: 38rem;
@@ -165,7 +122,7 @@
 }
 
 .sol__pretext_transition_note {
-  opacity: 0.75;
+  opacity: 0.7;
   font-size: 0.9rem;
 }
 
@@ -185,14 +142,13 @@
 .sol__pretext_transition_controls button {
   cursor: pointer;
   padding: 0.25rem 1rem;
-  border-radius: 999px;
-  border: var(--site_border_width_hairline, 1px) solid
-    color-mix(in oklch, var(--site_style_accent) 35%, transparent);
-  background: transparent;
-  color: color-mix(in oklch, var(--site_style_accent) 80%, white);
-  transition: border-color calc(180ms * var(--site_fx_motion_mult, 1)) ease;
+  border: var(--site_border_width_hairline, 1px) solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
+  color: var(--mono_ink, #171717);
+  transition: background-color calc(180ms * var(--site_fx_motion_mult, 1)) ease;
 }
 
-.sol__pretext_transition_controls button:hover {
-  border-color: color-mix(in oklch, var(--site_style_accent) 70%, transparent);
+.sol__pretext_transition_controls button:hover,
+.sol__pretext_transition_controls button:focus-visible {
+  background: rgb(23 23 23 / 0.08);
 }

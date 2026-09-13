@@ -59,7 +59,7 @@ const display_title = entry.data.title ?? entry.data.slug;
     gap: 0.6rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid
-      color-mix(in oklch, var(--site_style_accent) 22%, transparent);
+      color-mix(in srgb, var(--mono_ink, #171717) 24%, transparent);
   }
 
   .sol__albedo_detail_meta {
@@ -73,13 +73,17 @@ const display_title = entry.data.title ?? entry.data.slug;
     font-family: var(--font_reading_heading);
     font-weight: 500;
     line-height: 1.2;
-    color: oklch(88% 0.012 247);
+    color: var(--mono_ink, #171717);
     margin: 0;
   }
 
   .sol__albedo_detail_title[data-untitled="true"] {
     font-style: italic;
-    color: oklch(58% 0.014 247);
+    color: color-mix(
+      in srgb,
+      var(--mono_ink, #171717) 62%,
+      var(--mono_paper, #f7f4ed)
+    );
   }
 
   .sol__albedo_detail_body {

@@ -5,19 +5,16 @@
   @apply mb-4;
 }
 
-/* The interactive section has a fixed CSS height so the canvas pixel buffer
-   (canvas.width / canvas.height attributes) cannot inflate the layout.
-   Without this, writing canvas.width triggers ResizeObserver → resize loop. */
 .sol__rubedo_timeline_interactive {
   @apply relative mt-6 w-full overflow-hidden;
 
   height: 70vh;
   min-height: 320px;
   max-height: 900px;
+  border: var(--site_border_width_hairline) solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
 }
 
-/* Canvas fills the section via CSS. The pixel buffer resolution is set
-   separately in JS via canvas.width/height without affecting layout size. */
 .sol__rubedo_timeline_canvas {
   @apply absolute inset-0;
 
@@ -28,40 +25,42 @@
   outline: none;
 }
 
+.sol__rubedo_timeline_canvas:active {
+  cursor: grabbing;
+}
+
+.sol__rubedo_timeline_canvas:focus-visible {
+  outline: 2px solid var(--mono_ink, #171717);
+  outline-offset: -2px;
+}
+
 .sol__rubedo_timeline_legend {
   @apply absolute flex flex-col gap-1;
 
-  bottom: 0.75rem;
   right: 0.75rem;
+  bottom: 0.75rem;
   z-index: 10;
-  font-size: 0.7rem;
-  opacity: 0.55;
-  pointer-events: none;
-  list-style: none;
+  max-width: min(20rem, calc(100% - 1.5rem));
   padding: 0;
   margin: 0;
+  color: var(--mono_ink, #171717);
+  font-size: 0.7rem;
+  list-style: none;
+  pointer-events: none;
 }
 
 .sol__rubedo_timeline_hover_preview {
-  @apply absolute rounded-xl p-3;
+  @apply absolute p-3;
 
-  left: 1rem;
   top: 1rem;
+  left: 1rem;
   z-index: 20;
   width: min(22rem, calc(100% - 2rem));
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 34%, transparent);
-  background: linear-gradient(
-    160deg,
-    color-mix(in oklch, var(--ui_bg_mantle) 86%, transparent),
-    color-mix(in oklch, var(--ui_bg_crust) 78%, transparent)
-  );
-  box-shadow:
-    inset 0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 10%, transparent),
-    0 1.2rem 2.8rem -1.8rem rgb(0 0 0 / 0.88);
+  border: var(--site_border_width_hairline) solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
+  color: var(--mono_ink, #171717);
   opacity: 0;
-  transform: translateY(0.6rem) scale(0.985);
+  transform: translateY(0.6rem);
   transition:
     opacity 220ms ease,
     transform 260ms ease;
@@ -70,31 +69,32 @@
 
 .sol__rubedo_timeline_hover_preview.sol__is_visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   pointer-events: auto;
 }
 
 .sol__rubedo_timeline_hover_preview h3 {
   @apply text-sm uppercase;
 
+  margin-top: 0;
   letter-spacing: 0.08em;
 }
 
 .sol__rubedo_timeline_hover_preview p {
   @apply text-sm;
+
+  margin-bottom: 0;
 }
 
-/* ============================================================
-   RUBEDO INDEX — book cards (citrinitas-shaped, rubedo red accent)
-   Dark substrate model; --color-rubedo flows as the tint via the
-   page's --site_style_accent (set in typography.css for this phase).
-   ============================================================ */
-
 container[data-phase="rubedo"] {
-  --rubedo_base: oklch(13% 0.014 25);
-  --rubedo_ink: oklch(88% 0.02 30);
-  --rubedo_ink_soft: oklch(64% 0.025 28);
-  --rubedo_card_radius: 14px;
+  --rubedo_base: var(--mono_paper, #f7f4ed);
+  --rubedo_ink: var(--mono_ink, #171717);
+  --rubedo_ink_soft: color-mix(
+    in srgb,
+    var(--mono_ink, #171717) 68%,
+    var(--mono_paper, #f7f4ed)
+  );
+  --rubedo_card_radius: 0;
   --rubedo_transition_ms: 240ms;
 }
 
@@ -113,31 +113,19 @@ container[data-phase="rubedo"] {
 
 .sol__rubedo_book_card {
   display: block;
+  border: var(--site_border_width_hairline) solid var(--rubedo_ink);
   border-radius: var(--rubedo_card_radius);
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 30%, transparent);
-  background:
-    linear-gradient(
-      158deg,
-      color-mix(in oklch, var(--site_style_accent) 8%, transparent),
-      color-mix(in oklch, var(--rubedo_base) 60%, transparent)
-    ),
-    color-mix(in oklch, var(--rubedo_base) 54%, transparent);
-  box-shadow: 0 14px 26px -22px rgb(0 0 0 / 0.55);
+  background: var(--rubedo_base);
+  color: var(--rubedo_ink);
   transition:
     border-color var(--rubedo_transition_ms) ease,
-    box-shadow var(--rubedo_transition_ms) ease,
-    transform var(--rubedo_transition_ms) ease;
+    background-color var(--rubedo_transition_ms) ease;
 }
 
 .sol__rubedo_book_card:hover,
 .sol__rubedo_book_card:focus-within {
-  border-color: color-mix(in oklch, var(--site_style_accent) 60%, transparent);
-  box-shadow:
-    0 18px 30px -20px rgb(0 0 0 / 0.62),
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 36%, transparent);
-  transform: translateY(-2px);
+  border-color: var(--rubedo_ink);
+  background: color-mix(in srgb, var(--rubedo_ink) 5%, var(--rubedo_base));
 }
 
 .sol__rubedo_book_card_inner {
@@ -155,32 +143,33 @@ container[data-phase="rubedo"] {
 }
 
 .sol__rubedo_book_title {
+  color: var(--rubedo_ink);
   font-family: var(--font_reading_heading);
   font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
   font-weight: 560;
   line-height: 1.18;
-  color: var(--rubedo_ink);
   text-decoration: none;
 }
 
 .sol__rubedo_book_title:hover,
-.sol__rubedo_book_title:focus-visible {
-  color: color-mix(in oklch, var(--site_style_accent) 60%, var(--rubedo_ink));
+.sol__rubedo_book_title:focus-visible,
+.sol__rubedo_book_action:hover,
+.sol__rubedo_book_action:focus-visible {
+  color: var(--rubedo_ink);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
 }
 
 .sol__rubedo_book_synopsis {
+  margin: 0;
+  color: var(--rubedo_ink_soft);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.45;
-  color: var(--rubedo_ink_soft);
-  margin: 0;
 }
 
 .sol__rubedo_book_count {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 56%,
-    var(--rubedo_ink_soft)
-  );
+  color: var(--rubedo_ink_soft);
   letter-spacing: 0.08em;
   text-transform: lowercase;
 }
@@ -190,22 +179,13 @@ container[data-phase="rubedo"] {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.85rem;
-  margin-top: auto;
   padding-top: 0.35rem;
+  margin-top: auto;
 }
 
 .sol__rubedo_book_action {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 58%,
-    var(--rubedo_ink_soft)
-  );
+  color: var(--rubedo_ink);
   letter-spacing: 0.06em;
   text-transform: lowercase;
   text-decoration: none;
-}
-
-.sol__rubedo_book_action:hover,
-.sol__rubedo_book_action:focus-visible {
-  color: color-mix(in oklch, var(--site_style_accent) 78%, var(--rubedo_ink));
 }

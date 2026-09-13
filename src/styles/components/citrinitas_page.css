@@ -1,38 +1,27 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-/* ============================================================
-   CITRINITAS PAGE — The Yellowing (gold / garden)
-   Scoped to container[data-phase="citrinitas"].
-   Hoisted to layout import (htmx-nav availability).
-   Booklets as a masonry portfolio; chapters as a quiet reader.
-   ============================================================ */
-
 container[data-phase="citrinitas"] {
-  /* surface — dark substrate (matches nigredo's model; the gold accent does
-     the tinting via color-mix, so the dark ground reads warm/golden). */
-  --citrinitas_base: oklch(13% 0.014 90);
-  --citrinitas_ink: oklch(88% 0.02 90);
-  --citrinitas_ink_soft: oklch(64% 0.025 85);
-  --citrinitas_card_radius: 14px;
-  --citrinitas_transition_ms: 240ms;
-
-  /* masonry geometry */
+  --citrinitas_card_radius: 0.35rem;
+  --citrinitas_transition_ms: 180ms;
   --citrinitas_masonry_cols: 3;
   --citrinitas_masonry_row: 11rem;
   --citrinitas_masonry_gap: 1rem;
+  --mono_paper_local: var(--mono_paper, #f7f4ed);
+  --mono_ink_local: var(--mono_ink, #171717);
+  --mono_ink_muted: color-mix(
+    in srgb,
+    var(--mono_ink_local) 62%,
+    var(--mono_paper_local)
+  );
+  color: var(--mono_ink_local);
 }
 
 .sol__citrinitas_empty {
   margin-top: 1.5rem;
-  color: var(--citrinitas_ink_soft);
+  color: var(--mono_ink_muted);
   font-style: italic;
 }
-
-/* ============================================================
-   Masonry — portfolio gallery of booklets
-   data-size on each card drives column/row span (tokens, not magic).
-   ============================================================ */
 
 .sol__citrinitas_masonry {
   display: grid;
@@ -43,19 +32,21 @@ container[data-phase="citrinitas"] {
   margin-top: 1.5rem;
 }
 
-/* size tokens — mirror MASONRY_SIZES in booklet_runtime.js */
 .sol__citrinitas_card[data-size="regular"] {
   grid-column: span 1;
   grid-row: span 1;
 }
+
 .sol__citrinitas_card[data-size="wide"] {
   grid-column: span 2;
   grid-row: span 1;
 }
+
 .sol__citrinitas_card[data-size="tall"] {
   grid-column: span 1;
   grid-row: span 2;
 }
+
 .sol__citrinitas_card[data-size="large"] {
   grid-column: span 2;
   grid-row: span 2;
@@ -63,32 +54,28 @@ container[data-phase="citrinitas"] {
 
 .sol__citrinitas_card {
   @apply relative block overflow-hidden no-underline;
-
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 25%, transparent);
   border-radius: var(--citrinitas_card_radius);
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 30%, transparent);
-  background:
-    linear-gradient(
-      158deg,
-      color-mix(in oklch, var(--site_style_accent) 8%, transparent),
-      color-mix(in oklch, var(--citrinitas_base) 60%, transparent)
-    ),
-    color-mix(in oklch, var(--citrinitas_base) 54%, transparent);
-  box-shadow: 0 14px 26px -22px rgb(0 0 0 / 0.55);
+  background: var(--mono_paper_local);
+  color: var(--mono_ink_local);
   transition:
     border-color var(--citrinitas_transition_ms) ease,
-    box-shadow var(--citrinitas_transition_ms) ease,
-    transform var(--citrinitas_transition_ms) ease;
+    background var(--citrinitas_transition_ms) ease;
 }
 
 .sol__citrinitas_card:hover,
 .sol__citrinitas_card:focus-visible {
-  border-color: color-mix(in oklch, var(--site_style_accent) 60%, transparent);
-  box-shadow:
-    0 18px 30px -20px rgb(0 0 0 / 0.62),
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 36%, transparent);
-  transform: translateY(-2px);
+  border-color: var(--mono_ink_local);
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
+}
+
+.sol__citrinitas_card:focus-visible {
+  outline: 2px solid var(--mono_ink_local);
+  outline-offset: 0.125rem;
 }
 
 .sol__citrinitas_card_inner {
@@ -97,49 +84,40 @@ container[data-phase="citrinitas"] {
 
 .sol__citrinitas_card_cover {
   @apply w-full;
-
+  display: block;
   flex: 1 1 auto;
   min-height: 0;
   object-fit: cover;
-  display: block;
+  filter: grayscale(1);
 }
 
 .sol__citrinitas_card_body {
   @apply flex flex-col;
-
   gap: 0.3rem;
   padding: 0.85rem 1rem 0.95rem;
 }
 
 .sol__citrinitas_card_title {
+  margin: 0;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.25rem);
   font-weight: 560;
   line-height: 1.18;
-  color: var(--citrinitas_ink);
-  margin: 0;
 }
 
 .sol__citrinitas_card_synopsis {
+  margin: 0;
+  color: var(--mono_ink_muted);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.45;
-  color: var(--citrinitas_ink_soft);
-  margin: 0;
 }
 
 .sol__citrinitas_card_count {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 56%,
-    var(--citrinitas_ink_soft)
-  );
+  color: var(--mono_ink_muted);
   letter-spacing: 0.08em;
   text-transform: lowercase;
 }
-
-/* ============================================================
-   Booklet landing — cover + synopsis + ordered chapter list
-   ============================================================ */
 
 .sol__citrinitas_booklet {
   @apply flex flex-col;
@@ -159,47 +137,46 @@ container[data-phase="citrinitas"] {
 }
 
 .sol__citrinitas_booklet_cover {
-  border-radius: var(--citrinitas_card_radius);
   max-width: 14rem;
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 25%, transparent);
+  border-radius: var(--citrinitas_card_radius);
+  filter: grayscale(1);
   object-fit: cover;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 30%, transparent);
 }
 
 .sol__citrinitas_booklet_title {
+  margin: 0 0 0.5rem;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: var(--text_h1, 32px);
   font-weight: 500;
   line-height: 1.2;
-  color: var(--citrinitas_ink);
-  margin: 0 0 0.5rem;
 }
 
 .sol__citrinitas_booklet_synopsis {
   max-width: 60ch;
-  color: var(--citrinitas_ink_soft);
-  line-height: 1.5;
   margin: 0;
+  color: var(--mono_ink_muted);
+  line-height: 1.5;
 }
 
 .sol__citrinitas_chapter_list {
   @apply flex flex-col;
-  list-style: none;
-  padding: 0;
-  margin: 0;
   gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .sol__citrinitas_chapter_link {
   @apply grid items-baseline no-underline;
-
   grid-template-columns: 2.5rem 1fr;
   gap: 0.2rem 0.85rem;
   padding: 0.75rem 0.95rem;
-  border-radius: 0.6rem;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 20%, transparent);
-  background: color-mix(in oklch, var(--citrinitas_base) 36%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 20%, transparent);
+  border-radius: 0.25rem;
+  background: var(--mono_paper_local);
+  color: var(--mono_ink_local);
   transition:
     border-color var(--citrinitas_transition_ms) ease,
     background var(--citrinitas_transition_ms) ease;
@@ -207,38 +184,39 @@ container[data-phase="citrinitas"] {
 
 .sol__citrinitas_chapter_link:hover,
 .sol__citrinitas_chapter_link:focus-visible {
-  border-color: color-mix(in oklch, var(--site_style_accent) 48%, transparent);
-  background: color-mix(in oklch, var(--citrinitas_base) 56%, transparent);
+  border-color: var(--mono_ink_local);
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
+}
+
+.sol__citrinitas_chapter_link:focus-visible {
+  outline: 2px solid var(--mono_ink_local);
+  outline-offset: 0.125rem;
 }
 
 .sol__citrinitas_chapter_index {
   grid-column: 1;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 58%,
-    var(--citrinitas_ink_soft)
-  );
+  color: var(--mono_ink_muted);
   font-variant-numeric: tabular-nums;
 }
 
 .sol__citrinitas_chapter_title {
   grid-column: 2;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: 1.05rem;
   font-weight: 540;
-  color: var(--citrinitas_ink);
 }
 
 .sol__citrinitas_chapter_excerpt {
   grid-column: 2;
+  color: var(--mono_ink_muted);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.45;
-  color: var(--citrinitas_ink_soft);
 }
-
-/* ============================================================
-   Chapter reader — quiet, prose-first, prev/next
-   ============================================================ */
 
 .sol__citrinitas_chapter {
   @apply flex flex-col;
@@ -248,16 +226,16 @@ container[data-phase="citrinitas"] {
 .sol__citrinitas_chapter_header {
   padding-bottom: 1rem;
   border-bottom: 1px solid
-    color-mix(in oklch, var(--site_style_accent) 22%, transparent);
+    color-mix(in srgb, var(--mono_ink_local) 24%, transparent);
 }
 
 .sol__citrinitas_chapter_heading {
+  margin: 0;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: var(--text_h1, 32px);
   font-weight: 500;
   line-height: 1.2;
-  color: var(--citrinitas_ink);
-  margin: 0;
 }
 
 .sol__citrinitas_chapter_body {
@@ -270,45 +248,36 @@ container[data-phase="citrinitas"] {
 
 .sol__citrinitas_chapter_nav {
   @apply flex items-center;
-
   justify-content: space-between;
   gap: 1rem;
   padding-top: 1rem;
   border-top: 1px solid
-    color-mix(in oklch, var(--site_style_accent) 22%, transparent);
+    color-mix(in srgb, var(--mono_ink_local) 24%, transparent);
 }
 
 .sol__citrinitas_nav_prev,
 .sol__citrinitas_nav_up,
 .sol__citrinitas_nav_next {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 56%,
-    var(--citrinitas_ink_soft)
-  );
+  color: var(--mono_ink_local);
   letter-spacing: 0.06em;
-  text-transform: lowercase;
   text-decoration: none;
+  text-transform: lowercase;
 }
 
 .sol__citrinitas_nav_prev:hover,
+.sol__citrinitas_nav_prev:focus-visible,
 .sol__citrinitas_nav_up:hover,
-.sol__citrinitas_nav_next:hover {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 74%,
-    var(--citrinitas_ink)
-  );
+.sol__citrinitas_nav_up:focus-visible,
+.sol__citrinitas_nav_next:hover,
+.sol__citrinitas_nav_next:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .sol__citrinitas_nav_next {
   margin-left: auto;
   text-align: right;
 }
-
-/* ============================================================
-   Mobile
-   ============================================================ */
 
 @media (max-width: 768px) {
   container[data-phase="citrinitas"] {
@@ -322,7 +291,6 @@ container[data-phase="citrinitas"] {
     --citrinitas_masonry_cols: 1;
   }
 
-  /* On a single column, wide/large can''t span 2 — clamp to 1. */
   .sol__citrinitas_card[data-size="wide"],
   .sol__citrinitas_card[data-size="large"] {
     grid-column: span 1;

@@ -1,159 +1,84 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-/* ============================================================
-   NIGREDO PAGE — Ash Reliquary
-   Scoped to container[data-phase="nigredo"] only.
-   Import only from src/pages/nigredo.astro.
-   ============================================================ */
-
-/* ============================================================
-   Quick Tune Variables (edit here first)
-   ============================================================ */
-
 container[data-phase="nigredo"] {
-  /* geometry */
-  --nigredo_card_radius: 14px;
-  --nigredo_card_border_width: var(--site_border_width_hairline);
-  --nigredo_card_padding: 1.25rem 1.75rem;
+  --nigredo_card_padding: 1.25rem 1.5rem;
   --nigredo_panel_padding: 1rem 1.25rem;
   --nigredo_card_gap: 0.5rem;
-  --nigredo_ornament_inset: 0.45rem;
-  --nigredo_ornament_corner_size: 1.75rem;
-
-  /* surface */
-  --nigredo_surface_mix: 52%;
-  --nigredo_border_mix: 22%;
-  --nigredo_halo_mix: 20%;
-  --nigredo_blur: 2px;
-  --nigredo_shadow_strength: 0.68;
-  --nigredo_ash_opacity: 0.18;
-  --nigredo_frame_opacity: 0.38;
-  --nigredo_ornament_opacity: 0.28;
-
-  /* motion */
-  --nigredo_transition_ms: 260ms;
-
-  /* pill containers — fire shapes */
-  --nigredo_pill_kindling: oklch(68% 0.07 58);
-  --nigredo_pill_cinder: oklch(62% 0.018 258);
-  --nigredo_pill_scorch: oklch(68% 0.085 35);
-  --nigredo_pill_smoke: oklch(62% 0.032 286);
-  --nigredo_pill_blaze: oklch(66% 0.105 24);
-  --nigredo_pill_soot: oklch(58% 0.034 84);
-
-  /* date */
-  --nigredo_date_color: oklch(44% 0.014 258);
+  --nigredo_card_radius: 0.35rem;
+  --nigredo_transition_ms: 180ms;
   --nigredo_date_size: 0.68rem;
-
-  /* feed */
   --nigredo_feed_gap: 0.72rem;
-
-  /* lane alignment */
   --nigredo_entry_left_width: 92%;
+  --mono_paper_local: var(--mono_paper, #f7f4ed);
+  --mono_ink_local: var(--mono_ink, #171717);
+  --mono_ink_muted: color-mix(
+    in srgb,
+    var(--mono_ink_local) 62%,
+    var(--mono_paper_local)
+  );
+  color: var(--mono_ink_local);
 }
-
-/* ============================================================
-   Archive shell
-   ============================================================ */
 
 .sol__nigredo_archive {
   @apply flex flex-col;
-
   gap: 0;
   margin-top: 1.5rem;
 }
 
-/* ============================================================
-   Filter block — sticky within the reading shell
-   Outer vessel: party_roster (structured, calm, contained)
-   Inner field:  status_effects (grouped condition rows)
-   Trace:        memory_fragment (dashed edge, desaturated wear)
-   ============================================================ */
-
 .sol__nigredo_filter_block {
   @apply sticky flex flex-col;
-
   top: 0;
   z-index: 20;
   margin-bottom: 0.85rem;
-
-  /* party_roster vessel */
   padding: 0.75rem 0.85rem 0.8rem;
-  border-radius: 0.72rem;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 28%, transparent);
-  /* bg-stack-exception: filter block needs party_roster gradient + backdrop */
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--site_style_accent) 10%, transparent),
-      color-mix(in oklch, oklch(12% 0.01 258) 60%, transparent)
-    ),
-    color-mix(in oklch, oklch(12% 0.01 258) 66%, transparent);
-  box-shadow:
-    0 0 calc(0.9rem * 0.6)
-      color-mix(in oklch, var(--site_style_accent) 14%, transparent),
-    inset 0 0 0.5rem color-mix(in oklch, white 4%, transparent);
-  backdrop-filter: blur(10px);
-
-  /* memory_fragment trace — dashed border override on bottom */
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 24%, transparent);
   border-bottom-style: dashed;
-  filter: saturate(0.96);
+  border-radius: var(--nigredo_card_radius);
+  background: var(--mono_paper_local);
 }
 
-/* Header row: label + clear button */
 .sol__nigredo_filter_header {
   @apply flex items-center;
-
   gap: 0.4rem;
   margin-bottom: 0.6rem;
 }
 
 .sol__nigredo_filter_title {
+  flex-shrink: 0;
+  color: var(--mono_ink_local);
   font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: lowercase;
-  font-weight: 700;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 72%,
-    oklch(68% 0.012 258)
-  );
-  flex-shrink: 0;
 }
 
 .sol__nigredo_filter_clear {
   @apply cursor-pointer;
-
   margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mono_ink_muted);
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: lowercase;
-  color: oklch(48% 0.014 258);
-  border: none;
-  background: none;
-  padding: 0;
-  transition: color var(--nigredo_transition_ms) ease;
 }
 
-.sol__nigredo_filter_clear:hover {
-  color: color-mix(in oklch, var(--site_style_accent) 70%, oklch(65% 0.01 258));
+.sol__nigredo_filter_clear:hover,
+.sol__nigredo_filter_clear:focus-visible {
+  color: var(--mono_ink_local);
 }
 
-/* Inner field: status_effects grouped pill container */
 .sol__nigredo_filter_field {
   padding: 0.68rem 0.72rem;
-  border-radius: 0.48rem;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 22%, transparent);
-  background:
-    linear-gradient(
-      120deg,
-      color-mix(in oklch, var(--site_style_accent) 8%, transparent),
-      color-mix(in oklch, oklch(10% 0.01 258) 64%, transparent)
-    ),
-    color-mix(in oklch, oklch(10% 0.01 258) 66%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 18%, transparent);
+  border-radius: 0.25rem;
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
 }
 
 .sol__nigredo_filter_groups {
@@ -170,61 +95,40 @@ container[data-phase="nigredo"] {
 
 .sol__nigredo_filter_group_label {
   @apply cursor-pointer;
-
   align-self: start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: calc(0.7rem * 1.4 + 0.44rem + 2px);
   padding: 0.2rem 0.62rem;
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 24%, transparent);
-  background: color-mix(in oklch, oklch(12% 0.01 258) 42%, transparent);
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 62%,
-    oklch(60% 0.012 258)
-  );
+  background: transparent;
+  color: var(--mono_ink_local);
+  font-family: inherit;
   font-size: 0.7rem;
   font-weight: 800;
-  font-family: inherit;
   letter-spacing: 0.1em;
   line-height: 1.4;
   text-transform: uppercase;
-  transition:
-    border-color var(--nigredo_transition_ms) ease,
-    box-shadow var(--nigredo_transition_ms) ease,
-    color var(--nigredo_transition_ms) ease,
-    filter var(--nigredo_transition_ms) ease;
 }
 
 .sol__nigredo_filter_group_label:hover,
-.sol__nigredo_filter_group_label:focus-visible {
-  border-color: color-mix(in oklch, var(--site_style_accent) 42%, transparent);
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 78%,
-    oklch(74% 0.012 258)
-  );
+.sol__nigredo_filter_group_label:focus-visible,
+.sol__nigredo_filter_group_label[data-active="true"] {
+  border-color: var(--mono_ink_local);
 }
 
 .sol__nigredo_filter_group_label[data-active="true"] {
-  border-color: color-mix(in oklch, var(--site_style_accent) 62%, transparent);
-  box-shadow:
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 42%, transparent),
-    0 0 8px color-mix(in oklch, var(--site_style_accent) 18%, transparent);
-  filter: saturate(1.14) brightness(1.06);
+  background: var(--mono_ink_local);
+  color: var(--mono_paper_local);
 }
 
 .sol__nigredo_filter_pills {
   @apply flex flex-wrap;
-
   gap: 0.45rem;
 }
 
-/* Filter pills are slightly larger than entry pills */
 .sol__nigredo_filter_btn.sol__nigredo_pill {
   padding: 0.22rem 0.7rem;
   font-size: 0.7rem;
@@ -232,78 +136,50 @@ container[data-phase="nigredo"] {
 
 .sol__nigredo_filter_btn {
   @apply cursor-pointer;
-
   transition:
     opacity var(--nigredo_transition_ms) ease,
     border-color var(--nigredo_transition_ms) ease,
-    box-shadow var(--nigredo_transition_ms) ease,
     background var(--nigredo_transition_ms) ease;
 }
 
 .sol__nigredo_filter_btn[data-active="true"] {
   opacity: 1;
-  box-shadow:
-    0 0 0 1.5px color-mix(in oklch, var(--site_style_accent) 65%, transparent),
-    0 0 8px color-mix(in oklch, var(--site_style_accent) 22%, transparent);
-}
-
-.sol__nigredo_filter_btn[data-active="true"] {
-  filter: saturate(1.18) brightness(1.08);
+  border-color: var(--mono_ink_local);
+  background: var(--mono_ink_local);
+  color: var(--mono_paper_local);
 }
 
 .sol__nigredo_filter_btn[data-active="false"] {
-  opacity: 0.58;
+  opacity: 0.62;
 }
 
-.sol__nigredo_filter_btn:hover {
-  opacity: 0.85;
+.sol__nigredo_filter_btn:hover,
+.sol__nigredo_filter_btn:focus-visible {
+  opacity: 1;
 }
-
-/* ============================================================
-   Status row
-   ============================================================ */
 
 .sol__nigredo_archive_status {
   @apply flex items-center;
-
   gap: 0.3rem;
   margin-bottom: 0.75rem;
 }
 
-.sol__nigredo_archive_count {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 66%,
-    var(--ui_text_muted, oklch(50% 0.01 260))
-  );
-}
-
-.sol__nigredo_archive_count_label {
-  color: oklch(38% 0.01 260);
+.sol__nigredo_archive_count,
+.sol__nigredo_archive_count_label,
+.sol__nigredo_archive_filter_summary {
+  color: var(--mono_ink_muted);
 }
 
 .sol__nigredo_archive_filter_summary {
-  color: color-mix(in oklch, var(--site_style_accent) 48%, oklch(40% 0.01 260));
   font-size: 0.62rem;
   letter-spacing: 0.06em;
 }
-
-/* ============================================================
-   Feed pane — virtual track, document scroll owns movement
-   ============================================================ */
 
 .sol__nigredo_scroll_pane {
   position: relative;
   height: auto;
   overflow: visible;
   overscroll-behavior: auto;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(
-      in oklch,
-      var(--site_style_accent) 28%,
-      transparent
-    )
-    transparent;
 }
 
 .sol__nigredo_inner_track {
@@ -314,10 +190,10 @@ container[data-phase="nigredo"] {
 
 .sol__nigredo_list {
   position: static;
-  list-style: none;
-  padding: 0;
-  margin: 0;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .sol__nigredo_measure_list {
@@ -334,15 +210,9 @@ container[data-phase="nigredo"] {
   margin-top: 1rem;
 }
 
-/* ============================================================
-   Entry row — virtual feed lane
-   ============================================================ */
-
 .sol__nigredo_entry_row {
   display: flex;
   justify-content: center;
-  /* max-width from typography.css reading-container rule caps li at ~88% —
-     override to none so rows can span the full scroll pane width. */
   max-width: none;
   box-sizing: border-box;
   padding-bottom: var(--nigredo_feed_gap);
@@ -356,334 +226,124 @@ container[data-phase="nigredo"] {
 }
 
 @media (max-width: 639px) {
-  .sol__nigredo_entry_row {
-    justify-content: center;
-  }
-
   .sol__nigredo_entry_row .sol__nigredo_entry {
     width: 100%;
-    transform: none;
   }
 }
 
-/* ============================================================
-   Entry — outer shell (mirrors .sol__phase_card_link)
-   ============================================================ */
-
 .sol__nigredo_entry {
-  @apply relative isolate;
-
-  overflow: visible;
+  @apply relative;
+  width: 100%;
 }
 
 .sol__nigredo_entry_card {
-  @apply relative flex flex-col overflow-hidden no-underline;
-  @apply w-full;
-
-  padding: var(--nigredo_card_padding);
+  @apply relative flex w-full flex-col overflow-hidden no-underline;
   gap: var(--nigredo_card_gap);
-
+  padding: var(--nigredo_card_padding);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 25%, transparent);
   border-radius: var(--nigredo_card_radius);
-  border: var(--nigredo_card_border_width) solid
-    color-mix(
-      in oklch,
-      var(--site_style_accent) var(--nigredo_border_mix),
-      transparent
-    );
-  box-shadow:
-    0 18px 28px -20px rgb(0 0 0 / calc(var(--nigredo_shadow_strength) + 0.06)),
-    inset 0 1px 0 color-mix(in oklch, white 7%, transparent);
-  backdrop-filter: blur(var(--nigredo_blur));
+  background: var(--mono_paper_local);
+  color: var(--mono_ink_local);
   transition:
     border-color var(--nigredo_transition_ms) ease,
-    box-shadow var(--nigredo_transition_ms) ease;
+    background var(--nigredo_transition_ms) ease;
 }
 
 .sol__nigredo_entry_card:hover,
 .sol__nigredo_entry_card:focus-within {
-  border-color: color-mix(in oklch, var(--site_style_accent) 56%, transparent);
-  box-shadow:
-    0 22px 32px -18px rgb(0 0 0 / calc(var(--nigredo_shadow_strength) + 0.14)),
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 32%, transparent),
-    inset 0 1px 0 color-mix(in oklch, white 12%, transparent);
+  border-color: var(--mono_ink_local);
 }
-
-/* ============================================================
-   Entry layers (absolute effect layers)
-   ============================================================ */
-
-.sol__nigredo_entry_layer {
-  @apply pointer-events-none absolute;
-
-  inset: 0;
-}
-
-/* Surface: dark ash paper wash */
-.sol__nigredo_entry_layer_surface {
-  z-index: 0;
-  /* paper body + corner halo — 2 layers, within gate */
-  background:
-    radial-gradient(
-      110% 90% at 80% -8%,
-      color-mix(
-        in oklch,
-        var(--site_style_accent) var(--nigredo_halo_mix),
-        transparent
-      ),
-      transparent 62%
-    ),
-    linear-gradient(
-      158deg,
-      color-mix(in oklch, var(--site_style_accent) 6%, transparent),
-      color-mix(
-        in oklch,
-        oklch(14% 0.01 258) var(--nigredo_surface_mix),
-        transparent
-      )
-    );
-}
-
-/* Ash layer: soot noise + singe falloff */
-.sol__nigredo_entry_layer_ash {
-  z-index: 1;
-  opacity: var(--nigredo_ash_opacity);
-  /* bg-stack-exception: ash requires 2 passes — grain speckle + perimeter singe */
-  background:
-    radial-gradient(
-      circle at 18% 22%,
-      rgb(255 255 255 / 0.18) 0 0.55px,
-      transparent 0.7px
-    ),
-    radial-gradient(
-      ellipse 130% 55% at 50% 118%,
-      oklch(8% 0.012 28) 0%,
-      transparent 68%
-    );
-}
-
-/* Frame: inset ring with slight damage asymmetry */
-.sol__nigredo_entry_layer_frame {
-  z-index: 3;
-  inset: var(--nigredo_ornament_inset);
-  border-radius: calc(var(--nigredo_card_radius) - 0.35rem);
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 46%, transparent);
-  opacity: var(--nigredo_frame_opacity);
-  /* bg-stack-exception: frame lattice uses 2 hair-lines to match home-card motif */
-  background:
-    linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--site_style_accent) 32%, transparent),
-        transparent 16%
-      )
-      7% 50% / 0.05rem 80% no-repeat,
-    linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--site_style_accent) 32%, transparent),
-        transparent 16%
-      )
-      93% 50% / 0.05rem 80% no-repeat;
-}
-
-/* Rupture variant: heavier singe, more damage */
-.sol__nigredo_entry[data-tone="rupture"] .sol__nigredo_entry_layer_ash {
-  opacity: calc(var(--nigredo_ash_opacity) * 2.4);
-}
-
-.sol__nigredo_entry[data-tone="rupture"] .sol__nigredo_entry_card {
-  border-color: color-mix(in oklch, var(--site_style_accent) 48%, transparent);
-}
-
-/* ============================================================
-   Ornament layer
-   ============================================================ */
-
-.sol__nigredo_entry_layer_ornament {
-  display: none;
-  z-index: 2;
-  opacity: var(--nigredo_ornament_opacity);
-}
-
-:root[data-site-theme="solarisael"] .sol__nigredo_entry_layer_ornament {
-  display: block;
-}
-
-.sol__nigredo_entry_ornament {
-  display: block;
-  object-fit: contain;
-}
-
-.sol__nigredo_entry_ornament_corner_tl {
-  left: var(--nigredo_ornament_inset);
-  top: var(--nigredo_ornament_inset);
-  width: var(--nigredo_ornament_corner_size);
-  height: var(--nigredo_ornament_corner_size);
-}
-
-.sol__nigredo_entry_ornament_corner_tr {
-  right: var(--nigredo_ornament_inset);
-  top: var(--nigredo_ornament_inset);
-  width: var(--nigredo_ornament_corner_size);
-  height: var(--nigredo_ornament_corner_size);
-}
-
-.sol__nigredo_entry_ornament_corner_bl {
-  left: var(--nigredo_ornament_inset);
-  bottom: var(--nigredo_ornament_inset);
-  width: var(--nigredo_ornament_corner_size);
-  height: var(--nigredo_ornament_corner_size);
-}
-
-.sol__nigredo_entry_ornament_corner_br {
-  right: var(--nigredo_ornament_inset);
-  bottom: var(--nigredo_ornament_inset);
-  width: var(--nigredo_ornament_corner_size);
-  height: var(--nigredo_ornament_corner_size);
-}
-
-/* ============================================================
-   Entry body layer
-   ============================================================ */
 
 .sol__nigredo_entry_layer_body {
   @apply relative flex flex-col;
-
-  z-index: 10;
+  z-index: 1;
   gap: 0.4rem;
 }
-
-/* ============================================================
-   Entry header: title + pill + date
-   ============================================================ */
 
 .sol__nigredo_entry_header {
   display: grid;
   grid-template-columns: minmax(0, max-content) minmax(0, 1fr) auto;
   align-items: center;
-
   gap: 0.4rem 0.55rem;
 }
 
 .sol__nigredo_entry_title {
   grid-column: 1;
   grid-row: 1;
-  text-decoration: none;
+  min-width: 0;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: clamp(1rem, 0.94rem + 0.22vw, 1.13rem);
   font-weight: 560;
   line-height: 1.16;
-  color: oklch(84% 0.012 258);
-  flex-shrink: 1;
-  min-width: 0;
+  text-decoration: none;
 }
 
 .sol__nigredo_entry_title:hover,
-.sol__nigredo_entry_title:focus-visible {
-  color: color-mix(in oklch, var(--site_style_accent) 68%, oklch(88% 0.01 258));
+.sol__nigredo_entry_title:focus-visible,
+.sol__nigredo_entry_expand:hover,
+.sol__nigredo_entry_expand:focus-visible,
+.sol__nigredo_entry_open:hover,
+.sol__nigredo_entry_open:focus-visible {
+  color: var(--mono_ink_local);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .sol__nigredo_entry_title:focus-visible,
 .sol__nigredo_entry_expand:focus-visible,
 .sol__nigredo_entry_open:focus-visible {
-  outline: 2px solid color-mix(in oklch, var(--site_style_accent) 72%, white);
+  outline: 2px solid var(--mono_ink_local);
   outline-offset: 0.125rem;
 }
 
 .sol__nigredo_entry_title[data-redacted="true"] {
-  letter-spacing: 0.06em;
-  color: oklch(38% 0.01 258);
+  color: var(--mono_ink_muted);
   font-family: monospace;
+  letter-spacing: 0.06em;
 }
 
 .sol__nigredo_entry_date {
   grid-column: 3;
   grid-row: 1;
   justify-self: end;
-  margin-left: 0;
+  color: var(--mono_ink_muted);
   font-size: var(--nigredo_date_size);
-  color: var(--nigredo_date_color);
-  letter-spacing: 0.07em;
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
+  letter-spacing: 0.07em;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .sol__nigredo_entry_states {
   @apply flex flex-wrap items-center;
-
   grid-column: 2;
   grid-row: 1;
   gap: 0.35rem;
   min-width: 0;
 }
 
-/* ============================================================
-   Pill
-   ============================================================ */
-
 .sol__nigredo_pill {
   @apply inline-flex items-center;
-
+  flex-shrink: 0;
   padding: 0.12rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
+  background: transparent;
+  color: var(--mono_ink_local);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  text-transform: lowercase;
   line-height: 1.4;
-  flex-shrink: 0;
+  text-transform: lowercase;
 }
-
-.sol__nigredo_pill[data-container] {
-  --nigredo_pill_tint: var(--nigredo_pill_cinder);
-
-  background: color-mix(
-    in oklch,
-    var(--nigredo_pill_tint) 16%,
-    oklch(14% 0.012 258 / 0.68)
-  );
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--nigredo_pill_tint) 46%, transparent);
-  color: color-mix(in oklch, var(--nigredo_pill_tint) 76%, oklch(88% 0.01 258));
-}
-
-.sol__nigredo_pill[data-container="kindling"] {
-  --nigredo_pill_tint: var(--nigredo_pill_kindling);
-}
-
-.sol__nigredo_pill[data-container="cinder"] {
-  --nigredo_pill_tint: var(--nigredo_pill_cinder);
-}
-
-.sol__nigredo_pill[data-container="scorch"] {
-  --nigredo_pill_tint: var(--nigredo_pill_scorch);
-}
-
-.sol__nigredo_pill[data-container="smoke"] {
-  --nigredo_pill_tint: var(--nigredo_pill_smoke);
-}
-
-.sol__nigredo_pill[data-container="blaze"] {
-  --nigredo_pill_tint: var(--nigredo_pill_blaze);
-}
-
-.sol__nigredo_pill[data-container="soot"] {
-  --nigredo_pill_tint: var(--nigredo_pill_soot);
-}
-
-/* ============================================================
-   Excerpt + preview body
-   ============================================================ */
 
 .sol__nigredo_entry_excerpt {
   grid-column: 1 / -1;
   grid-row: 2;
   max-width: 68ch;
+  color: var(--mono_ink_muted);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.48;
-  color: oklch(58% 0.012 258);
 }
 
 .sol__nigredo_entry_excerpt p,
@@ -692,51 +352,35 @@ container[data-phase="nigredo"] {
   white-space: pre-line;
 }
 
-.sol__nigredo_entry_excerpt p + p {
+.sol__nigredo_entry_excerpt p + p,
+.sol__nigredo_entry_preview p + p {
   margin-top: 0.42em;
 }
 
-.sol__nigredo_entry_preview {
+.sol__nigredo_entry_preview,
+.sol__nigredo_entry_full {
   margin-top: 0.18rem;
   padding: var(--nigredo_panel_padding);
-  border-radius: 0.58rem;
-  border-left: var(--site_border_width_standard) solid
-    color-mix(in oklch, var(--site_style_accent) 34%, transparent);
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--site_style_accent) 8%, transparent),
-      color-mix(in oklch, oklch(12% 0.01 258) 30%, transparent)
-    ),
-    color-mix(in oklch, oklch(10% 0.01 258) 34%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 15%, transparent);
+  border-left: 3px solid var(--mono_ink_local);
+  border-radius: 0.25rem;
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
+  color: var(--mono_ink_local);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.55;
-  color: oklch(62% 0.01 258);
 }
 
-.sol__nigredo_entry_preview p + p {
-  margin-top: 0.72em;
+.sol__nigredo_entry_preview {
+  color: var(--mono_ink_muted);
 }
 
 .sol__nigredo_entry_preview[hidden],
 .sol__nigredo_entry_full[hidden] {
   display: none;
-}
-
-.sol__nigredo_entry_full {
-  margin-top: 0.18rem;
-  padding: var(--nigredo_panel_padding);
-  border-radius: 0.58rem;
-  border-left: var(--site_border_width_standard) solid
-    color-mix(in oklch, var(--site_style_accent) 34%, transparent);
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--site_style_accent) 8%, transparent),
-      color-mix(in oklch, oklch(12% 0.01 258) 30%, transparent)
-    ),
-    color-mix(in oklch, oklch(10% 0.01 258) 34%, transparent);
-  color: oklch(68% 0.01 258);
 }
 
 .sol__nigredo_entry_full > :first-child {
@@ -749,7 +393,6 @@ container[data-phase="nigredo"] {
 
 .sol__nigredo_entry_actions {
   @apply flex flex-wrap items-center;
-
   gap: 0.75rem;
   margin-top: 0.12rem;
 }
@@ -757,24 +400,14 @@ container[data-phase="nigredo"] {
 .sol__nigredo_entry_expand,
 .sol__nigredo_entry_open {
   @apply cursor-pointer;
-
   padding: 0;
-  border: none;
+  border: 0;
   background: none;
-  color: color-mix(in oklch, var(--site_style_accent) 58%, oklch(54% 0.01 258));
+  color: var(--mono_ink_local);
   letter-spacing: 0.08em;
-  text-transform: lowercase;
   text-decoration: none;
+  text-transform: lowercase;
 }
-
-.sol__nigredo_entry_expand:hover,
-.sol__nigredo_entry_open:hover {
-  color: color-mix(in oklch, var(--site_style_accent) 76%, oklch(76% 0.01 258));
-}
-
-/* ============================================================
-   Mobile
-   ============================================================ */
 
 @media (max-width: 768px) {
   container[data-phase="nigredo"] {
@@ -794,12 +427,10 @@ container[data-phase="nigredo"] {
 
   .sol__nigredo_entry_title {
     grid-column: 1;
-    grid-row: 1;
   }
 
   .sol__nigredo_entry_date {
     grid-column: 2;
-    grid-row: 1;
   }
 
   .sol__nigredo_entry_excerpt {

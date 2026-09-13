@@ -2,11 +2,6 @@
 import IndexLayout from "../layouts/index.astro";
 import PhaseCardGrid from "../components/home/phase_card_grid.astro";
 import HomeGate from "../components/home/home_gate.astro";
-import { CINZA_PHASE_CARD_ORNAMENT } from "../data/card_ornaments.js";
-
-const gate_visual = {
-  ornament: CINZA_PHASE_CARD_ORNAMENT,
-};
 
 const phase_cards = [
   {
@@ -14,27 +9,23 @@ const phase_cards = [
     phase_slug: "nigredo",
     phase_blurb:
       "The putrefaction: pieces written in moments of despair and delusion, moments that I barely remember when the sun rises.",
-    ...gate_visual,
   },
   {
     phase_name: "Albedo",
     phase_slug: "albedo",
     phase_blurb:
       "A clear lake: records and reflections from moments when the fog within settles, a rare moment of respite.",
-    ...gate_visual,
   },
   {
     phase_name: "Citrinitas",
     phase_slug: "citrinitas",
     phase_blurb:
       "A golden shelf: artifacts and references collected over the years, the only criteria is… making me smile.",
-    ...gate_visual,
   },
   {
     phase_name: "Rubedo",
     phase_slug: "rubedo",
     phase_blurb: "My becoming. Work I want to be proud of.",
-    ...gate_visual,
   },
 ];
 ---
@@ -42,34 +33,11 @@ const phase_cards = [
 <IndexLayout page_title="Writing" phase="writing" banner_title="Writing">
   <HomeGate>
     <Fragment slot="intro">
+      <p class="sol__home_intro_line">My amateur writing and practice.</p>
       <p class="sol__home_intro_line">
-        My amateur <span
-          class="sol__text_fx"
-          data-text-fx="glow"
-          data-text-fx-glow-intensity="0.75">writing</span
-        > and <span
-          class="sol__text_fx"
-          data-text-fx="etch"
-          data-text-fx-etch-intensity="0.65">practice</span
-        >.
-      </p>
-      <p class="sol__home_intro_line">
-        <span
-          class="sol__text_fx"
-          data-text-fx="glitch shadow"
-          data-text-fx-glitch-intensity="0.6"
-          data-text-fx-glitch-motion="0.55"
-          data-text-fx-shadow-intensity="0.55">Unhinged</span
-        > late night ramblings, moments of <span
-          class="sol__text_fx"
-          data-text-fx="aura"
-          data-text-fx-aura-intensity="0.7">clarity</span
-        > and <span
-          class="sol__text_fx"
-          data-text-fx="glow"
-          data-text-fx-glow-intensity="0.7">hope</span
-        >, collections of poems and excerpts that make me keep walking forward…
-        and maybe, just maybe, things I can be proud of.
+        Unhinged late night ramblings, moments of clarity and hope, collections
+        of poems and excerpts that make me keep walking forward… and maybe, just
+        maybe, things I can be proud of.
       </p>
       <p class="sol__home_intro_line">
         To open this drawer is to expose myself in ways that still make me

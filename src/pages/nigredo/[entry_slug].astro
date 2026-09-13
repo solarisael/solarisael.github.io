@@ -67,7 +67,7 @@ const display_title = entry.data.title
     gap: 0.6rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid
-      color-mix(in oklch, var(--site_style_accent) 16%, transparent);
+      color-mix(in srgb, var(--mono_ink, #171717) 24%, transparent);
   }
 
   .sol__nigredo_detail_meta {
@@ -81,13 +81,17 @@ const display_title = entry.data.title
     font-family: var(--font_reading_heading);
     font-weight: 500;
     line-height: 1.2;
-    color: oklch(88% 0.014 258);
+    color: var(--mono_ink, #171717);
     margin: 0;
   }
 
   .sol__nigredo_detail_title[data-redacted="true"] {
     letter-spacing: 0.08em;
-    color: oklch(36% 0.01 258);
+    color: color-mix(
+      in srgb,
+      var(--mono_ink, #171717) 62%,
+      var(--mono_paper, #f7f4ed)
+    );
     font-family: monospace;
   }
 

@@ -1,7 +1,5 @@
 ---
 import { with_base } from "../../utils/routes.js";
-import PhaseCardBackdrop from "./phase_card_backdrop.astro";
-import PhaseCardOrnaments from "./phase_card_ornaments.astro";
 
 const { phase_cards = [] } = Astro.props;
 ---
@@ -10,19 +8,14 @@ const { phase_cards = [] } = Astro.props;
   {
     phase_cards.map((phase_card) => {
       const card_body = (
-        <>
-          <PhaseCardBackdrop />
-          <PhaseCardOrnaments ornament={phase_card.ornament} />
-
-          <div class="sol__phase_card_layer_body">
-            <h2 class="sol__phase_card_title sol__text_mid">
-              {phase_card.phase_name}
-            </h2>
-            <p class="sol__phase_card_blurb sol__text_body">
-              {phase_card.phase_blurb}
-            </p>
-          </div>
-        </>
+        <div class="sol__phase_card_layer_body">
+          <h2 class="sol__phase_card_title sol__text_mid">
+            {phase_card.phase_name}
+          </h2>
+          <p class="sol__phase_card_blurb sol__text_body">
+            {phase_card.phase_blurb}
+          </p>
+        </div>
       );
 
       const class_name = `sol__phase_card_link sol__phase_card_${phase_card.visual_phase_slug ?? phase_card.phase_slug}`;

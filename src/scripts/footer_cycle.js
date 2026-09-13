@@ -1,5 +1,20 @@
 import { resolve_footer_sentences } from "../data/footer_sentences.js";
-import { transition_pretext_content } from "scripts-of-folly/transitions";
+import {
+  layout_pretext_root,
+  reset_pretext_source,
+} from "scripts-of-folly/pretext";
+
+const transition_plain_content = (root, next_html, on_swap) => {
+  if (!root || root.nodeType !== 1) {
+    return false;
+  }
+
+  root.innerHTML = String(next_html ?? "");
+  reset_pretext_source(root, { restore: false });
+  on_swap?.(root);
+  layout_pretext_root(root);
+  return true;
+};
 
 const DEFAULT_DURATION_MS = 12000;
 const visibility_cycles = new Set();
@@ -45,7 +60,7 @@ const schedule_cycle = (cycle) => {
 
 // Shared by the timer and the manual arrows. Manual steps deliberately skip
 // the visible/hidden gates — a click IS the visibility proof.
-const step_cycle = async (cycle, direction) => {
+const step_cycle = (cycle, direction) => {
   if (!cycle.root.isConnected || cycle.rows.length <= 1) {
     schedule_cycle(cycle);
     return;
@@ -57,11 +72,8 @@ const step_cycle = async (cycle, direction) => {
       ? previous_footer_index(cycle.index, cycle.rows.length)
       : next_footer_index(cycle.index, cycle.rows.length);
   const next_row = cycle.rows[cycle.index];
-  await transition_pretext_content(cycle.root, next_row.html, {
-    effect: next_row.effect,
-    on_swap: () => {
-      cycle.root.dataset.cycleAlign = next_row.align;
-    },
+  transition_plain_content(cycle.root, next_row.html, () => {
+    cycle.root.dataset.cycleAlign = next_row.align;
   });
   schedule_cycle(cycle);
 };

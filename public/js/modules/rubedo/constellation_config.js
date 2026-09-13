@@ -47,14 +47,14 @@ const RUBEDO_CONSTELLATION_THREADS = Object.freeze({
     solarisael: 348,
   }),
   neon_rgb: Object.freeze({
-    cinza: "241 235 222",
-    suul: "0 149 51",
-    solarisael: "237 143 96",
+    cinza: "23 23 23",
+    suul: "23 23 23",
+    solarisael: "23 23 23",
   }),
   rgb: Object.freeze({
-    cinza: Object.freeze([241, 235, 222]),
-    suul: Object.freeze([0, 149, 51]),
-    solarisael: Object.freeze([237, 143, 96]),
+    cinza: Object.freeze([23, 23, 23]),
+    suul: Object.freeze([23, 23, 23]),
+    solarisael: Object.freeze([23, 23, 23]),
   }),
 });
 

@@ -1,36 +1,35 @@
 @reference "tailwindcss";
 
 .sol__vision_banner {
-  --vision-accent: color-mix(
-    in oklch,
-    var(--site_style_accent_alt) 72%,
-    #9fd5e8
-  );
-  --vision-height: clamp(28rem, 58vw, 46rem);
+  --vision-paper: var(--mono_paper, #f7f4ed);
+  --vision-ink: var(--mono_ink, #171717);
 
-  position: relative;
-  isolation: isolate;
   display: grid;
-  align-items: end;
-  min-height: var(--vision-height);
+  align-items: center;
+  min-height: 0;
   margin-block: clamp(1.5rem, 5vw, 4.5rem);
-  margin-inline: max(-8vw, -7rem);
-  overflow: hidden;
+  padding: clamp(2.5rem, 7vw, 6rem) 1.5rem;
+  border-block: 1px solid color-mix(in srgb, var(--vision-ink) 22%, transparent);
+  background: var(--vision-paper);
+  color: var(--vision-ink);
+}
+.sol__vision_banner_field,
+.sol__vision_banner_picture,
+.sol__vision_banner_canvas,
+.sol__vision_banner_image,
+.sol__vision_banner_grain {
+  display: none;
 }
 
 .sol__vision_banner_copy {
-  width: min(46rem, 78%);
+  width: min(46rem, 100%);
   margin-inline: auto;
-  padding: 9rem 2rem clamp(3rem, 8vw, 6rem);
   text-align: center;
-  text-shadow:
-    0 2px 16px rgb(0 0 0 / 0.92),
-    0 0 34px rgb(0 0 0 / 0.76);
 }
 
 .sol__vision_banner_kicker {
   margin: 0 0 0.65rem;
-  color: color-mix(in oklch, var(--vision-accent) 76%, white);
+  color: var(--vision-ink);
   font-family: var(--font_ritual);
   font-size: clamp(0.68rem, 1.2vw, 0.82rem);
   font-variant: small-caps;
@@ -40,7 +39,7 @@
 
 .sol__vision_banner_copy :is(h1, h2) {
   margin: 0;
-  color: color-mix(in oklch, var(--ui_text_primary) 90%, white);
+  color: var(--vision-ink);
   font-family: var(--font_editorial);
   font-size: clamp(2.15rem, 6vw, 5.4rem);
   font-weight: 420;
@@ -52,42 +51,25 @@
 .sol__vision_banner_copy > p:last-child {
   max-width: 42rem;
   margin: 1.2rem auto 0;
-  color: color-mix(in oklch, var(--ui_text_secondary) 78%, white);
+  color: var(--vision-ink);
   font-size: clamp(0.92rem, 1.5vw, 1.08rem);
   line-height: 1.65;
   text-wrap: balance;
 }
 
 .sol__vision_banner_page_top {
-  --vision-height: clamp(36rem, 65vw, 58rem);
-
-  width: min(100vw, 96rem);
-  max-width: 96rem;
+  width: min(100%, 96rem);
   margin-top: clamp(2rem, 6vw, 5rem);
-  margin-right: calc(50% - 50vw);
-  margin-bottom: -5rem;
-  margin-left: calc(50% - 50vw);
-  transform: translateX(var(--vision-viewport-shift, 0px));
+  margin-inline: auto;
 }
 
 .sol__vision_banner_major {
   grid-column: 1 / -1;
   justify-self: center;
-  width: min(100vw, 96rem);
-  margin-top: 1rem;
-  margin-right: 0;
-  margin-bottom: -13rem;
-  margin-left: 0;
 }
 
 .sol__vision_banner_page_top .sol__vision_banner_copy {
-  width: min(52rem, 82vw);
-  padding-top: clamp(16rem, 36vw, 31rem);
-  padding-bottom: clamp(7rem, 11vw, 10rem);
-}
-
-.sol__vision_banner_page_top .sol__vision_banner_image {
-  object-position: 50% 45%;
+  width: min(52rem, 100%);
 }
 
 .sol__vision_banner_content_threshold {
@@ -96,34 +78,26 @@
   width: min(52rem, calc(100% - 2rem));
   margin: 0 auto clamp(4rem, 8vw, 7rem);
   padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid
-    color-mix(in oklch, var(--site_style_accent) 18%, transparent);
-  background: color-mix(in oklch, var(--ui_bg_mantle) 84%, transparent);
-  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 0.34);
-  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--vision-ink) 22%, transparent);
+  background: var(--vision-paper);
+  color: var(--vision-ink);
   text-align: center;
 }
 
 .sol__vision_banner_content_threshold > p:last-child {
   max-width: 38rem;
   margin: 0.7rem auto 0;
-  color: var(--ui_text_secondary);
+  color: var(--vision-ink);
 }
 
 @media (max-width: 768px) {
   .sol__vision_banner {
-    --vision-height: min(42rem, 136vw);
-
     margin-inline: -1.25rem;
-  }
-
-  .sol__vision_banner_image {
-    object-position: 32% 42%;
+    padding-inline: 1.4rem;
   }
 
   .sol__vision_banner_copy {
     width: 100%;
-    padding: 15rem 1.4rem 3.4rem;
   }
 
   .sol__vision_banner_copy :is(h1, h2) {
@@ -131,34 +105,12 @@
   }
 
   .sol__vision_banner_page_top {
-    --vision-height: min(48rem, 165vw);
-    width: min(100vw, 96rem);
-    margin-right: 0;
-    margin-bottom: -3.5rem;
-    margin-left: calc(100% - 100vw);
-  }
-
-  .sol__vision_banner_major {
-    width: 100vw;
-    margin-top: 0;
-    margin-inline: calc(50% - 50vw);
-    margin-bottom: -8rem;
-  }
-
-  .sol__vision_banner_page_top .sol__vision_banner_copy {
-    width: min(100%, 34rem);
-    padding: 18rem 1.25rem 6rem;
+    width: 100%;
+    margin-inline: 0;
   }
 
   .sol__vision_banner_content_threshold {
     width: calc(100% - 1rem);
     padding: 1.75rem 1.25rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sol__vision_banner_field,
-  .sol__vision_banner_canvas {
-    transition: none;
   }
 }

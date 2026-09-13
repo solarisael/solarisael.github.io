@@ -1,168 +1,83 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-/* ============================================================
-   ALBEDO PAGE — Washed Light
-   Scoped to container[data-phase="albedo"] only.
-   Hoisted to layout import (htmx-nav availability), like nigredo_page.css.
-   Parallel structure to nigredo_page.css; opposite register: luminous,
-   composed, water/dawn-tinted. No redaction, no ash.
-   ============================================================ */
-
-/* ============================================================
-   Quick Tune Variables (edit here first)
-   ============================================================ */
-
 container[data-phase="albedo"] {
-  /* geometry */
-  --albedo_card_radius: 14px;
-  --albedo_card_border_width: var(--site_border_width_hairline);
-  --albedo_card_padding: 1.25rem 1.75rem;
+  --albedo_card_padding: 1.25rem 1.5rem;
   --albedo_panel_padding: 1rem 1.25rem;
   --albedo_card_gap: 0.5rem;
-  --albedo_ornament_inset: 0.45rem;
-  --albedo_ornament_corner_size: 1.75rem;
-
-  /* surface — dark substrate (matches nigredo's model; accent does the
-     tinting via color-mix). albedo's accent is pale-blue, so the dark ground
-     reads cool/clean rather than ashen. */
-  --albedo_base: oklch(13% 0.012 247);
-  --albedo_base_deep: oklch(10% 0.012 247);
-  --albedo_surface_mix: 52%;
-  --albedo_border_mix: 24%;
-  --albedo_halo_mix: 22%;
-  --albedo_text: oklch(88% 0.012 247);
-  --albedo_text_soft: oklch(62% 0.012 247);
-  --albedo_blur: 2px;
-  --albedo_shadow_strength: 0.64;
-  --albedo_sheen_opacity: 0.22;
-  --albedo_frame_opacity: 0.4;
-  --albedo_ornament_opacity: 0.3;
-
-  /* motion */
-  --albedo_transition_ms: 260ms;
-
-  /* pill containers — light/water shapes */
-  --albedo_pill_morning-dew: oklch(86% 0.045 200);
-  --albedo_pill_even-tide: oklch(74% 0.07 248);
-  --albedo_pill_clear-waters: oklch(82% 0.06 220);
-  --albedo_pill_dawn-light: oklch(86% 0.06 80);
-  --albedo_pill_sunset-ocean: oklch(78% 0.07 32);
-  --albedo_pill_mirror-surface: oklch(80% 0.035 270);
-
-  /* date */
-  --albedo_date_color: oklch(58% 0.018 258);
+  --albedo_card_radius: 0.35rem;
+  --albedo_transition_ms: 180ms;
   --albedo_date_size: 0.68rem;
-
-  /* feed */
   --albedo_feed_gap: 0.72rem;
-
-  /* lane alignment */
   --albedo_entry_left_width: 92%;
+  --mono_paper_local: var(--mono_paper, #f7f4ed);
+  --mono_ink_local: var(--mono_ink, #171717);
+  --mono_ink_muted: color-mix(
+    in srgb,
+    var(--mono_ink_local) 62%,
+    var(--mono_paper_local)
+  );
+  color: var(--mono_ink_local);
 }
-
-/* ============================================================
-   Archive shell
-   ============================================================ */
 
 .sol__albedo_archive {
   @apply flex flex-col;
-
   gap: 0;
   margin-top: 1.5rem;
 }
 
-/* ============================================================
-   Filter block — sticky within the reading shell
-   Calm grouped state field, washed-glass vessel.
-   ============================================================ */
-
 .sol__albedo_filter_block {
   @apply sticky flex flex-col;
-
   top: 0;
   z-index: 20;
   margin-bottom: 0.85rem;
-
   padding: 0.75rem 0.85rem 0.8rem;
-  border-radius: 0.72rem;
-  /* Albedo's accent is a near-white pale blue (oklch 88%), so the same
-     accent-mix % nigredo uses reads far brighter here. The filter region
-     stacks several accent borders, compounding into a washed haze — so the
-     mix %s in this block run lower than nigredo's to match its subtlety. */
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 20%, transparent);
-  /* bg-stack-exception: filter block needs glass gradient + backdrop */
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--site_style_accent) 9%, transparent),
-      color-mix(in oklch, var(--albedo_base) 78%, transparent)
-    ),
-    color-mix(in oklch, var(--albedo_base) 64%, transparent);
-  box-shadow:
-    0 0 calc(0.9rem * 0.6)
-      color-mix(in oklch, var(--site_style_accent) 16%, transparent),
-    inset 0 0 0.5rem color-mix(in oklch, white 5%, transparent);
-  backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 24%, transparent);
+  border-radius: var(--albedo_card_radius);
+  background: var(--mono_paper_local);
 }
 
-/* Header row: label + clear button */
 .sol__albedo_filter_header {
   @apply flex items-center;
-
   gap: 0.4rem;
   margin-bottom: 0.6rem;
 }
 
 .sol__albedo_filter_title {
+  flex-shrink: 0;
+  color: var(--mono_ink_local);
   font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: lowercase;
-  font-weight: 700;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 72%,
-    oklch(68% 0.012 247)
-  );
-  flex-shrink: 0;
 }
 
 .sol__albedo_filter_clear {
   @apply cursor-pointer;
-
   margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mono_ink_muted);
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: lowercase;
-  color: oklch(48% 0.014 247);
-  border: none;
-  background: none;
-  padding: 0;
-  transition: color var(--albedo_transition_ms) ease;
 }
 
-.sol__albedo_filter_clear:hover {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 70%,
-    oklch(65% 0.012 247)
-  );
+.sol__albedo_filter_clear:hover,
+.sol__albedo_filter_clear:focus-visible {
+  color: var(--mono_ink_local);
 }
 
-/* Inner field: grouped pill container */
 .sol__albedo_filter_field {
   padding: 0.68rem 0.72rem;
-  border-radius: 0.48rem;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 15%, transparent);
-  background:
-    linear-gradient(
-      120deg,
-      color-mix(in oklch, var(--site_style_accent) 7%, transparent),
-      color-mix(in oklch, var(--albedo_base) 70%, transparent)
-    ),
-    color-mix(in oklch, var(--albedo_base) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 18%, transparent);
+  border-radius: 0.25rem;
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
 }
 
 .sol__albedo_filter_groups {
@@ -179,57 +94,37 @@ container[data-phase="albedo"] {
 
 .sol__albedo_filter_group_label {
   @apply cursor-pointer;
-
   align-self: start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: calc(0.7rem * 1.4 + 0.44rem + 2px);
   padding: 0.2rem 0.62rem;
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 18%, transparent);
-  background: color-mix(in oklch, var(--albedo_base) 42%, transparent);
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 62%,
-    oklch(60% 0.012 247)
-  );
+  background: transparent;
+  color: var(--mono_ink_local);
+  font-family: inherit;
   font-size: 0.7rem;
   font-weight: 800;
-  font-family: inherit;
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
-  transition:
-    border-color var(--albedo_transition_ms) ease,
-    box-shadow var(--albedo_transition_ms) ease,
-    color var(--albedo_transition_ms) ease,
-    filter var(--albedo_transition_ms) ease;
 }
 
 .sol__albedo_filter_group_label:hover,
-.sol__albedo_filter_group_label:focus-visible {
-  border-color: color-mix(in oklch, var(--site_style_accent) 48%, transparent);
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 78%,
-    oklch(74% 0.012 247)
-  );
+.sol__albedo_filter_group_label:focus-visible,
+.sol__albedo_filter_group_label[data-active="true"] {
+  border-color: var(--mono_ink_local);
 }
 
 .sol__albedo_filter_group_label[data-active="true"] {
-  border-color: color-mix(in oklch, var(--site_style_accent) 68%, transparent);
-  box-shadow:
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 46%, transparent),
-    0 0 8px color-mix(in oklch, var(--site_style_accent) 22%, transparent);
-  filter: saturate(1.1) brightness(1.02);
+  background: var(--mono_ink_local);
+  color: var(--mono_paper_local);
 }
 
 .sol__albedo_filter_pills {
   @apply flex flex-wrap;
-
   gap: 0.45rem;
 }
 
@@ -240,79 +135,50 @@ container[data-phase="albedo"] {
 
 .sol__albedo_filter_btn {
   @apply cursor-pointer;
-
   transition:
     opacity var(--albedo_transition_ms) ease,
     border-color var(--albedo_transition_ms) ease,
-    box-shadow var(--albedo_transition_ms) ease,
     background var(--albedo_transition_ms) ease;
 }
 
 .sol__albedo_filter_btn[data-active="true"] {
   opacity: 1;
-  box-shadow:
-    0 0 0 1.5px color-mix(in oklch, var(--site_style_accent) 60%, transparent),
-    0 0 8px color-mix(in oklch, var(--site_style_accent) 26%, transparent);
-  filter: saturate(1.12) brightness(1.03);
+  border-color: var(--mono_ink_local);
+  background: var(--mono_ink_local);
+  color: var(--mono_paper_local);
 }
 
 .sol__albedo_filter_btn[data-active="false"] {
   opacity: 0.62;
 }
 
-.sol__albedo_filter_btn:hover {
-  opacity: 0.88;
+.sol__albedo_filter_btn:hover,
+.sol__albedo_filter_btn:focus-visible {
+  opacity: 1;
 }
-
-/* ============================================================
-   Status row
-   ============================================================ */
 
 .sol__albedo_archive_status {
   @apply flex items-center;
-
   gap: 0.3rem;
   margin-bottom: 0.75rem;
 }
 
-.sol__albedo_archive_count {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 58%,
-    var(--ui_text_muted, oklch(52% 0.016 260))
-  );
-}
-
-.sol__albedo_archive_count_label {
-  color: oklch(56% 0.016 260);
+.sol__albedo_archive_count,
+.sol__albedo_archive_count_label,
+.sol__albedo_archive_filter_summary {
+  color: var(--mono_ink_muted);
 }
 
 .sol__albedo_archive_filter_summary {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 50%,
-    oklch(50% 0.016 260)
-  );
   font-size: 0.62rem;
   letter-spacing: 0.06em;
 }
-
-/* ============================================================
-   Feed pane — virtual track, document scroll owns movement
-   ============================================================ */
 
 .sol__albedo_scroll_pane {
   position: relative;
   height: auto;
   overflow: visible;
   overscroll-behavior: auto;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(
-      in oklch,
-      var(--site_style_accent) 30%,
-      transparent
-    )
-    transparent;
 }
 
 .sol__albedo_inner_track {
@@ -323,10 +189,10 @@ container[data-phase="albedo"] {
 
 .sol__albedo_list {
   position: static;
-  list-style: none;
-  padding: 0;
-  margin: 0;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .sol__albedo_measure_list {
@@ -342,10 +208,6 @@ container[data-phase="albedo"] {
   gap: 0.55rem;
   margin-top: 1rem;
 }
-
-/* ============================================================
-   Entry row — virtual feed lane
-   ============================================================ */
 
 .sol__albedo_entry_row {
   display: flex;
@@ -363,332 +225,123 @@ container[data-phase="albedo"] {
 }
 
 @media (max-width: 639px) {
-  .sol__albedo_entry_row {
-    justify-content: center;
-  }
-
   .sol__albedo_entry_row .sol__albedo_entry {
     width: 100%;
-    transform: none;
   }
 }
 
-/* ============================================================
-   Entry — outer shell
-   ============================================================ */
-
 .sol__albedo_entry {
-  @apply relative isolate;
-
-  overflow: visible;
+  @apply relative;
+  width: 100%;
 }
 
 .sol__albedo_entry_card {
-  @apply relative flex flex-col overflow-hidden no-underline;
-  @apply w-full;
-
-  padding: var(--albedo_card_padding);
+  @apply relative flex w-full flex-col overflow-hidden no-underline;
   gap: var(--albedo_card_gap);
-
+  padding: var(--albedo_card_padding);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 25%, transparent);
   border-radius: var(--albedo_card_radius);
-  border: var(--albedo_card_border_width) solid
-    color-mix(
-      in oklch,
-      var(--site_style_accent) var(--albedo_border_mix),
-      transparent
-    );
-  box-shadow:
-    0 18px 28px -20px rgb(0 0 0 / calc(var(--albedo_shadow_strength) + 0.06)),
-    inset 0 1px 0 color-mix(in oklch, white 7%, transparent);
-  backdrop-filter: blur(var(--albedo_blur));
+  background: var(--mono_paper_local);
+  color: var(--mono_ink_local);
   transition:
     border-color var(--albedo_transition_ms) ease,
-    box-shadow var(--albedo_transition_ms) ease;
+    background var(--albedo_transition_ms) ease;
 }
 
 .sol__albedo_entry_card:hover,
 .sol__albedo_entry_card:focus-within {
-  border-color: color-mix(in oklch, var(--site_style_accent) 56%, transparent);
-  box-shadow:
-    0 22px 32px -18px rgb(0 0 0 / calc(var(--albedo_shadow_strength) + 0.14)),
-    0 0 0 var(--site_border_width_hairline)
-      color-mix(in oklch, var(--site_style_accent) 34%, transparent),
-    inset 0 1px 0 color-mix(in oklch, white 12%, transparent);
+  border-color: var(--mono_ink_local);
 }
-
-/* ============================================================
-   Entry layers (absolute effect layers)
-   ============================================================ */
-
-.sol__albedo_entry_layer {
-  @apply pointer-events-none absolute;
-
-  inset: 0;
-}
-
-/* Surface: pale luminous paper wash */
-.sol__albedo_entry_layer_surface {
-  z-index: 0;
-  background:
-    radial-gradient(
-      110% 90% at 80% -8%,
-      color-mix(
-        in oklch,
-        var(--site_style_accent) var(--albedo_halo_mix),
-        transparent
-      ),
-      transparent 62%
-    ),
-    linear-gradient(
-      158deg,
-      color-mix(in oklch, var(--site_style_accent) 6%, transparent),
-      color-mix(
-        in oklch,
-        var(--albedo_base) var(--albedo_surface_mix),
-        transparent
-      )
-    );
-}
-
-/* Sheen layer: soft light bloom + water shimmer falloff */
-.sol__albedo_entry_layer_sheen {
-  z-index: 1;
-  opacity: var(--albedo_sheen_opacity);
-  /* bg-stack-exception: sheen requires 2 passes — top gloss + base glow */
-  background:
-    radial-gradient(
-      circle at 22% 18%,
-      rgb(255 255 255 / 0.5) 0 0.6px,
-      transparent 0.85px
-    ),
-    radial-gradient(
-      ellipse 130% 55% at 50% 118%,
-      color-mix(in oklch, var(--site_style_accent) 28%, transparent) 0%,
-      transparent 70%
-    );
-}
-
-/* Frame: inset ring, clean (no damage asymmetry) */
-.sol__albedo_entry_layer_frame {
-  z-index: 3;
-  inset: var(--albedo_ornament_inset);
-  border-radius: calc(var(--albedo_card_radius) - 0.35rem);
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--site_style_accent) 50%, transparent);
-  opacity: var(--albedo_frame_opacity);
-  background:
-    linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--site_style_accent) 36%, transparent),
-        transparent 16%
-      )
-      7% 50% / 0.05rem 80% no-repeat,
-    linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--site_style_accent) 36%, transparent),
-        transparent 16%
-      )
-      93% 50% / 0.05rem 80% no-repeat;
-}
-
-/* Bloom variant: brighter sheen, fuller glow (featured entries) */
-.sol__albedo_entry[data-tone="bloom"] .sol__albedo_entry_layer_sheen {
-  opacity: calc(var(--albedo_sheen_opacity) * 1.4);
-}
-
-.sol__albedo_entry[data-tone="bloom"] .sol__albedo_entry_card {
-  border-color: color-mix(in oklch, var(--site_style_accent) 52%, transparent);
-}
-
-/* ============================================================
-   Ornament layer
-   ============================================================ */
-
-.sol__albedo_entry_layer_ornament {
-  display: none;
-  z-index: 2;
-  opacity: var(--albedo_ornament_opacity);
-}
-
-:root[data-site-theme="solarisael"] .sol__albedo_entry_layer_ornament {
-  display: block;
-}
-
-.sol__albedo_entry_ornament {
-  display: block;
-  object-fit: contain;
-}
-
-.sol__albedo_entry_ornament_corner_tl {
-  left: var(--albedo_ornament_inset);
-  top: var(--albedo_ornament_inset);
-  width: var(--albedo_ornament_corner_size);
-  height: var(--albedo_ornament_corner_size);
-}
-
-.sol__albedo_entry_ornament_corner_tr {
-  right: var(--albedo_ornament_inset);
-  top: var(--albedo_ornament_inset);
-  width: var(--albedo_ornament_corner_size);
-  height: var(--albedo_ornament_corner_size);
-}
-
-.sol__albedo_entry_ornament_corner_bl {
-  left: var(--albedo_ornament_inset);
-  bottom: var(--albedo_ornament_inset);
-  width: var(--albedo_ornament_corner_size);
-  height: var(--albedo_ornament_corner_size);
-}
-
-.sol__albedo_entry_ornament_corner_br {
-  right: var(--albedo_ornament_inset);
-  bottom: var(--albedo_ornament_inset);
-  width: var(--albedo_ornament_corner_size);
-  height: var(--albedo_ornament_corner_size);
-}
-
-/* ============================================================
-   Entry body layer
-   ============================================================ */
 
 .sol__albedo_entry_layer_body {
   @apply relative flex flex-col;
-
-  z-index: 10;
+  z-index: 1;
   gap: 0.4rem;
 }
-
-/* ============================================================
-   Entry header: title + states + date
-   ============================================================ */
 
 .sol__albedo_entry_header {
   display: grid;
   grid-template-columns: minmax(0, max-content) minmax(0, 1fr) auto;
   align-items: center;
-
   gap: 0.4rem 0.55rem;
 }
 
 .sol__albedo_entry_title {
   grid-column: 1;
   grid-row: 1;
-  text-decoration: none;
+  min-width: 0;
+  color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: clamp(1rem, 0.94rem + 0.22vw, 1.13rem);
   font-weight: 560;
   line-height: 1.16;
-  color: var(--albedo_text);
-  flex-shrink: 1;
-  min-width: 0;
+  text-decoration: none;
 }
 
 .sol__albedo_entry_title:hover,
-.sol__albedo_entry_title:focus-visible {
-  color: color-mix(in oklch, var(--site_style_accent) 68%, oklch(88% 0.01 247));
+.sol__albedo_entry_title:focus-visible,
+.sol__albedo_entry_expand:hover,
+.sol__albedo_entry_expand:focus-visible,
+.sol__albedo_entry_open:hover,
+.sol__albedo_entry_open:focus-visible {
+  color: var(--mono_ink_local);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .sol__albedo_entry_title:focus-visible,
 .sol__albedo_entry_expand:focus-visible,
 .sol__albedo_entry_open:focus-visible {
-  outline: 2px solid color-mix(in oklch, var(--site_style_accent) 70%, white);
+  outline: 2px solid var(--mono_ink_local);
   outline-offset: 0.125rem;
 }
 
-/* Untitled entries: gentle de-emphasis, NOT redaction */
 .sol__albedo_entry_title[data-untitled="true"] {
   font-style: italic;
-  color: var(--albedo_text_soft);
+  color: var(--mono_ink_muted);
 }
 
 .sol__albedo_entry_date {
   grid-column: 3;
   grid-row: 1;
   justify-self: end;
-  margin-left: 0;
+  color: var(--mono_ink_muted);
   font-size: var(--albedo_date_size);
-  color: var(--albedo_date_color);
-  letter-spacing: 0.07em;
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
+  letter-spacing: 0.07em;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .sol__albedo_entry_states {
   @apply flex flex-wrap items-center;
-
   grid-column: 2;
   grid-row: 1;
   gap: 0.35rem;
   min-width: 0;
 }
 
-/* ============================================================
-   Pill
-   ============================================================ */
-
 .sol__albedo_pill {
   @apply inline-flex items-center;
-
+  flex-shrink: 0;
   padding: 0.12rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
+  background: transparent;
+  color: var(--mono_ink_local);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: lowercase;
   line-height: 1.4;
-  flex-shrink: 0;
+  text-transform: lowercase;
 }
-
-.sol__albedo_pill[data-container] {
-  --albedo_pill_tint: var(--albedo_pill_morning-dew);
-
-  background: color-mix(
-    in oklch,
-    var(--albedo_pill_tint) 16%,
-    oklch(14% 0.012 247 / 0.68)
-  );
-  border: var(--site_border_width_hairline) solid
-    color-mix(in oklch, var(--albedo_pill_tint) 46%, transparent);
-  color: color-mix(in oklch, var(--albedo_pill_tint) 76%, oklch(88% 0.01 247));
-}
-
-.sol__albedo_pill[data-container="morning-dew"] {
-  --albedo_pill_tint: var(--albedo_pill_morning-dew);
-}
-
-.sol__albedo_pill[data-container="even-tide"] {
-  --albedo_pill_tint: var(--albedo_pill_even-tide);
-}
-
-.sol__albedo_pill[data-container="clear-waters"] {
-  --albedo_pill_tint: var(--albedo_pill_clear-waters);
-}
-
-.sol__albedo_pill[data-container="dawn-light"] {
-  --albedo_pill_tint: var(--albedo_pill_dawn-light);
-}
-
-.sol__albedo_pill[data-container="sunset-ocean"] {
-  --albedo_pill_tint: var(--albedo_pill_sunset-ocean);
-}
-
-.sol__albedo_pill[data-container="mirror-surface"] {
-  --albedo_pill_tint: var(--albedo_pill_mirror-surface);
-}
-
-/* ============================================================
-   Excerpt + preview body
-   ============================================================ */
 
 .sol__albedo_entry_excerpt {
   grid-column: 1 / -1;
   grid-row: 2;
   max-width: 68ch;
+  color: var(--mono_ink_muted);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.48;
-  color: var(--albedo_text_soft);
 }
 
 .sol__albedo_entry_excerpt p,
@@ -697,51 +350,35 @@ container[data-phase="albedo"] {
   white-space: pre-line;
 }
 
-.sol__albedo_entry_excerpt p + p {
+.sol__albedo_entry_excerpt p + p,
+.sol__albedo_entry_preview p + p {
   margin-top: 0.42em;
 }
 
-.sol__albedo_entry_preview {
+.sol__albedo_entry_preview,
+.sol__albedo_entry_full {
   margin-top: 0.18rem;
   padding: var(--albedo_panel_padding);
-  border-radius: 0.58rem;
-  border-left: var(--site_border_width_standard) solid
-    color-mix(in oklch, var(--site_style_accent) 40%, transparent);
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--site_style_accent) 12%, transparent),
-      color-mix(in oklch, var(--albedo_base_deep) 30%, transparent)
-    ),
-    color-mix(in oklch, var(--albedo_base_deep) 34%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mono_ink_local) 15%, transparent);
+  border-left: 3px solid var(--mono_ink_local);
+  border-radius: 0.25rem;
+  background: color-mix(
+    in srgb,
+    var(--mono_ink_local) 4%,
+    var(--mono_paper_local)
+  );
+  color: var(--mono_ink_local);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.55;
-  color: var(--albedo_text_soft);
 }
 
-.sol__albedo_entry_preview p + p {
-  margin-top: 0.72em;
+.sol__albedo_entry_preview {
+  color: var(--mono_ink_muted);
 }
 
 .sol__albedo_entry_preview[hidden],
 .sol__albedo_entry_full[hidden] {
   display: none;
-}
-
-.sol__albedo_entry_full {
-  margin-top: 0.18rem;
-  padding: var(--albedo_panel_padding);
-  border-radius: 0.58rem;
-  border-left: var(--site_border_width_standard) solid
-    color-mix(in oklch, var(--site_style_accent) 40%, transparent);
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--site_style_accent) 12%, transparent),
-      color-mix(in oklch, var(--albedo_base_deep) 30%, transparent)
-    ),
-    color-mix(in oklch, var(--albedo_base_deep) 34%, transparent);
-  color: var(--albedo_text);
 }
 
 .sol__albedo_entry_full > :first-child {
@@ -754,7 +391,6 @@ container[data-phase="albedo"] {
 
 .sol__albedo_entry_actions {
   @apply flex flex-wrap items-center;
-
   gap: 0.75rem;
   margin-top: 0.12rem;
 }
@@ -762,32 +398,14 @@ container[data-phase="albedo"] {
 .sol__albedo_entry_expand,
 .sol__albedo_entry_open {
   @apply cursor-pointer;
-
   padding: 0;
-  border: none;
+  border: 0;
   background: none;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 58%,
-    oklch(54% 0.012 247)
-  );
+  color: var(--mono_ink_local);
   letter-spacing: 0.08em;
-  text-transform: lowercase;
   text-decoration: none;
+  text-transform: lowercase;
 }
-
-.sol__albedo_entry_expand:hover,
-.sol__albedo_entry_open:hover {
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent) 76%,
-    oklch(76% 0.012 247)
-  );
-}
-
-/* ============================================================
-   Mobile
-   ============================================================ */
 
 @media (max-width: 768px) {
   container[data-phase="albedo"] {
@@ -807,12 +425,10 @@ container[data-phase="albedo"] {
 
   .sol__albedo_entry_title {
     grid-column: 1;
-    grid-row: 1;
   }
 
   .sol__albedo_entry_date {
     grid-column: 2;
-    grid-row: 1;
   }
 
   .sol__albedo_entry_excerpt {

@@ -15,7 +15,7 @@ body {
   padding-bottom: 1rem;
   padding-left: var(--layout_viewport_pad_x);
 
-  background-color: var(--ui_bg_root);
+  background-color: var(--mono_paper, #f7f4ed);
   color: var(--ui_text_primary);
 }
 
@@ -37,6 +37,11 @@ body {
 
 #sol_page_shell {
   display: contents;
+}
+
+#sol_page_shell {
+  color: var(--mono_ink, #171717);
+  background-color: var(--mono_paper, #f7f4ed);
 }
 
 body.sol__body_grid .sol__content_grid,

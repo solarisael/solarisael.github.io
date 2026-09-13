@@ -8,13 +8,10 @@
 
 import EntryRow from "./entry_row.astro";
 import { ALBEDO_CONTAINERS } from "../../data/albedo_taxonomy.js";
-import { CINZA_CARD_ORNAMENT_SRCS } from "../../data/card_ornaments.js";
 import { serialize_json_for_script } from "../../utils/json_script.js";
 
 const { archive_index = [] } = Astro.props;
 const INITIAL_ENTRY_COUNT = 5;
-
-const ornament_srcs = CINZA_CARD_ORNAMENT_SRCS;
 
 const virtual_entries = archive_index.map(({ Content, ...entry }, index) => ({
   ...entry,
@@ -128,7 +125,6 @@ const initial_entries = archive_index.slice(0, INITIAL_ENTRY_COUNT);
               entry={entry}
               index={index}
               set_size={archive_index.length}
-              ornament_srcs={ornament_srcs}
               prerendered
             />
           ))
@@ -147,12 +143,7 @@ const initial_entries = archive_index.slice(0, INITIAL_ENTRY_COUNT);
 {
   archive_index.map((entry, index) => (
     <template data-albedo-entry-template data-index={index}>
-      <EntryRow
-        entry={entry}
-        index={index}
-        set_size={archive_index.length}
-        ornament_srcs={ornament_srcs}
-      />
+      <EntryRow entry={entry} index={index} set_size={archive_index.length} />
     </template>
   ))
 }

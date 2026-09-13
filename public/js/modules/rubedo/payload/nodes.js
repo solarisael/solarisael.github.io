@@ -112,7 +112,7 @@ const build_canvas_nodes = ({ all_nodes, base_path, book_slug }) => {
     const halo_radius = highlight_radius + 0.04;
     const neon_rgb =
       RUBEDO_CONSTELLATION_THREADS.neon_rgb[node_entry.thread_key] ??
-      "214 217 226";
+      "23 23 23";
     const trail_rotation =
       RUBEDO_CONSTELLATION_THREADS.trail_rotation[node_entry.thread_key] ?? 18;
     const image_src_rel =

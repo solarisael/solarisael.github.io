@@ -95,15 +95,9 @@ const timeline_href = with_base(`/rubedo/${book_slug}/timeline`);
 const body_class = `pov_${thread_key}`;
 
 const ResolvedSceneComponent = thread_scene?.scene_component ?? null;
-
-// Thread identity colors — map to CSS custom properties defined in base.css.
-// Cinza = divine light, Suul = abyssal green, Solarisael = dawn.
-const thread_color_map = {
-  cinza: "var(--color-thread-cinza)",
-  suul: "var(--color-thread-suul)",
-  solarisael: "var(--color-thread-solarisael)",
-};
-const theme_color = thread_color_map[thread_key] ?? null;
+// All readers share the monochrome page surface; thread identity remains in
+// the route and breadcrumb labels rather than introducing a second palette.
+const theme_color = "var(--mono_ink, #171717)";
 
 // Explicit breadcrumb trail — avoids exposing thread_key as a navigation segment.
 // Cinza gets no thread suffix (canonical default). All others get " - thread_name".

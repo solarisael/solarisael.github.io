@@ -320,11 +320,7 @@ container[data-phase="codex"] {
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0.01em;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent, currentColor) 24%,
-    currentColor
-  );
+  color: var(--mono_ink, #171717);
 }
 
 :where(
@@ -337,11 +333,7 @@ container[data-phase="codex"] {
   font-style: italic;
   font-weight: 300;
   letter-spacing: 0.004em;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent, currentColor) 12%,
-    currentColor
-  );
+  color: var(--mono_ink, #171717);
 }
 
 :where(
@@ -359,11 +351,7 @@ container[data-phase="codex"] {
   font-style: normal;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent, currentColor) 62%,
-    currentColor
-  );
+  color: var(--mono_ink, #171717);
 }
 
 :where(
@@ -376,11 +364,7 @@ container[data-phase="codex"] {
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0.015em;
-  color: color-mix(
-    in oklch,
-    var(--site_style_accent, currentColor) 18%,
-    currentColor
-  );
+  color: var(--mono_ink, #171717);
 }
 
 /* CONSUMERS + UTILITIES */

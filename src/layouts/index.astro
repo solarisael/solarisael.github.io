@@ -21,9 +21,6 @@ import "../styles/components/about_page.css";
 import Breadcrumbers from "../components/mantle/breadcrumbs.astro";
 import SideMenu from "../components/mantle/side_menu.astro";
 import Footer from "../components/mantle/footer.astro";
-import Fog from "../components/aether/fog.astro";
-import ContentFrame from "../components/ornament/content_frame.astro";
-import ReadingFrame from "../components/ornament/reading_frame.astro";
 import VisionBanner from "../components/page/vision_banner.astro";
 import { base_path, with_base } from "../utils/routes.js";
 import { SITE_FPS_DEFAULT } from "../../public/js/modules/menu/preferences.js";
@@ -97,14 +94,11 @@ const resolved_body_classes = Array.from(
     <script is:inline src={with_base("js/vendor/htmx-preload-ext.js")}></script>
     <script src={with_base("js/scripts.js")} type="module"></script>
     <script>
-      import "scripts-of-folly/auto";
-      import { install_vision_banners } from "scripts-of-folly/vision";
+      import "../scripts/monochrome_runtime.js";
       import "../scripts/footer_cycle.js";
+      import "../scripts/about_pretext.js";
       import "../scripts/shader_chalice_lab.js";
       import "../scripts/pretext_transition_lab.js";
-      import "../scripts/about_pretext.js";
-
-      install_vision_banners();
     </script>
   </head>
   <body
@@ -139,68 +133,9 @@ const resolved_body_classes = Array.from(
       <container data-phase={phase || undefined}>
         <vessel data-shape="page_main" id="sol_page_main">
           <div id="sol_content_stage">
-            <div class="sol__content_stage_layer sol__content_stage_layer_fog">
-            </div>
-            <div
-              class="sol__content_stage_layer sol__content_stage_layer_rails sol__ornament_layer sol__ornament_layer_fill"
-              aria-hidden="true"
-            >
-              <ornament
-                data-shape="content_stage_rails"
-                class="sol__ornament_holder"
-              >
-                <div
-                  class="sol__ornament_item sol__content_stage_rail sol__content_stage_rail_left"
-                >
-                </div>
-                <div
-                  class="sol__ornament_item sol__content_stage_rail sol__content_stage_rail_right"
-                >
-                </div>
-              </ornament>
-            </div>
-
-            <Fog />
-            <ContentFrame />
-
             <div id="sol_content">
-              <div class="sol__content_layer sol__content_layer_surface"></div>
-              <div class="sol__content_layer sol__content_layer_noise"></div>
-              <div
-                class="sol__content_layer sol__content_layer_deco sol__ornament_layer sol__ornament_layer_fill"
-                aria-hidden="true"
-              >
-                <ornament
-                  data-shape="content_deco"
-                  class="sol__ornament_holder"
-                >
-                  <div
-                    class="sol__ornament_item sol__content_deco_piece sol__content_deco_rail sol__content_deco_rail_left"
-                  >
-                  </div>
-                  <div
-                    class="sol__ornament_item sol__content_deco_piece sol__content_deco_rail sol__content_deco_rail_right"
-                  >
-                  </div>
-                  <div
-                    class="sol__ornament_item sol__content_deco_piece sol__content_deco_halo sol__content_deco_halo_top"
-                  >
-                  </div>
-                  <div
-                    class="sol__ornament_item sol__content_deco_piece sol__content_deco_halo sol__content_deco_halo_bottom"
-                  >
-                  </div>
-                </ornament>
-              </div>
-
               <div class="sol__content_layer_body">
                 <div id="sol_main_reading_container">
-                  <ReadingFrame />
-                  <div class="sol__reading_layer sol__reading_layer_surface">
-                  </div>
-                  <div class="sol__reading_layer sol__reading_layer_noise">
-                  </div>
-
                   <div class="sol__reading_layer_body">
                     {
                       !hide_breadcrumbs && (

@@ -1,14 +1,8 @@
 ---
-import { with_base } from "../../utils/routes.js";
-
-const DEFAULT_IMAGE_PATH = "images/solarisaeia_sea_render_3_farther.png";
-const HERO_IMAGE_WIDTHS = [836, 1254, 1672];
-
 const {
   title,
   kicker = "",
   description = "",
-  image_path = DEFAULT_IMAGE_PATH,
   variant = "circular",
   page_top = true,
 } = Astro.props;
@@ -18,18 +12,6 @@ const banner_id = `sol_vision_banner_${String(title)
   .replace(/[^a-z0-9]+/g, "_")
   .replace(/^_+|_+$/g, "")}`;
 const title_id = `${banner_id}_title`;
-const image_src = with_base(image_path);
-const image_sizes = "100vw";
-const modern_sources =
-  image_path === DEFAULT_IMAGE_PATH
-    ? ["avif", "webp"].map((extension) => ({
-        type: `image/${extension}`,
-        srcset: HERO_IMAGE_WIDTHS.map(
-          (width) =>
-            `${with_base(`images/solarisaeia_sea_render_3_farther_${width}.${extension}`)} ${width}w`,
-        ).join(", "),
-      }))
-    : [];
 ---
 
 <section
@@ -44,29 +26,6 @@ const modern_sources =
   data-vision-variant={variant}
   aria-labelledby={title_id}
 >
-  <div class="sol__vision_banner_field" aria-hidden="true">
-    <canvas class="sol__vision_banner_canvas" data-sol-vision-banner-canvas
-    ></canvas>
-    <picture class="sol__vision_banner_picture">
-      {
-        modern_sources.map(({ type, srcset }) => (
-          <source type={type} srcset={srcset} sizes={image_sizes} />
-        ))
-      }
-      <img
-        class="sol__vision_banner_image"
-        src={image_src}
-        alt=""
-        width="1672"
-        height="941"
-        sizes={image_sizes}
-        decoding="async"
-        fetchpriority="high"
-      />
-    </picture>
-    <div class="sol__vision_banner_grain"></div>
-  </div>
-
   <div class="sol__vision_banner_copy">
     {kicker && <p class="sol__vision_banner_kicker">{kicker}</p>}
     <h1 id={title_id}>{title}</h1>

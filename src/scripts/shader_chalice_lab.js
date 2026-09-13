@@ -284,29 +284,3 @@ export const hydrate_shader_chalice_labs = (root = document) => {
     hydrate_lab(root);
   }
 };
-
-const hydrate_when_ready = (root = document) => {
-  if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => hydrate_shader_chalice_labs(root),
-      {
-        once: true,
-      },
-    );
-    return;
-  }
-
-  hydrate_shader_chalice_labs(root);
-};
-
-if (typeof document !== "undefined") {
-  hydrate_when_ready();
-
-  document.addEventListener("htmx:afterSwap", (event) => {
-    const swap_target = event?.detail?.target;
-    hydrate_when_ready(
-      swap_target instanceof HTMLElement ? swap_target : document,
-    );
-  });
-}

@@ -331,3 +331,94 @@ container.htmx-settling,
     --page_color_shift_ms: 1ms;
   }
 }
+
+#sol_page_shell {
+  --site_style_accent: var(--mono_ink, #171717);
+  --site_style_accent_alt: var(--mono_ink, #171717);
+  --site_style_shell_mix: 0%;
+  --site_style_halo_mix: 0%;
+  --site_style_edge_mix: 0%;
+  --site_style_noise_opacity: 0;
+  --site_style_deco_opacity: 0;
+  --site_style_blur: 0px;
+  --site_shell_blur_mult: 0;
+  --site_shell_surface_mult: 0;
+  --site_shell_glow_mult: 0;
+}
+
+#sol_page_shell container[data-phase] {
+  --site_style_accent: var(--mono_ink, #171717);
+  --site_style_accent_alt: var(--mono_ink, #171717);
+}
+
+#sol_page_shell a {
+  color: var(--mono_ink, #171717);
+}
+
+#sol_page_shell .sol__text_fx {
+  animation: none !important;
+  background: none !important;
+  color: inherit !important;
+  filter: none !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+#sol_page_shell .sol__ix:not(.sol__nav_pill):not(button):not([role="button"]) {
+  background-image: none;
+  text-shadow: none;
+}
+
+#sol_page_shell
+  .sol__ix:not(.sol__nav_pill):not(button):not([role="button"])::after {
+  display: none;
+}
+
+body > .sol__ix_popup {
+  --ix_popup_radius: 0;
+  --ix_popup_blur: 0;
+  background: var(--mono_paper, #f7f4ed) !important;
+  border: 1px solid var(--mono_ink, #171717) !important;
+  box-shadow: none !important;
+  color: var(--mono_ink, #171717) !important;
+  backdrop-filter: none !important;
+}
+
+body > .sol__ix_popup .sol__ix_popup_ring {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body > .sol__ix_popup .sol__ix_popup_slot,
+body > .sol__ix_popup .sol__ix_popup_door,
+body > .sol__ix_popup .sol__ix_popup_term,
+body > .sol__ix_popup .sol__ix_popup_explanation_body {
+  color: var(--mono_ink, #171717) !important;
+}
+
+#sol_page_shell .sol__block_fx,
+#sol_page_shell .sol__block_fx * {
+  animation: none !important;
+  background: var(--mono_paper, #f7f4ed) !important;
+  background-image: none !important;
+  border-color: var(--mono_ink, #171717) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--mono_ink, #171717) !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+#sol_page_shell .sol__block_fx::before,
+#sol_page_shell .sol__block_fx::after {
+  animation: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  content: none !important;
+  filter: none !important;
+}
+
+:where(#sol_page_shell, body > .sol__ix_popup, body > .sol__wikilink_popup)
+  img {
+  filter: grayscale(1);
+}

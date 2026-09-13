@@ -1,71 +1,15 @@
 @reference "tailwindcss";
 
 #sol_breadcrumbs {
-  /* Quick Tune Variables (edit here first) */
-
-  /* Colors */
-  --crumb_theme_color: var(--site_style_accent);
-  --crumb_parent_color: color-mix(
-    in oklch,
-    var(--ui_text_muted) 75%,
-    var(--crumb_theme_color)
-  );
-
-  /* Geometry */
-  --crumb_divider_start_mix: 46%;
-  --crumb_divider_mid_mix: 28%;
-  --crumb_divider_tail_mix: 12%;
-  --crumb_divider_shadow_mix: 40%;
-  --crumb_divider_gap: 0.28rem;
-  --crumb_divider_inset: 0;
+  --crumb_theme_color: var(--mono_ink, #171717);
+  --crumb_parent_color: var(--mono_ink, #171717);
 
   @apply relative z-10 flex;
 
   margin-bottom: 1.25rem;
-  padding-bottom: var(--crumb_divider_gap);
-
-  .sol__breadcrumb_divider {
-    @apply absolute;
-
-    left: var(--crumb_divider_inset);
-    right: var(--crumb_divider_inset);
-    bottom: 0;
-    height: 0.08rem;
-    border-radius: 999px;
-    background: linear-gradient(
-      to right,
-      color-mix(
-          in oklch,
-          var(--crumb_theme_color) var(--crumb_divider_start_mix),
-          transparent
-        )
-        0%,
-      color-mix(
-          in oklch,
-          var(--crumb_theme_color) var(--crumb_divider_mid_mix),
-          transparent
-        )
-        22%,
-      color-mix(
-          in oklch,
-          var(--crumb_theme_color) var(--crumb_divider_tail_mix),
-          transparent
-        )
-        58%,
-      transparent 100%
-    );
-    box-shadow: 0 0 10px
-      color-mix(
-        in oklch,
-        var(--crumb_theme_color) var(--crumb_divider_shadow_mix),
-        transparent
-      );
-  }
 
   ol {
-    @apply flex items-baseline;
-    @apply gap-1 md:gap-1.5;
-    @apply min-w-0;
+    @apply flex min-w-0 items-baseline gap-1 md:gap-1.5;
 
     font-family: var(--font_ritual);
     font-size: 0.875rem;
@@ -76,8 +20,7 @@
   }
 
   li {
-    @apply flex items-center;
-    @apply min-w-0;
+    @apply flex min-w-0 items-center;
 
     margin-bottom: 0;
   }
@@ -87,27 +30,19 @@
 
     @apply ml-0.5 md:ml-1;
 
-    color: color-mix(in oklch, var(--crumb_parent_color) 70%, transparent);
+    color: var(--crumb_parent_color);
     font-size: inherit;
-    opacity: 0.72;
+    opacity: 0.55;
   }
 
-  /* `a` for navigable crumbs, `span` for the hrefless leaf (current page). */
   a,
   span {
-    @apply inline-flex items-center;
-    @apply rounded px-1 py-0;
-    @apply transition;
+    @apply inline-flex items-center rounded px-1 py-0 transition;
 
     color: var(--crumb_parent_color);
     font-size: inherit;
     text-transform: capitalize;
-    opacity: calc(0.7 + (0.06 * var(--site_fx_glow_mult, 1)));
-    filter: saturate(
-      0.7
-    ); /* state-only — not animated, see transition-property below */
-    text-shadow: 0 0 0 transparent;
-    transition-property: opacity, color, text-shadow, background-color;
+    transition-property: color, opacity, background-color;
     transition-duration: calc(240ms * var(--site_fx_motion_mult, 1));
     transition-timing-function: ease;
   }
@@ -116,34 +51,18 @@
   li.sol__is_parent a:focus-visible {
     @apply outline-none;
 
-    opacity: 0.88;
-    filter: saturate(0.9);
-    color: color-mix(
-      in oklch,
-      var(--crumb_theme_color) 35%,
-      var(--ui_text_primary)
-    );
-    background-color: color-mix(
-      in oklch,
-      var(--crumb_theme_color) 10%,
-      transparent
-    );
+    color: var(--mono_ink, #171717);
+    opacity: 0.7;
+    background-color: rgb(23 23 23 / 0.08);
   }
 
   li.sol__is_current a,
   li.sol__is_current span {
     @apply font-semibold;
 
-    color: var(--crumb_theme_color);
-    font-weight: 500;
+    color: var(--mono_ink, #171717);
+    font-weight: 600;
     opacity: 1;
-    filter: saturate(1.06);
-    text-shadow: 0 0 14px
-      color-mix(
-        in oklch,
-        var(--crumb_theme_color) calc(30% * var(--site_fx_glow_mult, 1)),
-        transparent
-      );
   }
 }
 

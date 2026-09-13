@@ -1,16 +1,8 @@
 ---
 import ContentLink from "../page/content_link.astro";
 import { ALBEDO_STATE_TO_CONTAINER } from "../../data/albedo_taxonomy.js";
-
-const {
-  entry,
-  index,
-  ornament_srcs,
-  prerendered = false,
-  set_size = null,
-} = Astro.props;
+const { entry, index, prerendered = false, set_size = null } = Astro.props;
 const body_id = `sol_albedo_entry_body_${index}`;
-const tone = entry.featured ? "bloom" : "still";
 const state_list = entry.states ?? [];
 const EntryContent = entry.Content;
 ---
@@ -29,55 +21,9 @@ const EntryContent = entry.Content;
   <albedo
     data-shape="entry"
     class="sol__albedo_entry"
-    data-tone={tone}
     data-container={entry.primary_container}
   >
     <article class="sol__albedo_entry_card">
-      <span class="sol__albedo_entry_layer sol__albedo_entry_layer_surface"
-      ></span>
-      <span class="sol__albedo_entry_layer sol__albedo_entry_layer_sheen"
-      ></span>
-      <span class="sol__albedo_entry_layer sol__albedo_entry_layer_frame"
-      ></span>
-      <div
-        class="sol__albedo_entry_layer sol__albedo_entry_layer_ornament sol__ornament_layer sol__ornament_layer_fill"
-        aria-hidden="true"
-      >
-        <ornament
-          data-shape="albedo_entry_ornament"
-          class="sol__ornament_holder"
-        >
-          <img
-            class="sol__ornament_item sol__albedo_entry_ornament sol__albedo_entry_ornament_corner_tl"
-            src={ornament_srcs.corner_tl}
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="sol__ornament_item sol__albedo_entry_ornament sol__albedo_entry_ornament_corner_tr"
-            src={ornament_srcs.corner_tr}
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="sol__ornament_item sol__albedo_entry_ornament sol__albedo_entry_ornament_corner_bl"
-            src={ornament_srcs.corner_bl}
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="sol__ornament_item sol__albedo_entry_ornament sol__albedo_entry_ornament_corner_br"
-            src={ornament_srcs.corner_br}
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </ornament>
-      </div>
-
       <div class="sol__albedo_entry_layer_body">
         <header class="sol__albedo_entry_header">
           <ContentLink
