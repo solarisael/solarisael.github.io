@@ -3,7 +3,7 @@ import { build_markdown_book_map } from "./assembly/books.js";
 // Rubedo scene sources — dual-glob during the obsidian-migration window.
 //
 // Historically rubedo scenes lived under `src/content/rubedo/` (project-side).
-// As of 2026-05-23 the canonical home is `obsidian/zzzz_rubedo/<book>/...`
+// The canonical home is `obsidian/alchemy_writing/zzzz_rubedo/<book>/...`
 // matching the nigredo/albedo/citrinitas pattern (vault = single source of
 // truth). The project-side glob stays during transition so Sol can move
 // books over carefully without breaking the build mid-way. Once the
@@ -19,7 +19,10 @@ const scene_module_map = {
     { eager: true },
   ),
   ...import.meta.glob(
-    ["@vault/zzzz_rubedo/**/*.md", "!@vault/zzzz_rubedo/**/refs/**/*.md"],
+    [
+      "@vault/alchemy_writing/zzzz_rubedo/**/*.md",
+      "!@vault/alchemy_writing/zzzz_rubedo/**/refs/**/*.md",
+    ],
     { eager: true },
   ),
 };

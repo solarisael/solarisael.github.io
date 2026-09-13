@@ -31,6 +31,7 @@ const apply_saved_preferences = () => {
     saved_fx_class,
     saved_scale_class,
     saved_display_class,
+    saved_fps_class,
   } = resolve_saved_style();
   const { saved_text_class, saved_measure_class } =
     resolve_saved_user_settings();
@@ -43,6 +44,7 @@ const apply_saved_preferences = () => {
     saved_fx_class,
     saved_scale_class,
     saved_display_class,
+    saved_fps_class,
   );
   apply_user_settings_state(
     document.documentElement,
@@ -59,6 +61,7 @@ const apply_saved_preferences = () => {
     saved_menu_open,
     saved_menu_view,
     saved_display_class,
+    saved_fps_class,
   );
 };
 
@@ -142,6 +145,8 @@ export {
   LEGACY_HOME_THEME_COOKIE_NAME,
   SITE_DISPLAY_COOKIE_NAME,
   SITE_DISPLAY_DEFAULT,
+  SITE_FPS_COOKIE_NAME,
+  SITE_FPS_DEFAULT,
   SITE_FX_COOKIE_NAME,
   SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
@@ -173,6 +178,7 @@ export {
   resolve_saved_style,
   resolve_saved_user_settings,
   site_display_options,
+  site_fps_options,
   site_fx_options,
   site_scale_options,
   site_shell_options,

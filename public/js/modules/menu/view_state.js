@@ -146,6 +146,7 @@ const sync_side_menu_controls = (
   menu_open,
   menu_view,
   display_name,
+  fps_name,
 ) => {
   const menu_node = document.querySelector("#sol_side_menu");
 
@@ -166,6 +167,7 @@ const sync_side_menu_controls = (
   const display_select_node = menu_node.querySelector(
     "[data-site-display-control]",
   );
+  const fps_select_node = menu_node.querySelector("[data-site-fps-control]");
   const text_select_node = menu_node.querySelector("[data-user-text-control]");
   const measure_select_node = menu_node.querySelector(
     "[data-user-measure-control]",
@@ -176,6 +178,7 @@ const sync_side_menu_controls = (
   set_select_value(fx_select_node, fx_name);
   set_select_value(scale_select_node, scale_name);
   set_select_value(display_select_node, display_name);
+  set_select_value(fps_select_node, fps_name);
   set_select_value(text_select_node, text_name);
   set_select_value(measure_select_node, measure_name);
 

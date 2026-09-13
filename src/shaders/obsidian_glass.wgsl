@@ -202,7 +202,6 @@ fn water_spill(mist: vec4f, field_uv: vec2f, normal: vec2f, distance: f32) -> ve
   return vec4f(color + mist.rgb * (1.0 - alpha), alpha + mist.a * (1.0 - alpha));
 }
 
-
 fn basin_surface(
   local: vec2f, edge_distance: f32, edge_normal: vec2f,
   field_uv: vec2f, diffused: vec3f
@@ -232,10 +231,11 @@ fn basin_surface(
     * mix(0.5, 0.2, inward_light);
   let fresnel = 0.07 + edge_glint * 0.3;
   let stone = mix(vec3f(0.009, 0.007, 0.015), vec3f(0.004, 0.005, 0.009), depth);
+  let energy = emission_energy(curved_uv);
   let radiance = stone + vec3f(red, transmission.g, blue) * mix(0.56, 0.38, depth)
     + reflection * fresnel * 0.45 + diffused * 0.08
     + vec3f(0.12, 0.115, 0.1) * (edge_glint + water_glint * 0.3)
-      * smoothstep(0.06, 0.5, emission_energy(curved_uv));
+      * smoothstep(0.06, 0.5, energy);
   let glass_color = film(radiance) * (1.0 - contact_shadow) * (1.0 - slope * 0.18);
 
   // The lip hides the crossing smoke; the same world field feeds both sides.
@@ -247,7 +247,7 @@ fn basin_surface(
     * (1.0 - smoothstep(reach * 0.7, reach * 1.5, inner_distance));
   let lip_occlusion = smoothstep(0.0, wall_width * 0.45, inner_distance);
   let density = smoke.x * crest * spill * lip_occlusion;
-  let illumination = smoothstep(0.04, 0.7, emission_energy(curved_uv));
+  let illumination = smoothstep(0.04, 0.7, energy);
   let scattered = density * illumination * 0.32;
   let shadow = density * (1.0 - illumination) * 0.48;
   let tint = mix(vec3f(0.95, 0.92, 0.8), film(diffused * 4.0), 0.25);
@@ -286,7 +286,6 @@ fn shade_glass(uv: vec2f) -> vec4f {
   let field_uv = centered / 640.0;
   let diffused = diffuse_at(field_uv);
 
-
   let surface_local = clamp(local, vec2f(0.0), glass.tablet_size);
   let surface_centered = surface_local - half_size;
   let edge_pair = min(surface_local, glass.tablet_size - surface_local);
@@ -296,6 +295,29 @@ fn shade_glass(uv: vec2f) -> vec4f {
     sign(surface_centered.x) * exp(-edge_pair.x / 5.0),
     sign(surface_centered.y) * exp(-edge_pair.y / 5.0)
   ) + vec2f(0.00001));
+
+  if (outside_distance == 0.0 && edge_distance > glass.rim) {
+    // Only the small union of visible controls needs the surface checks.
+    if (glass.button_count > 0.0
+      && all(local >= glass.button_bounds.xy) && all(local <= glass.button_bounds.zw)) {
+      for (var i = 0u; i < min(u32(glass.button_count), 16u); i++) {
+        let region = glass.button_regions[i];
+        let point = (local - region.xy) / region.zw;
+        if (any(abs(point) > vec2f(1.0))) {
+          continue;
+        }
+        let q = length(point);
+        if (q >= 1.0) {
+          continue;
+        }
+        let button = button_surface(point, min(region.z, region.w), q, field_uv, diffused);
+        let behind = basin_surface(local, edge_distance, edge_normal, field_uv, diffused);
+        return vec4f(mix(behind, button.rgb, button.a), 1.0);
+      }
+    }
+    return vec4f(basin_surface(local, edge_distance, edge_normal, field_uv, diffused), 1.0);
+  }
+
   let ripple = vec2f(
     sin(surface_local.y * 0.032 + sin(surface_local.x * 0.015)),
     cos(surface_local.x * 0.029 + sin(surface_local.y * 0.018))
@@ -363,28 +385,6 @@ fn shade_glass(uv: vec2f) -> vec4f {
     let color = light * core_alpha + wake_color * (1.0 - core_alpha);
     let alpha = core_alpha + wake_alpha * (1.0 - core_alpha);
     return vec4f(color + mist.rgb * (1.0 - alpha), alpha + mist.a * (1.0 - alpha));
-  }
-
-  if (edge_distance > glass.rim) {
-    // Only the small union of visible controls needs the surface checks.
-    if (glass.button_count > 0.0
-      && all(local >= glass.button_bounds.xy) && all(local <= glass.button_bounds.zw)) {
-      for (var i = 0u; i < min(u32(glass.button_count), 16u); i++) {
-        let region = glass.button_regions[i];
-        let point = (local - region.xy) / region.zw;
-        if (any(abs(point) > vec2f(1.0))) {
-          continue;
-        }
-        let q = length(point);
-        if (q >= 1.0) {
-          continue;
-        }
-        let button = button_surface(point, min(region.z, region.w), q, field_uv, diffused);
-        let behind = basin_surface(local, edge_distance, edge_normal, field_uv, diffused);
-        return vec4f(mix(behind, button.rgb, button.a), 1.0);
-      }
-    }
-    return vec4f(basin_surface(local, edge_distance, edge_normal, field_uv, diffused), 1.0);
   }
 
   // Fixed rock coordinates: the light moves across the fractures, not the stone.

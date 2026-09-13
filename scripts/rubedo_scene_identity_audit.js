@@ -23,7 +23,7 @@ if (mode !== "check") {
 
 const scene_roots = [
   "src/data/rubedo/scenes",
-  join(OBSIDIAN_VAULT_ROOT, "zzzz_rubedo"),
+  join(OBSIDIAN_VAULT_ROOT, "alchemy_writing/zzzz_rubedo"),
 ];
 const markdown_file_paths = [];
 

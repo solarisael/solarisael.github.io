@@ -1,5 +1,6 @@
 import { acquire_element_depth } from "./element_depth.js";
 import { create_obsidian_button_geometry } from "./obsidian_button_geometry.js";
+import { create_frame_gate } from "./gpu/frame_gate.js";
 
 const load_obsidian_gpu = async (canvas, options) => {
   const { create_obsidian_gpu } = await import("./obsidian_gpu.js");
@@ -13,6 +14,7 @@ export const create_obsidian_runtime = ({
   load_gpu = load_obsidian_gpu,
 }) => {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const frame_gate = create_frame_gate();
   const depth = acquire_element_depth(menu);
   const button_geometry = create_obsidian_button_geometry(owner);
   const values = {
@@ -54,6 +56,7 @@ export const create_obsidian_runtime = ({
     if (frame !== null) cancelAnimationFrame(frame);
     frame = null;
     last_frame = null;
+    frame_gate.reset();
   };
   const release = () => {
     const current = backend;
@@ -131,7 +134,7 @@ export const create_obsidian_runtime = ({
       cancel();
       return;
     }
-    if (last_frame !== null && now - last_frame < 1000 / 30) {
+    if (!motion.matches && !frame_gate.due(now)) {
       request();
       return;
     }
@@ -208,6 +211,7 @@ export const create_obsidian_runtime = ({
     attributes: true,
     attributeFilter: [
       "data-site-display",
+      "data-site-fps",
       "data-site-scale",
       "data-user-text",
       "data-user-measure",

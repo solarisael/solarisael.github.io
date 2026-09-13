@@ -33,10 +33,10 @@ const vault_phase_url = (subdir) =>
   pathToFileURL(`${path.join(OBSIDIAN_VAULT_ROOT, subdir)}${path.sep}`);
 
 const VAULT_PHASE_DIRS = {
-  nigredo: vault_phase_url("z_nigredo"),
-  albedo: vault_phase_url("zz_albedo"),
-  citrinitas: vault_phase_url("zzz_citrinitas"),
-  rubedo: vault_phase_url("zzzz_rubedo"),
+  nigredo: vault_phase_url("alchemy_writing/z_nigredo"),
+  albedo: vault_phase_url("alchemy_writing/zz_albedo"),
+  citrinitas: vault_phase_url("alchemy_writing/zzz_citrinitas"),
+  rubedo: vault_phase_url("alchemy_writing/zzzz_rubedo"),
   codex: vault_phase_url("codex"),
 };
 
@@ -50,7 +50,7 @@ const date_string = z
 
 // The 16-state Nigredo vocabulary is enforced by `z.enum`; any state outside
 // this list fails the build. Container metadata lives in nigredo_taxonomy.js.
-// The vault's `z_nigredo/README.md` mirrors this list and taxonomy.
+// The vault's `alchemy_writing/z_nigredo/README.md` mirrors this list and taxonomy.
 
 // Layout-agnostic posts glob — matches any markdown file at any depth
 // whose filename starts with `YYYY-`. The date-prefix on the filename is
@@ -81,7 +81,7 @@ const nigredo = defineCollection({
 // The 20-state Albedo vocabulary is enforced by `z.enum` (parity with
 // nigredo); any state outside this list fails the build. Container metadata
 // (the six light/water containers) lives in albedo_taxonomy.js, mirrored by
-// the vault's `zz_albedo/README.md`. Albedo is the washed/composed stage —
+// the vault's `alchemy_writing/zz_albedo/README.md`. Albedo is the washed/composed stage —
 // same machinery as nigredo, opposite register.
 const albedo = defineCollection({
   loader: glob({ pattern: POSTS_PATTERN, base: VAULT_PHASE_DIRS.albedo }),

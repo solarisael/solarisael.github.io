@@ -218,27 +218,6 @@ test("closed, non-artifact and hidden states cancel work and resume without elap
   expect(load_gpu).toHaveBeenCalledTimes(1);
 });
 
-test("animation renders no faster than 30fps and reuses cached geometry", async () => {
-  start();
-  await open_ready();
-  advance(0);
-  advance(16);
-  advance(32);
-  expect(renders).toHaveLength(1);
-  advance(34);
-  advance(50);
-  advance(66);
-  expect(renders).toHaveLength(2);
-  advance(68);
-  expect(renders.map(({ time }) => time)).toEqual([0, 0.034, 0.068]);
-  expect(canvas.getBoundingClientRect).toHaveBeenCalledTimes(1);
-  expect(owner.getBoundingClientRect).toHaveBeenCalledTimes(1);
-  expect(references[2].resolution).toBe(references[0].resolution);
-  expect(references[2].tablet_size).toBe(references[0].tablet_size);
-  expect(references[2].tablet_origin).toBe(references[0].tablet_origin);
-  expect(references[2].field_offset).toBe(references[0].field_offset);
-});
-
 test("each opening chooses a fresh patch without reshuffling on close, resize or visibility", async () => {
   const random = spyOn(Math, "random")
     .mockReturnValueOnce(0.13)

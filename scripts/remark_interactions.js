@@ -1,4 +1,4 @@
-import { transform_ix_markers_in_tree } from "../src/utils/interaction_markdown.js";
+import { transform_ix_markers_in_tree } from "scripts-of-folly/interaction-markdown";
 
 const remark_interactions = () => {
   return (tree, file) => {

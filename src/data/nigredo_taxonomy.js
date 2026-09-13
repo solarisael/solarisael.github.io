@@ -10,7 +10,7 @@
 // (the meaning, shown as a hint in the Templater picker, never stored).
 //
 // 6 containers x 3 states = 18. Enforced by z.enum(NIGREDO_STATES) in
-// content.config.js; the vault''s z_nigredo/README.md mirrors this.
+// content.config.js; the vault's alchemy_writing/z_nigredo/README.md mirrors this.
 
 export const NIGREDO_CONTAINERS = [
   {

@@ -2,6 +2,7 @@ import { build_glyph_atlas } from "./atlas.js";
 import { create_font_plan, lettering_signature } from "./font_plan.js";
 import { create_text_model } from "./model.js";
 import { observe_lettering } from "./observers.js";
+import { create_frame_gate } from "../gpu/frame_gate.js";
 
 const load_gpu = async (canvas, on_error) => {
   const { create_lettering_gpu } = await import("./gpu.js");
@@ -11,6 +12,7 @@ const load_gpu = async (canvas, on_error) => {
 export const create_portal_lettering = (menu) => {
   const canvas = menu.querySelector("[data-portal-lettering]");
   const scrollport = menu.querySelector("#sol_side_menu_panel_scroll");
+  const frame_gate = create_frame_gate();
   const values = {
     resolution: [1, 1],
     time: 0,
@@ -37,6 +39,7 @@ export const create_portal_lettering = (menu) => {
     if (frame !== null) cancelAnimationFrame(frame);
     frame = null;
     last = null;
+    frame_gate.reset();
   };
   const restore = () => {
     shown = false;
@@ -103,7 +106,7 @@ export const create_portal_lettering = (menu) => {
   function draw(now) {
     frame = null;
     if (!active()) return;
-    if (last !== null && now - last < 1000 / 30) {
+    if (!frame_gate.due(now)) {
       request();
       return;
     }

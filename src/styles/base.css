@@ -4,7 +4,7 @@
 @import "./tokens.css";
 @import "./typography.css";
 @import "./utils.css";
-@import "../../public/vendor/fx/css/index.css";
+@import "scripts-of-folly/styles.css";
 
 body {
   @apply flex min-h-screen flex-col;

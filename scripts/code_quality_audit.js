@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { measure_source, exceeds_budget } from "./code_quality/source.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const source_roots = ["src", "public/js", "public/vendor/fx/js", "scripts"];
+const source_roots = ["src", "public/js", "scripts"];
 const files = new Set(["astro.config.mjs"]);
 
 for (const directory of source_roots) {

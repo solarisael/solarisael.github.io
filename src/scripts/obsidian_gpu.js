@@ -3,6 +3,10 @@ import diffusion_source from "../shaders/obsidian_diffusion.wgsl";
 import glass_source from "../shaders/obsidian_glass.wgsl";
 import fog_source from "../shaders/obsidian_fog.wgsl";
 import { create_obsidian_material } from "./obsidian_material.js";
+import {
+  effect_pixel_budget,
+  resize_effect_surface,
+} from "./gpu/render_size.js";
 
 const adapter_name = (info) =>
   [info.vendor, info.architecture, info.device, info.description].join(" ");
@@ -65,13 +69,19 @@ export const create_obsidian_gpu = async (canvas, { on_error }) => {
     await gpu.settled();
     if (failure) throw failure;
     surface = api.surface(gpu, canvas, {
-      dpr: [1, 1.25],
+      autoResize: false,
+      size: [1, 1],
       alphaMode: "premultiplied",
       clearColor: [0, 0, 0, 0],
     });
     return {
       render(values) {
         if (disposed) throw new Error("Obsidian GPU is disposed.");
+        resize_effect_surface(
+          surface,
+          values.resolution,
+          effect_pixel_budget("glass", values.resolution),
+        );
         material.render(surface, values);
       },
       dispose,

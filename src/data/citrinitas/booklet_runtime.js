@@ -5,7 +5,7 @@ import {
 } from "../book/book_runtime.js";
 
 // Citrinitas booklets — the yellowing: contained works, things that landed.
-// A booklet is a folder under zzz_citrinitas/<book-slug>/ with a _book.md
+// A booklet lives under alchemy_writing/zzz_citrinitas/<book-slug>/ with a _book.md
 // (booklet meta) and position-ordered chapter files. No threads, no timeline,
 // no constellation — just ordered chapters and a masonry portfolio gallery.
 //
@@ -13,9 +13,12 @@ import {
 // callsite). _book.md is globbed too: it carries book_slug + book meta and no
 // chapter_id, so the core folds its meta into the booklet and contributes no
 // chapter — a first-class meta-only record, not a skipped file.
-const module_map = import.meta.glob("@vault/zzz_citrinitas/**/*.md", {
-  eager: true,
-});
+const module_map = import.meta.glob(
+  "@vault/alchemy_writing/zzz_citrinitas/**/*.md",
+  {
+    eager: true,
+  },
+);
 
 // Identity config — names the citrinitas frontmatter fields for the shared
 // core. Booklet meta (title/synopsis/cover/size) rides on each chapter via the
