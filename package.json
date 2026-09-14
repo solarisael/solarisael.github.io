@@ -50,9 +50,12 @@
     "vgpu": "^0.4.1"
   },
   "devDependencies": {
+    "@astrojs/compiler": "2.13.1",
     "@happy-dom/global-registrator": "^20.14.5",
+    "@jridgewell/trace-mapping": "0.3.31",
     "happy-dom": "20.14.5",
     "saxes": "6.0.0",
+    "typescript": "5.9.3",
     "vite": "^8.0.16"
   }
 }
