@@ -2,6 +2,7 @@
 import IndexLayout from "../layouts/index.astro";
 import PhaseCardGrid from "../components/home/phase_card_grid.astro";
 import HomeGate from "../components/home/home_gate.astro";
+import { with_base } from "../utils/routes.js";
 
 const phase_cards = [
   {
@@ -31,6 +32,10 @@ const phase_cards = [
 ---
 
 <IndexLayout page_title="Writing" phase="writing" banner_title="Writing">
+  <nav aria-label="Writing discovery">
+    <a href={with_base("/search")}>Search the public catalogue</a>
+    <a href={with_base("/rss.xml")}>RSS feed</a>
+  </nav>
   <HomeGate>
     <Fragment slot="intro">
       <p class="sol__home_intro_line">My amateur writing and practice.</p>

@@ -5,11 +5,34 @@ import {
   hydrate_pretext_justification,
   layout_pretext_root,
   reset_pretext_source,
-} from "../src/scripts/pretext_justify.js";
-import { transition_pretext_content } from "../src/scripts/pretext_transitions.js";
+} from "scripts-of-folly/pretext";
+import { transition_pretext_content } from "scripts-of-folly/transitions";
 
 if (!globalThis.window) {
   GlobalRegistrator.register();
+}
+// Pretext tests use synthetic DOM only. Keep Happy DOM from starting external
+// resource loads that can outlive a test and report unrelated network errors.
+const happy_dom_settings = globalThis.window?.happyDOM?.settings;
+if (happy_dom_settings) {
+  Object.assign(happy_dom_settings, {
+    disableJavaScriptFileLoading: true,
+    disableCSSFileLoading: true,
+    disableIframePageLoading: true,
+    enableImageFileLoading: false,
+  });
+}
+const style_prototype = Object.getPrototypeOf(
+  document.createElement("span").style,
+);
+if (typeof style_prototype[Symbol.iterator] !== "function") {
+  Object.defineProperty(style_prototype, Symbol.iterator, {
+    configurable: true,
+    value: function* iterate_style_properties() {
+      for (let index = 0; index < this.length; index += 1)
+        yield this.item(index);
+    },
+  });
 }
 
 let restore_canvas_measurement_context = () => {};
@@ -93,24 +116,17 @@ describe("pretext content transitions", () => {
     expect(root.classList.contains("sol__pretext_transitioning")).toBe(false);
   });
 
-  test("warns and falls back to dust for an unknown effect", async () => {
+  test("falls back to the dust transition for an unknown effect", async () => {
     install_canvas_measurement_context();
     const root = create_root("old sentence");
     hydrate_pretext_justification(root);
-    const original_warn = console.warn;
-    const warnings = [];
-    console.warn = (message) => warnings.push(message);
 
-    try {
-      await expect(
-        transition_pretext_content(root, "new sentence", { effect: "unknown" }),
-      ).resolves.toBe(true);
-    } finally {
-      console.warn = original_warn;
-    }
+    await expect(
+      transition_pretext_content(root, "new sentence", { effect: "unknown" }),
+    ).resolves.toBe(true);
 
-    expect(warnings).toHaveLength(1);
-    expect(warnings[0]).toContain("falling back to dust");
+    expect(root.textContent).toContain("new sentence");
+    expect(root.classList.contains("sol__pretext_transitioning")).toBe(false);
   });
 });
 

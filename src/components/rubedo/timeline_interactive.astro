@@ -38,6 +38,16 @@ const { book_slug, timeline_data_href } = Astro.props;
     This interactive timeline requires JavaScript and canvas support. Use the
     chapter links above to read this book.
   </canvas>
+  <div
+    class="sol__rubedo_timeline_error"
+    data-rubedo-timeline-error
+    role="alert"
+    aria-live="assertive"
+    hidden
+  >
+    <p>This interactive timeline could not load.</p>
+    <button type="button" data-rubedo-timeline-retry>Retry timeline</button>
+  </div>
 
   <div
     id="sol_rubedo_timeline_hover_preview"

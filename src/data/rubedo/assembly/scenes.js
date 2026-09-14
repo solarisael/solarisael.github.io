@@ -50,6 +50,16 @@ const get_scene_component = (scene_module) => {
 
   return null;
 };
+const get_scene_raw_content = (scene_module) => {
+  if (typeof scene_module?.rawContent === "function") {
+    return scene_module.rawContent();
+  }
+  if (typeof scene_module?.rawContent === "string") {
+    return scene_module.rawContent;
+  }
+  if (typeof scene_module?.body === "string") return scene_module.body;
+  return "";
+};
 const warn_identity_errors = (scene_file, identity_validation) => {
   if (!identity_validation.has_phase_tag) {
     console.warn(
@@ -157,6 +167,9 @@ const build_scene = ({
     frontmatter.chapter_description_override ?? null,
   chapter_snippet_override: frontmatter.chapter_snippet_override ?? null,
   scene_component: get_scene_component(scene_module),
+  // Keep source prose available to the publication catalog while timeline
+  // serialization continues to omit it.
+  scene_body: get_scene_raw_content(scene_module),
   scene_lines: [],
 });
 export { read_scene_record, build_scene };

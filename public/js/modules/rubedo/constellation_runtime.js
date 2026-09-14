@@ -12,6 +12,12 @@ import {
 } from "./constellation_viewport.js";
 
 const timeline_cache = {};
+const timeline_failure_selector = "[data-rubedo-timeline-error]";
+const timeline_retry_selector = "[data-rubedo-timeline-retry]";
+const timeline_retry_handler = Symbol("timelineRetryHandler");
+
+const is_aborted_error = (error_value, signal) =>
+  signal?.aborted || error_value?.name === "AbortError";
 
 const fetch_timeline_book_data = async (book_slug, data_href, signal) => {
   if (timeline_cache[book_slug]) {
@@ -35,7 +41,7 @@ const fetch_timeline_book_data = async (book_slug, data_href, signal) => {
 
     return timeline_cache[book_slug];
   } catch (fetch_error) {
-    if (signal?.aborted) {
+    if (is_aborted_error(fetch_error, signal)) {
       return null;
     }
     console.warn(
@@ -49,6 +55,61 @@ const fetch_timeline_book_data = async (book_slug, data_href, signal) => {
 
 const base_path_from_data_href = (data_href) => {
   return data_href.replace(/\/rubedo\/data\/[^/]+\.json$/, "");
+};
+
+const clear_timeline_failure = (interactive_section) => {
+  const failure_node = interactive_section.querySelector(
+    timeline_failure_selector,
+  );
+
+  if (failure_node instanceof HTMLElement) {
+    failure_node.hidden = true;
+  }
+};
+
+const timeline_failure_nodes = (interactive_section) => ({
+  failure_node: interactive_section.querySelector(timeline_failure_selector),
+  retry_node: interactive_section.querySelector(timeline_retry_selector),
+});
+
+const retry_timeline = async (interactive_section) => {
+  if (
+    !interactive_section.isConnected ||
+    interactive_section.dataset.timelineRetrying
+  ) {
+    return;
+  }
+
+  interactive_section.dataset.timelineRetrying = "true";
+  clear_timeline_failure(interactive_section);
+  delete timeline_cache[interactive_section.dataset.bookSlug ?? ""];
+
+  try {
+    await init_constellation(interactive_section);
+  } finally {
+    delete interactive_section.dataset.timelineRetrying;
+  }
+};
+
+const show_timeline_failure = (interactive_section) => {
+  const { failure_node, retry_node } =
+    timeline_failure_nodes(interactive_section);
+
+  if (!(failure_node instanceof HTMLElement)) {
+    return;
+  }
+
+  failure_node.hidden = false;
+
+  if (
+    retry_node instanceof HTMLButtonElement &&
+    !interactive_section[timeline_retry_handler]
+  ) {
+    retry_node.addEventListener("click", () =>
+      retry_timeline(interactive_section),
+    );
+    interactive_section[timeline_retry_handler] = true;
+  }
 };
 
 const bind_constellation = async (interactive_section, binding) => {
@@ -115,9 +176,22 @@ const init_constellation = async (interactive_section) => {
   if (!binding) {
     return;
   }
+
+  clear_timeline_failure(interactive_section);
   let disposer = null;
   try {
     disposer = await bind_constellation(interactive_section, binding);
+    if (!disposer && binding.is_active()) {
+      show_timeline_failure(interactive_section);
+    }
+  } catch (error) {
+    if (!is_aborted_error(error, binding.signal) && binding.is_active()) {
+      console.warn(
+        "[sol__rubedo_constellation] Timeline initialization failed:",
+        error,
+      );
+      show_timeline_failure(interactive_section);
+    }
   } finally {
     if (!disposer) {
       binding.dispose();
@@ -142,8 +216,10 @@ const init_rubedo_constellation = () => {
 
 export {
   base_path_from_data_href,
+  clear_timeline_failure,
   fetch_timeline_book_data,
   init_constellation,
   init_rubedo_constellation,
+  show_timeline_failure,
   timeline_cache,
 };

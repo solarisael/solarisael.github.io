@@ -15,6 +15,38 @@
   background: var(--mono_paper, #f7f4ed);
 }
 
+.sol__rubedo_timeline_error {
+  position: absolute;
+  inset: 1rem;
+  z-index: 30;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--mono_ink, #171717);
+  background: var(--mono_paper, #f7f4ed);
+  color: var(--mono_ink, #171717);
+  text-align: center;
+}
+
+.sol__rubedo_timeline_error[hidden] {
+  display: none;
+}
+
+.sol__rubedo_timeline_error p {
+  margin: 0;
+}
+
+.sol__rubedo_timeline_error button {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--mono_ink, #171717);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 .sol__rubedo_timeline_canvas {
   @apply absolute inset-0;
 

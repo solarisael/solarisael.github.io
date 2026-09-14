@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import { afterAll, afterEach, describe, expect, test } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 
 import {
@@ -7,24 +7,29 @@ import {
   IX_TRIGGER_NAMES,
   build_ix_attribute_value,
   parse_ix_descriptor,
-} from "../public/vendor/fx/js/contract.js";
+} from "scripts-of-folly/contract";
 import {
   build_ix_span_html,
   parse_ix_marker_descriptor,
   split_ix_markers,
   transform_ix_markers_in_tree,
-} from "../src/utils/interaction_markdown.js";
+} from "scripts-of-folly/interaction-markdown";
 
-// `interactions.js` reads `document` at module top-level (to bind the global
-// dismiss listeners), so the DOM must be registered before it is imported.
-// `contract.js` and `interaction_markdown.js` are DOM-free and safe to
-// import statically above.
+// `scripts-of-folly/interactions` reads `document` at module top-level (to
+// bind global dismiss listeners), so register the DOM before importing it.
+// The contract and interaction-markdown modules are DOM-free.
 if (!globalThis.window) {
   GlobalRegistrator.register();
 }
+// Fetch actions intentionally cross the network boundary. Return an empty
+// successful document so idle prefetch cannot reach the synthetic origin.
+const native_fetch = globalThis.fetch;
+globalThis.fetch = async () => new Response("", { status: 200 });
+afterAll(() => {
+  globalThis.fetch = native_fetch;
+});
 
-const { hydrate_interactions } =
-  await import("../public/vendor/fx/js/interactions.js");
+const { hydrate_interactions } = await import("scripts-of-folly/interactions");
 
 const IX_POPUP_ID = "sol_ix_popup";
 const IX_POPUP_SLOT_ID = "sol_ix_popup_slot";

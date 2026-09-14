@@ -153,12 +153,18 @@ const initial_entries = archive_index.slice(0, INITIAL_ENTRY_COUNT);
   }
 
   <noscript>
+    <style is:inline>
+      [data-nigredo-archive]
+        .sol__nigredo_list:not(.sol__nigredo_list_fallback) {
+        display: none;
+      }
+    </style>
     <ol
       class="sol__nigredo_list sol__nigredo_list_fallback"
       aria-label="Nigredo archive entries"
     >
       {
-        archive_index.slice(0, 12).map((entry, index) => (
+        archive_index.map((entry, index) => (
           <li aria-posinset={index + 1} aria-setsize={archive_index.length}>
             <a href={entry.href}>{entry.display_title}</a>
           </li>

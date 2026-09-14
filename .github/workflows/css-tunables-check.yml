@@ -7,28 +7,70 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+concurrency:
+  group: validation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  baseline:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.15.0
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: 1.3.14
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
+      - name: Run tests
+        run: bun test
+      - name: Check staged content
+        run: bun run content:check
       - name: Code quality budgets
         run: bun run code:quality
-
-      - name: Build Astro site
-        run: bun run build
-
-      - name: Prettier check
-        run: bunx prettier --check .
-
+      - name: Canonical application-code format check
+        run: bun run format:check
       - name: CSS hard gates (ornaments + bg-stack)
         run: bun run css:hard-gates:check
+      - name: Build Astro site
+        run: bun run build
+      - name: Check published site contract
+        run: bun run site:check
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'solarisael/solarisael.github.io'
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: ./dist
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'solarisael/solarisael.github.io'
+    needs: validate
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v6.0.0
+        with:
+          enablement: true
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1

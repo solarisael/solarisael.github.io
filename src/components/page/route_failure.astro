@@ -1,0 +1,148 @@
+---
+import { with_base } from "../../utils/routes.js";
+---
+
+<aside
+  id="sol_route_failure"
+  class="sol__route_failure"
+  data-route-failure
+  hidden
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="sol__route_failure_copy">
+    <p class="sol__route_failure_kicker">Route notice</p>
+    <p data-route-failure-message>
+      This page could not be loaded. Check your connection and try again.
+    </p>
+  </div>
+  <div class="sol__route_failure_actions">
+    <button type="button" data-route-failure-retry>Retry</button>
+    <a href={with_base("/")}>Return to hearth</a>
+  </div>
+</aside>
+
+<style>
+  .sol__route_failure {
+    position: fixed;
+    top: max(0.75rem, env(safe-area-inset-top));
+    left: 50%;
+    z-index: 50;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    box-sizing: border-box;
+    width: min(
+      calc(100% - 2 * var(--layout_viewport_pad_x, 1rem)),
+      var(--layout_content_max, 90rem)
+    );
+    max-inline-size: var(--layout_content_max, 90rem);
+    padding: 0.75rem 1rem;
+    border: 1px solid
+      color-mix(in srgb, var(--mono_ink, #171717) 35%, transparent);
+    background: var(--mono_paper, #f7f4ed);
+    color: var(--mono_ink, #171717);
+    transform: translateX(-50%);
+  }
+
+  @media (min-width: 769px) {
+    .sol__route_failure {
+      left: max(
+        5.5rem,
+        calc(
+          var(--layout_viewport_pad_x, 1rem) +
+            var(--layout_body_grid_gap, 0.25rem) +
+            (
+              100vw - 2 * var(--layout_viewport_pad_x, 1rem) - 2 *
+                var(--layout_body_grid_gap, 0.25rem)
+            ) /
+            18
+        ),
+        calc((100vw - var(--layout_content_max, 90rem)) / 2)
+      );
+      width: min(
+        calc(
+          (
+              100vw - 2 * var(--layout_viewport_pad_x, 1rem) - 2 *
+                var(--layout_body_grid_gap, 0.25rem)
+            ) *
+            16 / 18
+        ),
+        var(--layout_content_max, 90rem)
+      );
+      transform: none;
+    }
+  }
+
+  .sol__route_failure[hidden] {
+    display: none;
+  }
+
+  .sol__route_failure_copy,
+  .sol__route_failure_copy p {
+    margin: 0;
+  }
+
+  .sol__route_failure_kicker {
+    margin-bottom: 0.25rem !important;
+    color: color-mix(in srgb, var(--mono_ink, #171717) 65%, transparent);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .sol__route_failure_actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .sol__route_failure_actions button,
+  .sol__route_failure_actions a {
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+  }
+
+  .sol__route_failure_actions button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .sol__route_failure {
+      width: calc(
+        100% - 2 *
+          (
+            var(--layout_viewport_pad_x, 1rem) +
+              var(--mobile_content_inset, 0.25rem)
+          )
+      );
+    }
+  }
+
+  @media (max-width: 620px) {
+    .sol__route_failure {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .sol__route_failure_actions {
+      white-space: normal;
+    }
+  }
+</style>
+
+<script>
+  import { install_route_failure } from "../../scripts/route_failure.js";
+
+  install_route_failure();
+</script>

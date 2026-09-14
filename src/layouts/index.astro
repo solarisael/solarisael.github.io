@@ -17,13 +17,20 @@ import "../styles/components/wikilink.css";
 import "../styles/components/pretext_justify.css";
 import "../styles/components/vision_banner.css";
 import "../styles/components/about_page.css";
+import "../styles/components/search.css";
 
 import Breadcrumbers from "../components/mantle/breadcrumbs.astro";
 import SideMenu from "../components/mantle/side_menu.astro";
 import Footer from "../components/mantle/footer.astro";
 import VisionBanner from "../components/page/vision_banner.astro";
+import RouteFailure from "../components/page/route_failure.astro";
 import { base_path, with_base } from "../utils/routes.js";
 import { SITE_FPS_DEFAULT } from "../../public/js/modules/menu/preferences.js";
+import {
+  get_publication_entries,
+  publication_aliases,
+} from "../utils/publication_catalog.js";
+const publication_entries = await get_publication_entries();
 
 const {
   phase: phase_prop = "",
@@ -31,6 +38,8 @@ const {
   crumb_label_overrides = {},
   crumbs = null,
   page_title = "",
+  page_description = "",
+  canonical_path = "",
   hide_breadcrumbs = false,
   banner_title = "",
   banner_kicker = "",
@@ -39,6 +48,62 @@ const {
 } = Astro.props;
 const footer_group = phase_prop || frontmatter.phase || "";
 const resolved_page_title = page_title || frontmatter.title || "Sol's Rest";
+const current_path = Astro.url.pathname;
+const normalized_current_path = current_path.replace(/\/+$/u, "");
+const page_current_path =
+  normalized_current_path === base_path
+    ? `${base_path}/`
+    : `${normalized_current_path}/`;
+const canonical_lookup_path =
+  publication_aliases[page_current_path] ?? page_current_path;
+const catalog_metadata =
+  publication_entries.find(
+    (publication) =>
+      publication.path === canonical_lookup_path ||
+      publication.canonical_path === canonical_lookup_path,
+  ) ?? null;
+const resolved_page_description =
+  page_description ||
+  catalog_metadata?.description ||
+  `Public writing and records from ${resolved_page_title}.`;
+const requested_canonical_path =
+  canonical_path || catalog_metadata?.canonical_path || page_current_path;
+const site_origin = Astro.site?.origin ?? "https://solarisael.github.io";
+let resolved_canonical_path = current_path;
+try {
+  const candidate_url = new URL(requested_canonical_path, site_origin);
+  if (
+    candidate_url.origin === site_origin &&
+    !candidate_url.search &&
+    !candidate_url.hash
+  ) {
+    resolved_canonical_path = candidate_url.pathname;
+  }
+} catch {
+  resolved_canonical_path = current_path;
+}
+const canonical_url = new URL(resolved_canonical_path, site_origin).href;
+const social_image_url = new URL(
+  with_base("images/social_card.png"),
+  site_origin,
+).href;
+const metadata_payload = JSON.stringify({
+  title: resolved_page_title,
+  description: resolved_page_description,
+  canonical_url,
+  robots:
+    catalog_metadata?.section === "search"
+      ? "noindex, follow"
+      : "index, follow",
+  og_type: "website",
+  og_site_name: "Solarisael",
+  social_image: social_image_url,
+  social_image_width: "1200",
+  social_image_height: "630",
+  social_image_alt: "A sober paper and ink view of Solarisael.",
+  rss_href: with_base("rss.xml"),
+  llms_href: with_base("llms.txt"),
+}).replaceAll("<", "\\u003c");
 ---
 
 <!doctype html>
@@ -55,6 +120,46 @@ const resolved_page_title = page_title || frontmatter.title || "Sol's Rest";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={resolved_page_description} />
+    <meta
+      name="robots"
+      content={catalog_metadata?.section === "search"
+        ? "noindex, follow"
+        : "index, follow"}
+    />
+    <link rel="canonical" href={canonical_url} />
+    <meta property="og:title" content={resolved_page_title} />
+    <meta property="og:description" content={resolved_page_description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical_url} />
+    <meta property="og:site_name" content="Solarisael" />
+    <meta property="og:image" content={social_image_url} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A sober paper and ink view of Solarisael."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={resolved_page_title} />
+    <meta name="twitter:description" content={resolved_page_description} />
+    <meta name="twitter:image" content={social_image_url} />
+    <meta
+      name="twitter:image:alt"
+      content="A sober paper and ink view of Solarisael."
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Solarisael RSS"
+      href={with_base("rss.xml")}
+    />
+    <link
+      rel="describedby"
+      type="text/plain"
+      title="Solarisael language model guide"
+      href={with_base("llms.txt")}
+    />
 
     <title>{resolved_page_title}</title>
     <link
@@ -86,6 +191,7 @@ const resolved_page_title = page_title || frontmatter.title || "Sol's Rest";
       import "../scripts/about_pretext.js";
       import "../scripts/shader_chalice_lab.js";
       import "../scripts/pretext_transition_lab.js";
+      import "../scripts/metadata_lifecycle.js";
     </script>
   </head>
   <body
@@ -103,8 +209,31 @@ const resolved_page_title = page_title || frontmatter.title || "Sol's Rest";
       aria-atomic="true"
     >
     </p>
+    <RouteFailure />
     <SideMenu />
-    <main id="sol_page_shell" hx-history-elt>
+    <main
+      id="sol_page_shell"
+      hx-history-elt
+      data-sol-page-title={resolved_page_title}
+      data-sol-page-description={resolved_page_description}
+      data-sol-canonical-url={canonical_url}
+      data-sol-robots={catalog_metadata?.section === "search"
+        ? "noindex, follow"
+        : "index, follow"}
+      data-sol-og-type="website"
+      data-sol-og-site-name="Solarisael"
+      data-sol-social-image={social_image_url}
+      data-sol-social-image-width="1200"
+      data-sol-social-image-height="630"
+      data-sol-social-image-alt="A sober paper and ink view of Solarisael."
+      data-sol-rss-href={with_base("rss.xml")}
+      data-sol-llms-href={with_base("llms.txt")}
+    >
+      <script
+        id="sol_page_metadata"
+        type="application/json"
+        set:html={metadata_payload}
+      />
       {
         banner_title && (
           <VisionBanner

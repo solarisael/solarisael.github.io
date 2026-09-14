@@ -1,0 +1,23 @@
+---
+import IndexLayout from "../layouts/index.astro";
+import SearchPage from "../components/search/search_page.astro";
+import { get_publication_entries } from "../utils/publication_catalog.js";
+import { build_crumbs, with_base } from "../utils/routes.js";
+
+const publication_entries = await get_publication_entries();
+const browse_entries = publication_entries.map((entry) => ({
+  href: entry.path,
+  title: entry.title,
+}));
+---
+
+<IndexLayout
+  page_title="Search"
+  page_description="Search Solarisael's public writing, records, references, experiments, and labs."
+  crumbs={build_crumbs([{ label: "Search", href: null }])}
+>
+  <SearchPage
+    browse_entries={browse_entries}
+    initial_query={Astro.url.searchParams.get("q") ?? ""}
+  />
+</IndexLayout>

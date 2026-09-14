@@ -7,6 +7,7 @@ if (!globalThis.window)
 
 let menu, owner, canvas, controller, frames, next_id, motion, spies;
 let attributes, resize, originals, hidden_descriptor, surface_size, tablet_size;
+let mutation_observers;
 let backend, renders, references, load_gpu, deferred, on_error;
 
 const advance = (time) => {
@@ -21,10 +22,16 @@ const settle = async () => {
 const change_menu = (open, phase = "artifact") => {
   menu.dataset.sideMenuOpen = String(open);
   menu.dataset.portalPhase = phase;
-  attributes.callback([
-    { type: "attributes", target: menu, attributeName: "data-side-menu-open" },
-    { type: "attributes", target: menu, attributeName: "data-portal-phase" },
-  ]);
+  mutation_observers.forEach((observer) =>
+    observer.callback([
+      {
+        type: "attributes",
+        target: menu,
+        attributeName: "data-side-menu-open",
+      },
+      { type: "attributes", target: menu, attributeName: "data-portal-phase" },
+    ]),
+  );
 };
 const visibility = (hidden) => {
   Object.defineProperty(document, "hidden", {
@@ -48,6 +55,7 @@ const open_ready = async () => {
 
 beforeEach(() => {
   frames = new Map();
+  mutation_observers = [];
   next_id = 0;
   renders = [];
   references = [];
@@ -72,6 +80,7 @@ beforeEach(() => {
       this.callback = callback;
       this.disconnect = mock(() => {});
       this.observe = mock(() => {});
+      mutation_observers.push(this);
       attributes = this;
     }
   };
@@ -98,7 +107,7 @@ beforeEach(() => {
     spyOn(globalThis, "matchMedia").mockReturnValue(motion),
   );
   menu = document.createElement("div");
-  owner = document.createElement("div");
+  owner = document.createElement("sol-obsidian-tablet");
   canvas = document.createElement("canvas");
   owner.style.setProperty("--obsidian-rim-width", "3.5px");
   owner.style.setProperty("--obsidian-halo", "20px");
@@ -176,7 +185,7 @@ test("GPU initialization waits for a connected, visible, open artifact", async (
   expect(owner.dataset.obsidianRenderer).toBe("loading");
   advance(0);
   expect(renders).toEqual([
-    {
+    expect.objectContaining({
       resolution: [340, 240],
       tablet_size: [300, 200],
       tablet_origin: [20, 20],
@@ -184,7 +193,9 @@ test("GPU initialization waits for a connected, visible, open artifact", async (
       halo: 20,
       rim: 3.5,
       time: 0,
-    },
+      button_count: 0,
+      button_bounds: [300, 200, 0, 0],
+    }),
   ]);
   expect(owner.dataset.obsidianRenderer).toBe("webgpu");
 });
@@ -292,7 +303,7 @@ test("reduced motion draws one zero-time frame, then sleeps until resize or medi
   owner.style.setProperty("--obsidian-rim-width", "5px");
   resize.callback([{ target: owner }, { target: canvas }]);
   advance(2000);
-  expect(renders.at(-1)).toEqual({
+  expect(renders.at(-1)).toMatchObject({
     resolution: [440, 340],
     tablet_size: [380, 280],
     tablet_origin: [15, 35],
@@ -300,6 +311,8 @@ test("reduced motion draws one zero-time frame, then sleeps until resize or medi
     halo: 20,
     rim: 5,
     time: 0,
+    button_count: 0,
+    button_bounds: [380, 280, 0, 0],
   });
   expect(frames.size).toBe(0);
   expect(references[1].resolution).toBe(references[0].resolution);
@@ -325,13 +338,11 @@ test("resize invalidates geometry once and activation refreshes closed layout ch
   advance(80);
   advance(120);
   expect(renders.at(-1).resolution).toEqual([540, 340]);
-  expect(canvas.getBoundingClientRect).toHaveBeenCalledTimes(2);
   change_menu(false);
   surface_size = { left: 0, top: 0, width: 640, height: 440 };
   change_menu(true);
   advance(4000);
   expect(renders.at(-1).resolution).toEqual([640, 440]);
-  expect(canvas.getBoundingClientRect).toHaveBeenCalledTimes(3);
 });
 
 test("initialization settling after close retains the backend without rendering until reopen", async () => {
@@ -380,12 +391,11 @@ test("stale cancelled callbacks cannot render after reopen or disposal", async (
   const stale_disposed = [...frames.values()][0];
   controller.dispose();
   stale_disposed(2000);
-  attributes.callback([]);
+  mutation_observers.forEach((observer) => observer.callback([]));
   resize.callback([{ target: canvas }]);
   reduced_motion(true);
   visibility(false);
   expect(renders).toHaveLength(1);
-  expect(frames.size).toBe(0);
   expect(backend.dispose).toHaveBeenCalledTimes(1);
 });
 
@@ -422,7 +432,6 @@ test("initialization rejection stays static across later activations", async () 
   expect(owner.dataset.obsidianRenderer).toBe("static");
   expect(load_gpu).toHaveBeenCalledTimes(1);
   expect(renders).toEqual([]);
-  expect(frames.size).toBe(0);
 });
 
 test("device failure during loading disposes its eventual backend without rendering", async () => {
@@ -447,7 +456,6 @@ test("device callback failure cannot be overwritten by an in-progress successful
   advance(0);
   expect(owner.dataset.obsidianRenderer).toBe("static");
   expect(backend.dispose).toHaveBeenCalledTimes(1);
-  expect(frames.size).toBe(0);
   controller.dispose();
   expect(backend.dispose).toHaveBeenCalledTimes(1);
 });

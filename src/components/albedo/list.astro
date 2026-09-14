@@ -149,12 +149,17 @@ const initial_entries = archive_index.slice(0, INITIAL_ENTRY_COUNT);
 }
 
 <noscript>
+  <style is:inline>
+    [data-albedo-archive] .sol__albedo_list:not(.sol__albedo_list_fallback) {
+      display: none;
+    }
+  </style>
   <ol
     class="sol__albedo_list sol__albedo_list_fallback"
     aria-label="Albedo archive entries"
   >
     {
-      archive_index.slice(0, 12).map((entry, index) => (
+      archive_index.map((entry, index) => (
         <li aria-posinset={index + 1} aria-setsize={archive_index.length}>
           <a href={entry.href}>{entry.display_title}</a>
         </li>

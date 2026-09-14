@@ -1,0 +1,74 @@
+---
+import ContentLink from "../page/content_link.astro";
+
+const { browse_entries = [], initial_query = "" } = Astro.props;
+---
+
+<section
+  class="sol__search"
+  data-search
+  data-search-initial-query={initial_query}
+>
+  <header class="sol__search_header">
+    <h1>Search</h1>
+    <p>Look through the public pages of this hearth.</p>
+  </header>
+
+  <form class="sol__search_form" data-search-form role="search">
+    <label for="sol_search_query">Search the public archive</label>
+    <div class="sol__search_controls">
+      <input
+        id="sol_search_query"
+        name="q"
+        type="search"
+        value={initial_query}
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+      />
+      <button type="submit" data-search-submit>Search</button>
+    </div>
+  </form>
+
+  <p
+    class="sol__search_status"
+    data-search-status
+    role="status"
+    aria-live="polite"
+  >
+    Enter a word or phrase to search.
+  </p>
+  <div class="sol__search_error" data-search-error hidden>
+    <p>Solarisael could not load the search index.</p>
+    <button type="button" data-search-retry>Try again</button>
+  </div>
+  <ol
+    class="sol__search_results"
+    data-search-results
+    aria-label="Search results"
+  >
+  </ol>
+
+  <noscript>
+    <section
+      class="sol__search_no_script"
+      aria-label="Search without JavaScript"
+    >
+      <p>Search requires JavaScript. Browse the public pages below.</p>
+      <ul>
+        {
+          browse_entries.map((entry) => (
+            <li>
+              <ContentLink href={entry.href}>{entry.title}</ContentLink>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </noscript>
+
+  <script>
+    import { init_search } from "../../scripts/search.js";
+    init_search();
+  </script>
+</section>

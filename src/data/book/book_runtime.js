@@ -36,6 +36,12 @@ const get_chapter_component = (module) => {
   if (typeof module?.default === "function") return module.default;
   return null;
 };
+const get_raw_content = (module) => {
+  if (typeof module?.rawContent === "function") return module.rawContent();
+  if (typeof module?.rawContent === "string") return module.rawContent;
+  if (typeof module?.body === "string") return module.body;
+  return "";
+};
 
 // Zero-pad an ordering position into a stable URL slug, decoupled from title.
 // 0 -> "000", 7 -> "007", 42 -> "042". Min 3 digits.
@@ -98,6 +104,9 @@ const collect_records = (module_map, config) => {
           titleize_slug(chapter_id),
         excerpt: read_string(fm[config.chapter_excerpt_field]),
         cover: read_string(fm[config.chapter_cover_field]),
+        // Astro's Markdown module exposes rawContent() beside its rendered
+        // component. Keep it for the publication catalog; renderers ignore it.
+        body: get_raw_content(module),
         Content: get_chapter_component(module),
       };
     }
@@ -147,11 +156,15 @@ const order_and_freeze = (books) => {
       .sort((a, b) => a.position - b.position)
       .map((chapter) => ({
         chapter_id: chapter.chapter_id,
+        // Slug baked once here (the chapters are already sorted), so
+        // consumers read chapter.chapter_slug instead of re-deriving it at
+        // every callsite — mirrors the shared book/ core.
         chapter_slug: derive_chapter_slug(chapter.position),
         position: chapter.position,
         title: chapter.title,
         excerpt: chapter.excerpt,
         cover: chapter.cover,
+        body: chapter.body,
         Content: chapter.Content,
       }));
 

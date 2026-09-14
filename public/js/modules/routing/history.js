@@ -1,5 +1,5 @@
 const history_scope_key = "solarisael-history-scope";
-const history_scope = "page-shell-v2";
+const history_scope = "page-shell-v3-publication";
 
 export const prepare_route_history = () => {
   try {
@@ -7,7 +7,7 @@ export const prepare_route_history = () => {
       return;
     }
 
-    // Invalidate snapshots rendered with the retired multi-wrapper shell.
+    // Invalidate snapshots without the current shell metadata payload.
     sessionStorage.removeItem("htmx-history-cache");
     sessionStorage.setItem(history_scope_key, history_scope);
   } catch (error) {

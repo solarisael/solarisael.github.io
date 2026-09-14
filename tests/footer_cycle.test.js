@@ -4,7 +4,7 @@ import {
   FOOTER_SENTENCES,
   resolve_footer_sentences,
 } from "../src/data/footer_sentences.js";
-import { PRETEXT_TRANSITION_EFFECTS } from "../src/scripts/pretext_transitions.js";
+import { PRETEXT_TRANSITION_EFFECTS } from "scripts-of-folly/transitions";
 import {
   next_footer_index,
   previous_footer_index,

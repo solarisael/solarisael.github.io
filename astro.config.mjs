@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import tailwindcss from "@tailwindcss/vite";
 import { wgslVitePlugin } from "@vgpu/wgsl/loader-vite";
 import { resolve_obsidian_vault_root } from "./src/config/obsidian_vault_root.js";
@@ -111,32 +112,22 @@ export default defineConfig({
   base: BASE,
   integrations: [],
   markdown: {
-    // remark_wikilinks runs BEFORE text_effects/interactions so that any
-    // `[[...]]` token sitting inside an fx/ix-marker body gets resolved
-    // first (both tree walkers treat their inner content as a single text
-    // node; the wikilink walker needs to see those text nodes before
-    // fx/ix wraps them). text_effects and interactions don't share marker
-    // syntax ({{fx: vs {{ix:), so their relative order doesn't matter.
-    // Order: wikilinks → text_effects → interactions → soft_breaks.
-    remarkPlugins: [
-      remark_wikilinks,
-      remark_text_effects,
-      remark_interactions,
-      remark_soft_breaks,
-    ],
-    // rehype-raw runs FIRST: raw HTML blocks/inline tags embedded in
-    // markdown (e.g. the sandbox's hand-authored `<a data-ix=...>`
-    // triggers) land in the tree as opaque "raw" nodes by default —
-    // invisible to element-walking rehype plugins. rehype-raw parses
-    // them into real hast elements so rehype_base_path (which walks
-    // `node.type === "element"`) can actually see and rewrite their
-    // href/src. Vault content has no with_base() (that's a server-side
-    // Astro-component helper) — rehype_base_path rewrites site-root-
-    // relative href/src in rendered HTML to include the deployed base
-    // subpath, so hand-authored links/images in codex/phase content
-    // survive a GitHub Pages vs Neocities/Nekoweb base-path switch
-    // without per-entry babysitting.
-    rehypePlugins: [rehypeRaw, [rehype_base_path, BASE]],
+    processor: unified({
+      // Wikilinks run before text effects and interactions so links inside
+      // marker bodies resolve before those walkers wrap the text nodes.
+      // The marker syntaxes differ, so the final two remark plugins are
+      // independent. Keep this order: wikilinks → text effects →
+      // interactions → soft breaks.
+      remarkPlugins: [
+        remark_wikilinks,
+        remark_text_effects,
+        remark_interactions,
+        remark_soft_breaks,
+      ],
+      // Parse raw HTML before base-path rewriting. Vault-authored links and
+      // media then become elements whose site-root URLs can be rewritten.
+      rehypePlugins: [rehypeRaw, [rehype_base_path, BASE]],
+    }),
   },
   vite: {
     plugins: [tailwindcss(), wgslVitePlugin(), obsidian_rubedo_hot_reload()],

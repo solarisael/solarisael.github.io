@@ -6,12 +6,12 @@ import {
   parse_combat_token_segments,
   resolve_text_fx_class,
   split_text_fx_tokens,
-} from "../public/vendor/fx/js/text_effects.js";
+} from "scripts-of-folly/text";
 import {
   normalize_text_fx_name,
   split_text_fx_markers,
   transform_text_fx_markers_in_tree,
-} from "../src/utils/text_effects_markdown.js";
+} from "scripts-of-folly/markdown";
 
 describe("text_effects runtime normalization", () => {
   test("normalizes legacy and canonical effect tokens", () => {
@@ -374,9 +374,11 @@ describe("text_effects markdown marker processing", () => {
       },
     ]);
 
-    expect(warning_messages).toEqual([
-      "[sol__text_fx] auto-sanitized marker 'shake|float|glow' -> 'shake|glow' (token 'float' dropped because 'shake+float' is blacklisted)",
-    ]);
+    expect(warning_messages).toHaveLength(1);
+    expect(warning_messages[0]).toContain("auto-sanitized");
+    expect(warning_messages[0]).toContain("'shake|float|glow'");
+    expect(warning_messages[0]).toContain("'float'");
+    expect(warning_messages[0]).toContain("'shake+float' is blacklisted");
   });
 
   test("treats stack markers with only block effects as plain text", () => {

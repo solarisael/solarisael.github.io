@@ -5,10 +5,33 @@ import {
   compute_justified_gap_extra,
   hydrate_pretext_justification,
   split_text_for_pretext_items,
-} from "../src/scripts/pretext_justify.js";
+} from "scripts-of-folly/pretext";
 
 if (!globalThis.window) {
   GlobalRegistrator.register();
+}
+// Pretext tests use synthetic DOM only. Keep Happy DOM from starting external
+// resource loads that can outlive a test and report unrelated network errors.
+const happy_dom_settings = globalThis.window?.happyDOM?.settings;
+if (happy_dom_settings) {
+  Object.assign(happy_dom_settings, {
+    disableJavaScriptFileLoading: true,
+    disableCSSFileLoading: true,
+    disableIframePageLoading: true,
+    enableImageFileLoading: false,
+  });
+}
+const style_prototype = Object.getPrototypeOf(
+  document.createElement("span").style,
+);
+if (typeof style_prototype[Symbol.iterator] !== "function") {
+  Object.defineProperty(style_prototype, Symbol.iterator, {
+    configurable: true,
+    value: function* iterate_style_properties() {
+      for (let index = 0; index < this.length; index += 1)
+        yield this.item(index);
+    },
+  });
 }
 let restore_canvas_measurement_context = () => {};
 
