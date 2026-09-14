@@ -69,7 +69,6 @@ const populate_popup_for_anchor = (popup, anchor) => {
   const title = anchor.getAttribute("data-popup-title") || "";
   const excerpt = anchor.getAttribute("data-popup-excerpt") || "";
   const phase = anchor.getAttribute("data-popup-phase") || "";
-  popup.setAttribute("data-phase", phase);
   popup.querySelector(".sol__wikilink_popup_title").textContent = title;
   popup.querySelector(".sol__wikilink_popup_excerpt").textContent = excerpt;
   const kicker = popup.querySelector(".sol__wikilink_popup_kicker");

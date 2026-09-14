@@ -9,7 +9,7 @@
   min-height: 0;
   margin-block: clamp(1.5rem, 5vw, 4.5rem);
   padding: clamp(2.5rem, 7vw, 6rem) 1.5rem;
-  border-block: 1px solid color-mix(in srgb, var(--vision-ink) 22%, transparent);
+  border-block: 1px solid var(--mono_border, rgb(64 64 64 / 30%));
   background: var(--vision-paper);
   color: var(--vision-ink);
 }
@@ -64,7 +64,9 @@
 }
 
 .sol__vision_banner_major {
-  grid-column: 1 / -1;
+  grid-column: composition-start / composition-end;
+  width: 100%;
+  max-inline-size: var(--layout_content_max);
   justify-self: center;
 }
 
@@ -78,7 +80,7 @@
   width: min(52rem, calc(100% - 2rem));
   margin: 0 auto clamp(4rem, 8vw, 7rem);
   padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid color-mix(in srgb, var(--vision-ink) 22%, transparent);
+  border: 1px solid var(--mono_border, rgb(64 64 64 / 30%));
   background: var(--vision-paper);
   color: var(--vision-ink);
   text-align: center;
@@ -105,8 +107,8 @@
   }
 
   .sol__vision_banner_page_top {
-    width: 100%;
-    margin-inline: 0;
+    width: calc(100% - (2 * var(--mobile_content_inset)));
+    margin-inline: var(--mobile_content_inset);
   }
 
   .sol__vision_banner_content_threshold {

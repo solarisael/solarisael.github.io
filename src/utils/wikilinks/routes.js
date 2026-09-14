@@ -5,9 +5,10 @@ import {
   citrinitas_booklet_path,
   citrinitas_chapter_path,
 } from "../../data/citrinitas/route_data.js";
-const SOLARISAEL_BASE_URL = String(
-  process.env.SOLARISAEL_BASE ?? "/solarisael",
-).replace(/\/+$/, "");
+const SOLARISAEL_BASE_URL = String(process.env.SOLARISAEL_BASE ?? "/").replace(
+  /\/+$/,
+  "",
+);
 const derive_scene_chapter_slug = (timeline_position) => {
   const numeric = Number(timeline_position);
   return derive_chapter_slug(Number.isFinite(numeric) ? numeric : 0);

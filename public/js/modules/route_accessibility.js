@@ -1,7 +1,7 @@
 import { is_route_swap_target } from "./htmx_route_lifecycle.js";
 
 const route_status_selector = "#sol_route_status";
-const route_focus_selector = "#sol_page_shell h1, #sol_main_reading_container";
+const route_focus_selector = "#sol_page_shell h1, #sol_content";
 const pending_dialogs = new WeakSet();
 
 const route_heading_text = (focus_node) => {

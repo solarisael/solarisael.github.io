@@ -232,8 +232,6 @@ Ownership Matrix
   --page_color_shift_ms: 360ms;
 }
 
-container.sol__htmx_request,
-container.htmx-request,
 #sol_content.htmx-request,
 #sol_page_shell.htmx-request {
   animation-duration: calc(
@@ -257,8 +255,6 @@ container.htmx-request,
   animation-timing-function: linear;
 }
 
-container.sol__htmx_swapping,
-container.htmx-swapping,
 #sol_content.htmx-swapping,
 #sol_page_shell.htmx-swapping {
   animation-name: page_content_fade_out;
@@ -278,9 +274,6 @@ container.htmx-swapping,
   animation-fill-mode: both;
 }
 
-container.sol__htmx_added,
-container.htmx-added,
-container.htmx-settling,
 #sol_content.htmx-added,
 #sol_content.htmx-settling,
 #sol_page_shell.htmx-added,
@@ -344,11 +337,6 @@ container.htmx-settling,
   --site_shell_blur_mult: 0;
   --site_shell_surface_mult: 0;
   --site_shell_glow_mult: 0;
-}
-
-#sol_page_shell container[data-phase] {
-  --site_style_accent: var(--mono_ink, #171717);
-  --site_style_accent_alt: var(--mono_ink, #171717);
 }
 
 #sol_page_shell a {

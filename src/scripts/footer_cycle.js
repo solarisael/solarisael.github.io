@@ -90,19 +90,19 @@ const hydrate_footer_cycle = (root) => {
   }
 
   const footer = root.closest("#sol_footer");
-  const phase = footer?.dataset.phase ?? "";
+  const footer_group = footer?.dataset.footerGroup ?? "";
   const existing = active_cycles.get(root);
 
   // idiomorph can preserve this node across page swaps; a surviving cycle
-  // from another phase is reading the wrong row table and must be rebuilt.
+  // from another footer group is reading the wrong row table and must be rebuilt.
   if (existing) {
-    if (existing.phase === phase) {
+    if (existing.footer_group === footer_group) {
       return;
     }
     retire_cycle(existing);
   }
 
-  const rows = resolve_footer_sentences(phase);
+  const rows = resolve_footer_sentences(footer_group);
   if (rows.length <= 1) {
     active_cycles.delete(root);
     return;
@@ -111,7 +111,7 @@ const hydrate_footer_cycle = (root) => {
   const cycle = {
     root,
     rows,
-    phase,
+    footer_group,
     index: 0,
     timer: null,
     visible: true,

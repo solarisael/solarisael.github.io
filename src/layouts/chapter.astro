@@ -4,22 +4,18 @@ import IndexLayout from "./index.astro";
 const {
   page_title = null,
   phase = "rubedo",
-  body_class = "sol__pov_cinza",
   previous_chapter_link = null,
   next_chapter_link = null,
   crumb_label_overrides = {},
   crumbs = null,
-  theme_color = null,
 } = Astro.props;
 ---
 
 <IndexLayout
   page_title={page_title}
   phase={phase}
-  body_class={body_class}
   crumbs={crumbs}
   crumb_label_overrides={crumb_label_overrides}
-  theme_color={theme_color}
 >
   <rubedo data-shape="sol__chapter_shell" class="sol__chapter_shell">
     <div class="sol__chapter_shell_article">

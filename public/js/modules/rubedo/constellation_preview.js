@@ -82,8 +82,8 @@ const render_hover_preview_from_cache = ({
       <a
         href="${escape_html(chapter_href)}"
         hx-get="${escape_html(chapter_href)}"
-        hx-target="#sol_content"
-        hx-select="#sol_content"
+        hx-target="#sol_page_shell"
+        hx-select="#sol_page_shell"
         hx-swap="morph swap:220ms settle:260ms"
         class="timeline-hover-go"
       >Read chapter</a>

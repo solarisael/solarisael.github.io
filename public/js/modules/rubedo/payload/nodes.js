@@ -143,8 +143,8 @@ const build_canvas_nodes = ({ all_nodes, base_path, book_slug }) => {
       link: {
         href: chapter_href,
         hx_get: chapter_href,
-        hx_target: "#sol_content",
-        hx_select: "#sol_content",
+        hx_target: "#sol_page_shell",
+        hx_select: "#sol_page_shell",
         hx_swap: "morph swap:220ms settle:260ms",
         hx_push_url: "true",
       },

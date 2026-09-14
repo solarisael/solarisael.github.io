@@ -8,19 +8,13 @@
   color: var(--mono_ink, #171717);
 }
 
-#sol_home_gate_intro {
-  @apply flex flex-col items-center;
-  @apply gap-5 md:gap-6;
-  @apply px-3 py-8 md:px-6 md:py-12;
-
-  max-width: 64rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
 #sol_home_gate_body {
   width: 100%;
   max-width: 58rem;
+  margin-inline: auto;
+  padding: 2rem 0.75rem;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 #sol_home_gate_body p {
@@ -42,16 +36,11 @@
   max-width: 50rem;
 }
 
-#sol_phase_card_header {
-  @apply flex flex-col items-center;
-
-  text-align: center;
-}
-
 #sol_phase_card_heading {
   @apply font-semibold;
 
   margin: 0;
+  text-align: center;
   color: var(--mono_ink, #171717);
   font-family: var(--font_heading);
   font-size: clamp(2rem, 6vw, 3.5rem);
@@ -74,8 +63,7 @@
   @apply no-underline;
 
   min-height: 16rem;
-  border: 1px solid
-    color-mix(in srgb, var(--mono_ink, #171717) 36%, transparent);
+  border: 1px solid var(--mono_border, rgb(64 64 64 / 30%));
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
   transition: border-color 180ms ease;
@@ -107,7 +95,7 @@
 }
 
 .sol__phase_card_link:hover {
-  border-color: var(--mono_ink, #171717);
+  border-color: rgb(64 64 64 / 55%);
   background: var(--mono_paper, #f7f4ed);
 }
 

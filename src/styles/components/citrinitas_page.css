@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-container[data-phase="citrinitas"] {
+#sol_content > citrinitas {
   --citrinitas_card_radius: 0.35rem;
   --citrinitas_transition_ms: 180ms;
   --citrinitas_masonry_cols: 3;
@@ -280,14 +280,14 @@ container[data-phase="citrinitas"] {
 }
 
 @media (max-width: 768px) {
-  container[data-phase="citrinitas"] {
+  #sol_content > citrinitas {
     --citrinitas_masonry_cols: 2;
     --citrinitas_masonry_row: 9rem;
   }
 }
 
 @media (max-width: 479px) {
-  container[data-phase="citrinitas"] {
+  #sol_content > citrinitas {
     --citrinitas_masonry_cols: 1;
   }
 

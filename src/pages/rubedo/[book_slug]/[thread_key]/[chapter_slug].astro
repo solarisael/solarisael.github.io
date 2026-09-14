@@ -91,13 +91,7 @@ const next_chapter_link = build_hx_link(build_chapter_href(next_chapter));
 
 const timeline_href = with_base(`/rubedo/${book_slug}/timeline`);
 
-// Body class reflects the active thread POV.
-const body_class = `pov_${thread_key}`;
-
 const ResolvedSceneComponent = thread_scene?.scene_component ?? null;
-// All readers share the monochrome page surface; thread identity remains in
-// the route and breadcrumb labels rather than introducing a second palette.
-const theme_color = "var(--mono_ink, #171717)";
 
 // Explicit breadcrumb trail — avoids exposing thread_key as a navigation segment.
 // Cinza gets no thread suffix (canonical default). All others get " - thread_name".
@@ -120,11 +114,9 @@ const crumbs = build_crumbs([
 ---
 
 <ChapterLayout
-  body_class={body_class}
   page_title={page_title}
   previous_chapter_link={previous_chapter_link}
   next_chapter_link={next_chapter_link}
-  theme_color={theme_color}
   crumbs={crumbs}
 >
   <ChapterIntro chapter={chapter} />

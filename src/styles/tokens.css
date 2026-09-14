@@ -23,6 +23,7 @@
   /* Page-scoped monochrome surface; reliquary tokens below remain menu-owned. */
   --mono_paper: #f7f4ed;
   --mono_ink: #171717;
+  --mono_border: rgb(64 64 64 / 30%);
 
   --ui_bg_root: oklch(8.5% 0.005 280);
   --ui_bg_mantle: oklch(11.5% 0.003 280);

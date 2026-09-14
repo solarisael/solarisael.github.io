@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-container[data-phase="albedo"] {
+#sol_content > albedo {
   --albedo_card_padding: 1.25rem 1.5rem;
   --albedo_panel_padding: 1rem 1.25rem;
   --albedo_card_gap: 0.5rem;
@@ -408,7 +408,7 @@ container[data-phase="albedo"] {
 }
 
 @media (max-width: 768px) {
-  container[data-phase="albedo"] {
+  #sol_content > albedo {
     --albedo_feed_gap: 0.68rem;
   }
 

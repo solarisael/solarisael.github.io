@@ -1,83 +1,24 @@
 @reference "tailwindcss";
 @reference "../utils.css";
 
-#sol_page_main {
-  @apply flex grow flex-col gap-2;
-
-  padding-top: 7rem;
-}
-
-#sol_content_stage {
-  @apply relative isolate flex grow flex-col;
-}
-
 #sol_content {
-  @apply relative flex grow flex-col justify-start overflow-hidden border px-2 pt-2 md:px-3 md:pt-2;
+  @apply relative flex grow flex-col justify-start overflow-hidden border;
 
   view-transition-name: page_content;
   z-index: 2;
-  border-color: var(--mono_ink, #171717);
-  border-width: var(--site_border_width_standard, 1px);
+  width: 100%;
+  padding-block: 4.5rem;
+  padding-inline: calc((100% - var(--reading_plane_width)) / 4 + 2rem);
+  border-color: var(--mono_border, rgb(64 64 64 / 30%));
+  border-width: 1px;
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
   transition: border-color
     calc(var(--page_color_shift_ms, 320ms) * var(--site_fx_motion_mult, 1)) ease;
 }
 
-.sol__content_layer_body {
-  @apply relative z-10 flex h-full flex-col;
-}
-
-#sol_content_footer_lane {
-  @apply relative z-10 w-full;
-
-  margin-top: auto;
-  padding: 1rem 0;
-}
-
-#sol_main_reading_container {
-  @apply relative w-full px-5 py-6 md:px-8 md:py-8;
-
-  width: var(--reading_plane_width);
-  min-width: 0;
-  margin: 5rem auto;
-  color: var(--mono_ink, #171717);
-}
-
-.sol__reading_layer_body {
-  @apply relative z-10;
-}
-
-.sol__reading_layer_surface,
-.sol__reading_layer_noise,
-.sol__reading_frame_ornaments,
-.sol__content_layer_ornament_svg,
-.sol__content_stage_layer,
-.sol__content_fog_layer,
-.sol__content_layer_surface,
-.sol__content_layer_noise,
-.sol__content_layer_deco {
-  display: none;
-}
-
 @media (max-width: 768px) {
-  #sol_page_main {
-    padding-top: 1rem;
-    padding-bottom: var(--mobile_mantle_clearance);
-  }
-
   #sol_content {
-    padding-top: var(--mobile_content_inset);
-  }
-
-  #sol_content_stage {
-    margin-inline: var(--mobile_content_inset);
-  }
-
-  #sol_main_reading_container {
-    width: 100%;
-    margin-top: var(--mobile_reading_block_gap);
-    margin-bottom: var(--mobile_reading_block_gap);
-    padding: 1rem var(--mobile_reading_inset);
+    padding: 2.5rem var(--mobile_reading_inset);
   }
 }

@@ -124,11 +124,7 @@ body {
 }
 
 /* CONSUMERS: READING CONTAINERS */
-:where(
-  #sol_main_reading_container,
-  .sol__reading_container,
-  [data-reading-container="true"]
-) {
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"]) {
   display: grid;
   font-family: var(--font_reading_body);
   font-size: var(--text_body);
@@ -136,11 +132,7 @@ body {
   font-weight: var(--weight_reading_body);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h1),
 .sol__text_display {
   font-family: var(--font_reading_heading);
@@ -149,11 +141,7 @@ body {
   font-weight: var(--weight_reading_heading);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h2),
 .sol__text_large {
   font-family: var(--font_reading_heading);
@@ -162,11 +150,7 @@ body {
   font-weight: var(--weight_reading_heading);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h3),
 .sol__text_main {
   font-family: var(--font_reading_heading);
@@ -175,11 +159,7 @@ body {
   font-weight: var(--weight_reading_heading);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h4),
 .sol__text_mid {
   font-family: var(--font_reading_heading);
@@ -188,11 +168,7 @@ body {
   font-weight: var(--weight_reading_heading);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h5),
 .sol__text_sub {
   font-size: var(--text_sub);
@@ -200,76 +176,40 @@ body {
   font-weight: var(--weight_reading_heading);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h6),
 .sol__text_body,
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(p, li, dt, dd, th, td, a, blockquote) {
   font-size: var(--text_body);
   line-height: var(--leading_body);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(small),
 .sol__text_fine {
   font-size: var(--text_fine);
   line-height: 1.4;
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(p, li, dt, dd, blockquote, pre, table, dl) {
   max-width: var(--measure_reading_body);
   margin-bottom: var(--space_prose);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(h1, h2, h3, h4, h5, h6) {
   margin-top: var(--space_heading_top);
   margin-bottom: var(--space_heading_bottom);
 }
 
-.sol__reading_layer_body
-  > #sol_breadcrumbs
-  ~ :not(script)
-  :where(h1:first-of-type) {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(*:last-child) {
   margin-bottom: 0;
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(blockquote) {
   font-style: italic;
   padding-left: 1.1em;
@@ -277,44 +217,8 @@ body {
     color-mix(in oklch, var(--site_style_accent, currentColor) 28%, transparent);
 }
 
-/* OVERRIDES: POV */
-body.sol__pov_cinza {
-  --font_reading_heading: var(--font_heading);
-  --font_reading_body: var(--font_body);
-}
-
-/* OVERRIDES: PHASE */
-body[data-phase="nigredo"],
-container[data-phase="nigredo"] {
-  --site_style_accent: var(--color-nigredo);
-}
-
-body[data-phase="albedo"],
-container[data-phase="albedo"] {
-  --site_style_accent: var(--color-albedo);
-}
-
-body[data-phase="citrinitas"],
-container[data-phase="citrinitas"] {
-  --site_style_accent: var(--color-citrinitas);
-}
-
-body[data-phase="rubedo"],
-container[data-phase="rubedo"] {
-  --site_style_accent: var(--color-rubedo);
-}
-
-body[data-phase="codex"],
-container[data-phase="codex"] {
-  --site_style_accent: var(--color-codex);
-}
-
 /* CONSUMERS: CADENCE */
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   .sol__text_fx_cadence {
   font-family: var(--font_literary, "Cormorant Garamond", Georgia, serif);
   font-style: italic;
@@ -323,11 +227,7 @@ container[data-phase="codex"] {
   color: var(--mono_ink, #171717);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   .sol__text_fx_cadence_soft {
   font-family: var(--font_literary, "Cormorant Garamond", Georgia, serif);
   font-style: italic;
@@ -336,11 +236,7 @@ container[data-phase="codex"] {
   color: var(--mono_ink, #171717);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   .sol__text_fx_cadence_oracular {
   font-family: var(
     --font_ritual,
@@ -354,11 +250,7 @@ container[data-phase="codex"] {
   color: var(--mono_ink, #171717);
 }
 
-:where(
-    #sol_main_reading_container,
-    .sol__reading_container,
-    [data-reading-container="true"]
-  )
+:where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   .sol__text_fx_cadence_childlike {
   font-family: var(--font_artifact, "Syne Tactile", fantasy);
   font-style: normal;

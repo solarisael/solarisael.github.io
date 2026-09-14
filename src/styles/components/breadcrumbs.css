@@ -1,12 +1,9 @@
 @reference "tailwindcss";
 
 #sol_breadcrumbs {
-  --crumb_theme_color: var(--mono_ink, #171717);
-  --crumb_parent_color: var(--mono_ink, #171717);
-
   @apply relative z-10 flex;
 
-  margin-bottom: 1.25rem;
+  width: 100%;
 
   ol {
     @apply flex min-w-0 items-baseline gap-1 md:gap-1.5;
@@ -30,7 +27,7 @@
 
     @apply ml-0.5 md:ml-1;
 
-    color: var(--crumb_parent_color);
+    color: var(--mono_ink, #171717);
     font-size: inherit;
     opacity: 0.55;
   }
@@ -39,7 +36,7 @@
   span {
     @apply inline-flex items-center rounded px-1 py-0 transition;
 
-    color: var(--crumb_parent_color);
+    color: var(--mono_ink, #171717);
     font-size: inherit;
     text-transform: capitalize;
     transition-property: color, opacity, background-color;
@@ -47,8 +44,8 @@
     transition-timing-function: ease;
   }
 
-  li.sol__is_parent a:hover,
-  li.sol__is_parent a:focus-visible {
+  li:not(:last-child) a:hover,
+  li:not(:last-child) a:focus-visible {
     @apply outline-none;
 
     color: var(--mono_ink, #171717);
@@ -56,8 +53,8 @@
     background-color: rgb(23 23 23 / 0.08);
   }
 
-  li.sol__is_current a,
-  li.sol__is_current span {
+  li:last-child a,
+  li:last-child span {
     @apply font-semibold;
 
     color: var(--mono_ink, #171717);

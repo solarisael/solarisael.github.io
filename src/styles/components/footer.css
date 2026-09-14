@@ -5,8 +5,8 @@
   @apply flex min-h-20 w-full items-center justify-center border px-4 py-4;
 
   color: var(--mono_ink, #171717);
-  border-color: var(--mono_ink, #171717);
-  border-width: var(--site_border_width_standard, 1px);
+  border-color: var(--mono_border, rgb(64 64 64 / 30%));
+  border-width: 1px;
   background: var(--mono_paper, #f7f4ed);
 }
 

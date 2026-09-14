@@ -10,7 +10,7 @@ import path from "node:path";
 
 const PORT = 4322;
 const HOST = "127.0.0.1";
-const BASE_PATH = "/solarisael/";
+const BASE_PATH = "/";
 const TMP_ROOT =
   process.env.OPENCODE_TMP ?? "C:/Users/ADMINI~1/AppData/Local/Temp/opencode";
 const STATE_DIR = path.join(TMP_ROOT, "solarisael-dev-server");

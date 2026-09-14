@@ -40,16 +40,16 @@ describe("htmx route lifecycle path helpers", () => {
 });
 
 describe("htmx route lifecycle swap target detection", () => {
-  test("accepts the shell container, page shell, and sol_content as route swap targets", () => {
+  test("accepts only the page shell as a whole-page route swap target", () => {
     const shell_container = document.createElement("container");
     const page_shell = document.createElement("main");
     page_shell.id = "sol_page_shell";
     const content_target = document.createElement("section");
     content_target.id = "sol_content";
 
-    expect(is_route_swap_target(shell_container)).toBe(true);
+    expect(is_route_swap_target(shell_container)).toBe(false);
     expect(is_route_swap_target(page_shell)).toBe(true);
-    expect(is_route_swap_target(content_target)).toBe(true);
+    expect(is_route_swap_target(content_target)).toBe(false);
   });
 
   test("rejects unrelated elements and non-element nodes", () => {

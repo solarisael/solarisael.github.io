@@ -2,22 +2,18 @@
 const has_heading = Astro.slots.has("heading");
 ---
 
-<vessel data-shape="home_gate" id="sol_home_card_gate">
-  <div id="sol_home_gate_intro">
-    <div id="sol_home_gate_body" class="sol__page_intro_typography">
-      <slot name="intro" />
-    </div>
+<section id="sol_home_card_gate">
+  <div id="sol_home_gate_body" class="sol__page_intro_typography">
+    <slot name="intro" />
   </div>
 
   {
     has_heading && (
-      <div id="sol_phase_card_header">
-        <h2 id="sol_phase_card_heading">
-          <slot name="heading" />
-        </h2>
-      </div>
+      <h2 id="sol_phase_card_heading">
+        <slot name="heading" />
+      </h2>
     )
   }
 
   <slot />
-</vessel>
+</section>

@@ -8,23 +8,7 @@ import { base_path, HOME_CRUMB_LABEL, with_base } from "../../utils/routes.js";
 //
 // crumb_label_overrides: record of url segment -> human-readable label.
 // Used as fallback when crumbs is not provided.
-// theme_color: optional CSS color string or variable reference.
-// When provided, overrides the phase color for --crumb_theme_color.
-// Used by thread pages to color breadcrumbs per character identity.
-const {
-  crumbs = null,
-  crumb_label_overrides = {},
-  theme_color = null,
-} = Astro.props;
-
-const phase_color_by_name = {
-  home: "var(--site_style_accent)",
-  nigredo: "var(--color-nigredo)",
-  albedo: "var(--color-albedo)",
-  citrinitas: "var(--color-citrinitas)",
-  rubedo: "var(--color-rubedo)",
-  codex: "var(--color-codex)",
-};
+const { crumbs = null, crumb_label_overrides = {} } = Astro.props;
 
 const pathname_raw = Astro.url.pathname;
 const pathname = pathname_raw.replace(/\/+$/, "") || "/";
@@ -35,9 +19,6 @@ const path_segments =
   pathname_without_base === "/"
     ? []
     : pathname_without_base.slice(1).split("/");
-
-const active_phase =
-  path_segments[0] in phase_color_by_name ? path_segments[0] : "home";
 
 const segment_to_label = (segment) => {
   const decoded_segment = decodeURIComponent(segment);
@@ -80,37 +61,25 @@ if (Array.isArray(crumbs) && crumbs.length > 0) {
 // href-equality. The leaf often has href:null (it's the page you're on), so
 // matching on href would mark the wrong crumb (or none) at 2+ depth.
 const current_crumb_index = crumb_items.length - 1;
-const active_theme_color = "var(--mono_ink)";
 ---
 
-<mantle
-  data-shape="breadcrumbs"
-  id="sol_breadcrumbs"
-  role="navigation"
-  aria-label="Breadcrumb"
-  data-phase={active_phase}
-  style={`--crumb_theme_color: ${active_theme_color};`}
->
+<nav id="sol_breadcrumbs" role="navigation" aria-label="Breadcrumb">
   <ol>
     {
       crumb_items.map((crumb_item, crumb_index) => {
         const is_current = crumb_index === current_crumb_index;
 
         return (
-          <li class={is_current ? "sol__is_current" : "sol__is_parent"}>
+          <li>
             {crumb_item.href ? (
               <a
                 href={crumb_item.href}
                 aria-current={is_current ? "page" : undefined}
-                class:list={{ sol__is_current_link: is_current }}
               >
                 {crumb_item.label}
               </a>
             ) : (
-              <span
-                aria-current={is_current ? "page" : undefined}
-                class:list={{ sol__is_current_link: is_current }}
-              >
+              <span aria-current={is_current ? "page" : undefined}>
                 {crumb_item.label}
               </span>
             )}
@@ -119,7 +88,4 @@ const active_theme_color = "var(--mono_ink)";
       })
     }
   </ol>
-</mantle>
-
-<script type="module" src={with_base("js/modules/breadcrumbs_runtime.js")}
-></script>
+</nav>

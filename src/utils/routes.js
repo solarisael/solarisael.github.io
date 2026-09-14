@@ -14,8 +14,8 @@ const content_link_attrs = (href) => {
   return {
     href,
     hx_get: href,
-    hx_target: "#sol_content",
-    hx_select: "#sol_content",
+    hx_target: "#sol_page_shell",
+    hx_select: "#sol_page_shell",
     hx_swap: "morph swap:220ms settle:260ms",
   };
 };

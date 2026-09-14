@@ -1,6 +1,6 @@
 const navigation_options = (link) => ({
-  target: link.hx_target || "#sol_content",
-  select: link.hx_select || "#sol_content",
+  target: link.hx_target || "#sol_page_shell",
+  select: link.hx_select || "#sol_page_shell",
   swap: link.hx_swap || "morph swap:220ms settle:260ms",
   pushURL: String(link.hx_push_url) === "true",
 });

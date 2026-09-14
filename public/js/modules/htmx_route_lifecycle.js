@@ -1,9 +1,9 @@
 /**
  * Shared HTMX route-lifecycle helpers.
  *
- * The site shell swaps the outer <container> for page navigation, while a few
- * inner flows target #sol_content or deeper fragments. Keep route detection in
- * one place so nav, mobile nav, and breadcrumbs cannot drift apart again.
+ * The page shell owns whole-page route swaps; inner flows target their
+ * dedicated fragments. Keep route detection in one place so navigation and
+ * history cannot drift apart.
  */
 
 export const normalize_pathname = (pathname_value) => {
@@ -13,8 +13,7 @@ export const normalize_pathname = (pathname_value) => {
 };
 
 export const is_route_swap_target = (target_node) =>
-  target_node instanceof HTMLElement &&
-  target_node.matches("container, #sol_content, #sol_page_shell");
+  target_node instanceof HTMLElement && target_node.matches("#sol_page_shell");
 
 const request_path_from_detail = (detail) =>
   detail?.pathInfo?.finalRequestPath ??

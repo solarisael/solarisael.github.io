@@ -1,0 +1,62 @@
+---
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not found — Solarisael</title>
+    <style>
+      :root {
+        color-scheme: light;
+        background: #f7f4ed;
+        color: #171717;
+        font-family: system-ui, sans-serif;
+      }
+
+      body {
+        box-sizing: border-box;
+        margin: 0;
+        min-height: 100vh;
+        padding: 3rem 1.5rem;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 42rem;
+      }
+
+      a {
+        color: inherit;
+      }
+    </style>
+    <script is:inline>
+      (() => {
+        const legacy_prefix = "/solarisael";
+        const current_path = window.location.pathname;
+
+        if (
+          current_path === legacy_prefix ||
+          current_path.startsWith(`${legacy_prefix}/`)
+        ) {
+          const remainder = current_path
+            .slice(legacy_prefix.length)
+            .replace(/^\/+/, "");
+          const destination = remainder ? `/${remainder}` : "/";
+          window.location.replace(
+            `${destination}${window.location.search}${window.location.hash}`,
+          );
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <main>
+      <h1>Not found</h1>
+      <p>The requested Solarisael page does not exist.</p>
+      <p><a href="/">Return to hearth</a></p>
+    </main>
+  </body>
+</html>

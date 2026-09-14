@@ -86,7 +86,7 @@
   margin-bottom: 0;
 }
 
-container[data-phase="rubedo"] {
+#sol_content > rubedo {
   --rubedo_base: var(--mono_paper, #f7f4ed);
   --rubedo_ink: var(--mono_ink, #171717);
   --rubedo_ink_soft: color-mix(

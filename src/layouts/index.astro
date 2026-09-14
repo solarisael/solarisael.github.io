@@ -26,12 +26,10 @@ import { base_path, with_base } from "../utils/routes.js";
 import { SITE_FPS_DEFAULT } from "../../public/js/modules/menu/preferences.js";
 
 const {
-  body_class = "",
   phase: phase_prop = "",
   frontmatter = {},
   crumb_label_overrides = {},
   crumbs = null,
-  theme_color = null,
   page_title = "",
   hide_breadcrumbs = false,
   banner_title = "",
@@ -39,19 +37,8 @@ const {
   banner_description = "",
   banner_image_path = "images/solarisaeia_sea_render_3_farther.png",
 } = Astro.props;
-const phase = phase_prop || frontmatter.phase || "";
-const body_phase = phase || "home";
+const footer_group = phase_prop || frontmatter.phase || "";
 const resolved_page_title = page_title || frontmatter.title || "Sol's Rest";
-const manual_body_classes = String(body_class).split(/\s+/).filter(Boolean);
-
-const resolved_body_classes = Array.from(
-  new Set([
-    "sol__body_grid",
-    "sol__compound_body_grid",
-    "sol__page_transition_breath_noticeable",
-    ...manual_body_classes,
-  ]),
-);
 ---
 
 <!doctype html>
@@ -102,8 +89,6 @@ const resolved_body_classes = Array.from(
     </script>
   </head>
   <body
-    class:list={resolved_body_classes}
-    data-phase={body_phase}
     hx-ext="morph,preload"
     hx-target="#sol_page_shell"
     hx-select="#sol_page_shell"
@@ -130,36 +115,20 @@ const resolved_body_classes = Array.from(
           />
         )
       }
-      <container data-phase={phase || undefined}>
-        <vessel data-shape="page_main" id="sol_page_main">
-          <div id="sol_content_stage">
-            <div id="sol_content">
-              <div class="sol__content_layer_body">
-                <div id="sol_main_reading_container">
-                  <div class="sol__reading_layer_body">
-                    {
-                      !hide_breadcrumbs && (
-                        <Breadcrumbers
-                          crumbs={crumbs}
-                          crumb_label_overrides={crumb_label_overrides}
-                          theme_color={theme_color}
-                        />
-                      )
-                    }
-                    <slot />
-                  </div>
-                </div>
-
-                <div id="sol_content_footer_lane">
-                  <slot name="footer">
-                    <Footer phase={phase} />
-                  </slot>
-                </div>
-              </div>
-            </div>
-          </div>
-        </vessel>
-      </container>
+      {
+        !hide_breadcrumbs && (
+          <Breadcrumbers
+            crumbs={crumbs}
+            crumb_label_overrides={crumb_label_overrides}
+          />
+        )
+      }
+      <vessel id="sol_content">
+        <slot />
+      </vessel>
+      <slot name="footer">
+        <Footer footer_group={footer_group} />
+      </slot>
     </main>
   </body>
 </html>

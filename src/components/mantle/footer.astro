@@ -3,17 +3,15 @@ import { resolve_footer_sentences } from "../../data/footer_sentences.js";
 
 // Default footer for the layout's "footer" slot.
 // Per-page override available via <Fragment slot="footer">...</Fragment>.
-// Per-phase content via the phase prop — pages pass phase down through the layout.
-const { phase = "nigredo" } = Astro.props;
-const footer_rows = resolve_footer_sentences(phase);
+const { footer_group = "nigredo" } = Astro.props;
+const footer_rows = resolve_footer_sentences(footer_group);
 const footer_row = footer_rows[0];
 const has_content = Boolean(footer_row?.html?.trim());
 ---
 
 <footer
-  data-shape="footer"
   id="sol_footer"
-  data-phase={phase}
+  data-footer-group={footer_group}
   data-state={has_content ? "filled" : "empty"}
 >
   {

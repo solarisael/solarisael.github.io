@@ -19,12 +19,12 @@ import {
 // conventional Windows vault exists.
 const OBSIDIAN_VAULT_ROOT = resolve_obsidian_vault_root();
 
-// Deploy target — defaults to github pages (subpath hosting). For
-// root-hosts (neocities, nekoweb, own domain later) override via env:
-//   SOLARISAEL_SITE=https://<name>.neocities.org SOLARISAEL_BASE=/ astro build
-// Same build, different address. Keep both values in sync per target.
+// Deploy target — defaults to the root host (GitHub Pages project renamed to
+// solarisael.github.io). For subpath hosts, override via env:
+//   SOLARISAEL_SITE=https://<name>.example SOLARISAEL_BASE=/solarisael astro build
+// Keep SITE and BASE in sync per target.
 const SITE = process.env.SOLARISAEL_SITE ?? "https://solarisael.github.io";
-const BASE = process.env.SOLARISAEL_BASE ?? "/solarisael";
+const BASE = process.env.SOLARISAEL_BASE ?? "/";
 
 const normalize_path = (path_value = "") =>
   String(path_value).replaceAll("\\", "/");
