@@ -1,9 +1,19 @@
-import { describe, expect, test } from "bun:test";
+import { afterAll, describe, expect, test } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 
+const FIXTURE_URL = "https://solarisael.local/current/";
+const previous_url = globalThis.window?.location?.href ?? null;
 if (!globalThis.window) {
-  GlobalRegistrator.register({ url: "https://solarisael.local/current/" });
+  GlobalRegistrator.register({ url: FIXTURE_URL });
+} else {
+  globalThis.window.happyDOM.setURL(FIXTURE_URL);
 }
+
+afterAll(() => {
+  if (previous_url && globalThis.window?.happyDOM) {
+    globalThis.window.happyDOM.setURL(previous_url);
+  }
+});
 
 const {
   derive_request_pathname,
