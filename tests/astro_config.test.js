@@ -90,7 +90,10 @@ describe("obsidian_rubedo_hot_reload", () => {
 
     plugin.configureServer(server);
 
-    expect(watched_roots).toEqual([`${vault_root}/zzzz_rubedo`, vault_root]);
+    expect(watched_roots).toEqual([
+      `${vault_root}/alchemy_writing/zzzz_rubedo`,
+      vault_root,
+    ]);
 
     const ignored_non_rubedo_result = plugin.handleHotUpdate({
       file: `${vault_root}/nigredo/scene.md`,
@@ -98,7 +101,7 @@ describe("obsidian_rubedo_hot_reload", () => {
       timestamp: 100,
     });
     const ignored_refs_result = plugin.handleHotUpdate({
-      file: `${vault_root}/zzzz_rubedo/refs/note.md`,
+      file: `${vault_root}/alchemy_writing/zzzz_rubedo/refs/note.md`,
       server,
       timestamp: 101,
     });
@@ -109,7 +112,7 @@ describe("obsidian_rubedo_hot_reload", () => {
     expect(websocket_messages).toEqual([]);
 
     const hot_update_result = plugin.handleHotUpdate({
-      file: `${vault_root.replaceAll("/", "\\")}\\zzzz_rubedo\\chapter-001.md`,
+      file: `${vault_root.replaceAll("/", "\\")}\\alchemy_writing\\zzzz_rubedo\\chapter-001.md`,
       server,
       timestamp: 102,
     });

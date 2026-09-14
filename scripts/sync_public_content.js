@@ -23,14 +23,26 @@ const MANIFEST_PATH = path.join(
 const MANIFEST_SCHEMA = 1;
 
 const PUBLIC_ROOTS = Object.freeze([
-  { source: "z_nigredo", destination: "z_nigredo", posts_only: true },
-  { source: "zz_albedo", destination: "zz_albedo", posts_only: true },
   {
-    source: "zzz_citrinitas",
-    destination: "zzz_citrinitas",
+    source: "alchemy_writing/z_nigredo",
+    destination: "alchemy_writing/z_nigredo",
+    posts_only: true,
+  },
+  {
+    source: "alchemy_writing/zz_albedo",
+    destination: "alchemy_writing/zz_albedo",
+    posts_only: true,
+  },
+  {
+    source: "alchemy_writing/zzz_citrinitas",
+    destination: "alchemy_writing/zzz_citrinitas",
     posts_only: false,
   },
-  { source: "zzzz_rubedo", destination: "zzzz_rubedo", posts_only: false },
+  {
+    source: "alchemy_writing/zzzz_rubedo",
+    destination: "alchemy_writing/zzzz_rubedo",
+    posts_only: false,
+  },
   { source: "codex", destination: "codex", posts_only: false },
 ]);
 

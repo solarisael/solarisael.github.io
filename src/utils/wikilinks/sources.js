@@ -16,25 +16,25 @@ const PROJECT_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 const REGISTRY_SOURCES = [
   {
     phase: "nigredo",
-    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "z_nigredo"),
+    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "alchemy_writing/z_nigredo"),
     pattern_kind: "dated_post",
     url_strategy: "post_slug",
   },
   {
     phase: "albedo",
-    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "zz_albedo"),
+    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "alchemy_writing/zz_albedo"),
     pattern_kind: "dated_post",
     url_strategy: "post_slug",
   },
   {
     phase: "citrinitas",
-    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "zzz_citrinitas"),
+    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "alchemy_writing/zzz_citrinitas"),
     pattern_kind: "citrinitas_booklet",
     url_strategy: "citrinitas_booklet",
   },
   {
     phase: "rubedo",
-    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "zzzz_rubedo"),
+    scan_root: path.join(OBSIDIAN_VAULT_ROOT, "alchemy_writing/zzzz_rubedo"),
     pattern_kind: "any_markdown",
     url_strategy: "rubedo_scene",
   },

@@ -1,7 +1,9 @@
 import { create_ink_gpu } from "./portal_ink_gpu.js";
+import { create_frame_gate } from "./gpu/frame_gate.js";
 
 export const create_ink_shadow = (menu, panel, canvas, artifact) => {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const frame_gate = create_frame_gate();
   menu.dataset.portalInkController = "ready";
   let reveal_guard = null;
   let close_guard = null,
@@ -38,6 +40,7 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
     if (frame !== null) cancelAnimationFrame(frame);
     frame = null;
     last_frame = null;
+    frame_gate.reset();
   };
   const finish_close = () => {
     opened = false;
@@ -103,7 +106,7 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
       finish_close();
       return false;
     }
-    if (!motion.matches && last_frame !== null && now - last_frame < 32) {
+    if (!motion.matches && !frame_gate.due(now)) {
       request();
       return false;
     }
@@ -167,7 +170,7 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
   const display = new MutationObserver(request);
   display.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ["data-site-display"],
+    attributeFilter: ["data-site-display", "data-site-fps"],
   });
   motion.addEventListener("change", request);
   document.addEventListener("visibilitychange", visibility);

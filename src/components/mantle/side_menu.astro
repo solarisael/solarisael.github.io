@@ -8,6 +8,7 @@ import {
 import RitualSeparator from "../ornament/ritual_separator.astro";
 import ObsidianTablet from "../ornament/obsidian_tablet.astro";
 import { with_base } from "../../utils/routes.js";
+import { site_fps_options } from "../../../public/js/modules/menu/preferences.js";
 
 const menu_items = [
   ...SITE_NAV_ITEMS,
@@ -356,6 +357,23 @@ const user_measure_options = [
                 appearance. These profiles do not enable HDR output or change
                 your display settings.
               </p>
+
+              <label class="sol__side_menu_group" for="sol_side_menu_fps">
+                <span class="sol__side_menu_label sol__text_caption"
+                  >menu animation limit</span
+                >
+                <select id="sol_side_menu_fps" data-site-fps-control>
+                  {
+                    site_fps_options.map((value) => (
+                      <option value={value}>
+                        {value === "display"
+                          ? "Display refresh"
+                          : `${value} FPS`}
+                      </option>
+                    ))
+                  }
+                </select>
+              </label>
 
               <label class="sol__side_menu_group" for="sol_side_menu_fx">
                 <span class="sol__side_menu_label sol__text_caption">

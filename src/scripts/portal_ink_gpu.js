@@ -1,8 +1,15 @@
 import ink_source from "../shaders/portal_ink.wgsl";
+import ink_field_source from "../shaders/portal_ink_field.wgsl";
+import {
+  effect_pixel_budget,
+  resize_effect_surface,
+} from "./gpu/render_size.js";
 
 export const create_ink_gpu = (canvas, values, lifecycle) => {
   let gpu = null,
     surface = null,
+    field = null,
+    field_shader = null,
     shader = null;
   let submit_frame = null;
   let pending = false;
@@ -16,6 +23,8 @@ export const create_ink_gpu = (canvas, values, lifecycle) => {
     gpu?.dispose();
     gpu = null;
     shader = null;
+    field = null;
+    field_shader = null;
   };
   const device_lost = (info) => {
     if (!lifecycle.disposed() && !lifecycle.failed()) lifecycle.fail(info);
@@ -25,13 +34,35 @@ export const create_ink_gpu = (canvas, values, lifecycle) => {
     remove_error_listener = gpu.onError(lifecycle.fail);
     gpu.gpu.lost.then(device_lost);
     surface = api.surface(gpu, canvas, {
-      dpr: [1, 1.25],
+      autoResize: true,
+      dpr: 1,
       alphaMode: "premultiplied",
       clearColor: [0, 0, 0, 0],
     });
+
+    field = api.target(gpu, {
+      size: [1, 1],
+      format: "rgba16float",
+      label: "portal-ink-field",
+    });
+
+    field_shader = api.effect(gpu, ink_field_source, {
+      label: "portal-ink-field",
+      set: { ink: values },
+    });
+
     shader = api.effect(gpu, ink_source, {
       label: "portal-ink",
-      set: { ink: values },
+      set: {
+        ink: values,
+        ink_field: field.color,
+        field_sampler: api.sampler(gpu, {
+          minFilter: "linear",
+          magFilter: "linear",
+          addressModeU: "clamp-to-edge",
+          addressModeV: "clamp-to-edge",
+        }),
+      },
     });
   };
   const initialize = async () => {
@@ -47,11 +78,17 @@ export const create_ink_gpu = (canvas, values, lifecycle) => {
         return;
       }
       setup(api, context);
-      await shader.compile({
-        colors: [navigator.gpu.getPreferredCanvasFormat()],
-      });
+      await Promise.all([
+        field_shader.compile(field),
+        shader.compile({
+          colors: [navigator.gpu.getPreferredCanvasFormat()],
+        }),
+      ]);
       submit_frame = () =>
-        api.frame(gpu, (current) => current.pass(surface, shader));
+        api.frame(gpu, (current) => {
+          current.pass(field, field_shader);
+          current.pass(surface, shader);
+        });
       if (lifecycle.disposed() || lifecycle.failed()) return;
       lifecycle.ready();
     } catch (error) {
@@ -65,7 +102,14 @@ export const create_ink_gpu = (canvas, values, lifecycle) => {
     release,
     ready: () => Boolean(shader),
     submit() {
-      shader.set({ ink: values });
+      resize_effect_surface(
+        field,
+        values.resolution,
+        effect_pixel_budget("ink", values.resolution),
+      );
+
+      field_shader.set({ ink: values });
+      shader.set({ ink: values, ink_field: field.color });
       submit_frame();
     },
   };

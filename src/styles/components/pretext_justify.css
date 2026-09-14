@@ -1,35 +1,6 @@
-[data-sol-pretext="justify"] {
-  text-align: start;
-}
-
-.sol__pretext_justified {
-  display: block;
-  overflow-wrap: normal;
-}
-
-.sol__pretext_line {
-  display: block;
-  white-space: nowrap;
-}
-
-.sol__pretext_fragment {
-  display: inline-block;
-  white-space: pre;
-  vertical-align: baseline;
-}
-
 .sol__pretext_lab {
   max-width: 38rem;
   margin-inline: auto;
-}
-
-.sol__pretext_shaped {
-  text-align: center;
-}
-
-.sol__pretext_shaped .sol__pretext_line {
-  margin-inline: auto;
-  text-align: start;
 }
 
 .sol__pretext_shape_lab {

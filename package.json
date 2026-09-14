@@ -38,6 +38,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "rehype-raw": "^7.0.0",
+    "scripts-of-folly": "github:solarisael/scripts-of-folly#0cdebccef632df2f386dda12b73bfc75e416d213",
     "tailwindcss": "^4.1.18",
     "three": "^0.185.1",
     "vgpu": "^0.4.0"

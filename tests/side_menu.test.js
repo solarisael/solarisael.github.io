@@ -5,6 +5,8 @@ import {
   COOKIE_MAX_AGE_SECONDS,
   LEGACY_HOME_FX_COOKIE_NAME,
   LEGACY_HOME_THEME_COOKIE_NAME,
+  SITE_FPS_COOKIE_NAME,
+  SITE_FPS_DEFAULT,
   SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
   SITE_SCALE_DEFAULT,
@@ -136,6 +138,52 @@ describe("side_menu option safety", () => {
     expect(resolved_style.saved_shell_class).toBe("strong");
     expect(resolved_style.saved_scale_class).toBe("80");
     expect(site_scale_options).toEqual(["100", "90", "80"]);
+  });
+
+  test.each(["60", "120", "display"])(
+    "saved pacing %s reaches the site root",
+    (fps) => {
+      const cookie = build_cookie_string(SITE_FPS_COOKIE_NAME, fps);
+      const saved = resolve_saved_style(cookie);
+      const root = document.createElement("div");
+
+      apply_site_style_state(
+        root,
+        saved.saved_theme_class,
+        saved.saved_shell_class,
+        saved.saved_fx_class,
+        saved.saved_scale_class,
+        saved.saved_display_class,
+        saved.saved_fps_class,
+      );
+
+      expect(saved.saved_fps_class).toBe(fps);
+      expect(root.getAttribute("data-site-fps")).toBe(fps);
+    },
+  );
+
+  test.each([
+    "",
+    `${SITE_FPS_COOKIE_NAME}=`,
+    `${SITE_FPS_COOKIE_NAME}=30`,
+    `${SITE_FPS_COOKIE_NAME}=120fps`,
+    `${SITE_FPS_COOKIE_NAME}=DISPLAY`,
+  ])("missing or malformed pacing falls back: %s", (cookie) => {
+    const saved = resolve_saved_style(cookie);
+    const root = document.createElement("div");
+
+    apply_site_style_state(
+      root,
+      saved.saved_theme_class,
+      saved.saved_shell_class,
+      saved.saved_fx_class,
+      saved.saved_scale_class,
+      saved.saved_display_class,
+      saved.saved_fps_class,
+    );
+
+    expect(saved.saved_fps_class).toBe(SITE_FPS_DEFAULT);
+    expect(root.getAttribute("data-site-fps")).toBe(SITE_FPS_DEFAULT);
   });
 
   test("resolve_saved_style supports legacy cookies", () => {
@@ -278,6 +326,7 @@ describe("side_menu root state", () => {
     expect(attributes["data-site-shell"]).toBe("medium");
     expect(attributes["data-site-fx"]).toBe("balanced");
     expect(attributes["data-site-scale"]).toBe("90");
+    expect(attributes["data-site-fps"]).toBe(SITE_FPS_DEFAULT);
   });
 
   test("apply_user_settings_state sets data attributes", () => {

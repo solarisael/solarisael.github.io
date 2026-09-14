@@ -1,6 +1,8 @@
 import {
   SITE_DISPLAY_COOKIE_NAME,
   SITE_DISPLAY_DEFAULT,
+  SITE_FPS_COOKIE_NAME,
+  SITE_FPS_DEFAULT,
   SITE_FX_COOKIE_NAME,
   SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
@@ -19,6 +21,7 @@ import {
   resolve_saved_style,
   resolve_saved_user_settings,
   site_display_options,
+  site_fps_options,
   site_fx_options,
   site_scale_options,
   site_shell_options,
@@ -50,6 +53,7 @@ export const bind_settings_controls = (menu_node) => {
   const display_select_node = menu_node.querySelector(
     "[data-site-display-control]",
   );
+  const fps_select_node = menu_node.querySelector("[data-site-fps-control]");
   const text_select_node = menu_node.querySelector("[data-user-text-control]");
   const measure_select_node = menu_node.querySelector(
     "[data-user-measure-control]",
@@ -91,6 +95,13 @@ export const bind_settings_controls = (menu_node) => {
       site_display_options,
       SITE_DISPLAY_DEFAULT,
     );
+    const selected_fps_name = get_safe_option(
+      fps_select_node instanceof HTMLSelectElement
+        ? fps_select_node.value
+        : SITE_FPS_DEFAULT,
+      site_fps_options,
+      SITE_FPS_DEFAULT,
+    );
 
     apply_site_style_state(
       document.documentElement,
@@ -99,12 +110,14 @@ export const bind_settings_controls = (menu_node) => {
       selected_fx_name,
       selected_scale_name,
       selected_display_name,
+      selected_fps_name,
     );
     write_cookie_value(SITE_THEME_COOKIE_NAME, selected_theme_name);
     write_cookie_value(SITE_SHELL_COOKIE_NAME, selected_shell_name);
     write_cookie_value(SITE_FX_COOKIE_NAME, selected_fx_name);
     write_cookie_value(SITE_SCALE_COOKIE_NAME, selected_scale_name);
     write_cookie_value(SITE_DISPLAY_COOKIE_NAME, selected_display_name);
+    write_cookie_value(SITE_FPS_COOKIE_NAME, selected_fps_name);
   };
 
   const commit_user_state = () => {
@@ -137,6 +150,7 @@ export const bind_settings_controls = (menu_node) => {
   bind_select_change(fx_select_node, commit_site_state);
   bind_select_change(scale_select_node, commit_site_state);
   bind_select_change(display_select_node, commit_site_state);
+  bind_select_change(fps_select_node, commit_site_state);
   bind_select_change(text_select_node, commit_user_state);
   bind_select_change(measure_select_node, commit_user_state);
 
@@ -153,6 +167,7 @@ export const bind_settings_controls = (menu_node) => {
               SITE_FX_COOKIE_NAME,
               SITE_SCALE_COOKIE_NAME,
               SITE_DISPLAY_COOKIE_NAME,
+              SITE_FPS_COOKIE_NAME,
             ]
           : [USER_TEXT_COOKIE_NAME, USER_MEASURE_COOKIE_NAME];
       for (const cookie_name of cookie_names) delete_cookie_value(cookie_name);
@@ -163,6 +178,7 @@ export const bind_settings_controls = (menu_node) => {
         saved_fx_class,
         saved_scale_class,
         saved_display_class,
+        saved_fps_class,
       } = resolve_saved_style();
       const { saved_text_class, saved_measure_class } =
         resolve_saved_user_settings();
@@ -173,6 +189,7 @@ export const bind_settings_controls = (menu_node) => {
         saved_fx_class,
         saved_scale_class,
         saved_display_class,
+        saved_fps_class,
       );
       apply_user_settings_state(
         document.documentElement,
@@ -189,6 +206,7 @@ export const bind_settings_controls = (menu_node) => {
         true,
         menu_node.dataset.sideMenuView,
         saved_display_class,
+        saved_fps_class,
       );
     });
   }

@@ -1,13 +1,205 @@
 {
   "schema": 1,
   "roots": [
-    "z_nigredo",
-    "zz_albedo",
-    "zzz_citrinitas",
-    "zzzz_rubedo",
+    "alchemy_writing/z_nigredo",
+    "alchemy_writing/zz_albedo",
+    "alchemy_writing/zzz_citrinitas",
+    "alchemy_writing/zzzz_rubedo",
     "codex"
   ],
   "files": [
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-05_helping_hand.md",
+      "sha256": "039ff472ca3746990b36bc61e1a63c6ae133fc802cb9feba1702226159a7cadd"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-10_weak_ass.md",
+      "sha256": "e8e41897f05a8416ccabb76117152106a12e32aacaed3819f48e1e3c9c7527ad"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-23_what_the_fuck_am_i_doing.md",
+      "sha256": "2572564c73d2160d0ec32018eb34f05dd36a64572dc9578648ac4e62f59e7e1b"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-24_is_this_a_test.md",
+      "sha256": "d02318e3fed7639faff726f6949ee495dc7eaf1a3c48f2d4d73484d4e7a54956"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-29_daily_obituary_00.md",
+      "sha256": "e0b1e513c84d3d2657cedef17963eec80ead7b5b73ff3554edabc07bec291284"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/05/2026-05-30_commitment.md",
+      "sha256": "e1e6367b96e7a0d4690b1f34bf647565424abcaec34d964a148741b5feb6a718"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-01_god_please.md",
+      "sha256": "5cbf5a203b167504632fd4167f94c5b45ac9c580a130e7d5db18645153010715"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-02_the_sheepdogs_visit.md",
+      "sha256": "53120bc37489888725a3a0179c34a5d7d1b6810ec564e2be2e2baede146e414c"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-04_another_303.md",
+      "sha256": "e3f8d0926f53178e00b3de4c37759c6be8d0e55fbfc7bbdbf922eb50fc51dbde"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-07_a_dolls_mission.md",
+      "sha256": "843796f43687e137298368524dbe7c3d380321a35a43da0527a793733c9b311e"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-11_why_cant_i_do_it.md",
+      "sha256": "ea14748639319b3cb77ce4dfb0be653dee29602fe49ce1ea5be020dca059a09b"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/06/2026-06-13_i_lost_my_fren.md",
+      "sha256": "0c62dae0dc9536bcd12e41683439a5a4db0ed32e056d4e36a7d48554bc572d51"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/07/2026-07-11_when-things-are-well.md",
+      "sha256": "17c0251dac55c7c333aef0128c85b88a08b9aeb82cd8f63504478489afa2e6b0"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/07/2026-07-12_dog-days-never-over.md",
+      "sha256": "621d1653d27d156cd60757b8273b6414e5193060bc6b8f57c297626f0338f5fd"
+    },
+    {
+      "path": "alchemy_writing/z_nigredo/2026/07/2029-07-29_was_it_ever_any_different_sol.md",
+      "sha256": "b6987d79a495aed994c3927cdb80c1a6f9a400a4b60f414d60c151939b5836e9"
+    },
+    {
+      "path": "alchemy_writing/zz_albedo/2026-06-04_rain_comes_again.md",
+      "sha256": "0b8070e791df558ca6ec3e317764c62fa6062cd7358faf4cadbff253ac2787e6"
+    },
+    {
+      "path": "alchemy_writing/zz_albedo/2026-06-07_unashamed.md",
+      "sha256": "fe838f5eb1bd876144d7dc54b3ad316eb2c8b7c1252fcb41dff0d8c43c8146df"
+    },
+    {
+      "path": "alchemy_writing/zz_albedo/2026-07-03_everyday_a_step.md",
+      "sha256": "315a99b1b4d628e5d3f20b29dfb605651b1f93b867631a8daede6951659b139f"
+    },
+    {
+      "path": "alchemy_writing/zz_albedo/2026-07-15_never-a-bad-weather-friend.md",
+      "sha256": "a6a73eab69cf0fbb5e50800531f73ca0ff6dfc2d30154c871f09054c9507c430"
+    },
+    {
+      "path": "alchemy_writing/zz_albedo/2026-07-28_itll-be-fine-sol.md",
+      "sha256": "3e2f65429023e61a10b0a20dfbf428b95a879d84776f7c47bdf7eb40382a2398"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/example-garden/_book.md",
+      "sha256": "2ffaf2a8a0fed72662a25fe232058fac6e771c2b57a1cf77b4f8ff35d57efab3"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/example-garden/000_first-light.md",
+      "sha256": "f362e0edef948624a517f7838c331bf8f232cafaf62ec967f039c0e39b1001f2"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/example-garden/001_tending.md",
+      "sha256": "24cfc440fe89eaafc283b2ef9bf43f5beb79292f93c2b174a9b578a0da8b1a1d"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/fur-ys/_book.md",
+      "sha256": "068a1d15d4e84591bff6f68c246317eacb45abfa65c9227ee864d441b1a6261c"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/fur-ys/000_pour-mon-petit-renard.md",
+      "sha256": "dbda98a6209a0557b154b7ce9a95c6125aeacaafb7106424de2317f0b28b3e21"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/fur-ys/media/20260716_155548.jpg",
+      "sha256": "fdae11e90e12bc224a42c46d96003d576a68b2b3bc0a31cc9690f6dbac7290ce"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/_book.md",
+      "sha256": "a062706c1b3fa0dfa751374347046bbe113de2970d105c3c92aa214cb0f5fa36"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/000_youve-been-here-before.md",
+      "sha256": "7ee5bfb756fd279651a1bcdec73d29c044f435c9fd94f96b22de8dc32df5aa8d"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/001_an-apology.md",
+      "sha256": "8d3e2a40124b8ee06d1184c55965ffa38d7e09e321638fa0a3b8a69a393c2464"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/002_fear.md",
+      "sha256": "d1ed9d55507feb76c06b34e788daa699a7b076ec69efdd6c894cbcedc02bec39"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/003_heartbreak.md",
+      "sha256": "83b15f9c001fd2d4e8dab0feffd20fabbc638067ff63d4efe2b1231e9f195bdb"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/004_loss.md",
+      "sha256": "c04be9e8bece9f69d62ddde20e2c2f9517dfec8df9127a1d12a8a13cded12f81"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/005_for-the-ones-who-feel-invisible.md",
+      "sha256": "28c88d1f8cd0338fb70c1cc6c25c7c587b07ea3ad8b9ccd8c6dacfacd5aa58b8"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/006_envy.md",
+      "sha256": "7da53ff2d2c751311b4c468ce7a592e2415fcc29f0a575f0f9c2e0b4dfaeaeac"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/007_soul-ties.md",
+      "sha256": "359751d03d4289c0380740b934503a6f0f5381890694498c7f2242b37ad32f8b"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/008_what-leaves-you.md",
+      "sha256": "3bd68884b14d78fd17d77ec82f2c7ce5bdef03137a99e952f4a38d7f6f959bad"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/009_kindness-never-dies.md",
+      "sha256": "6b20468c0f21e46c078fed2a3d4c7abd01c9739e1eaedced4ce81a8807dc899d"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/010_fall-into-yourself.md",
+      "sha256": "228f5179d63716a348f7841d217083ca1ac21165dba899dc47d2c36ee14df738"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/011_you-are-not-behind.md",
+      "sha256": "36a3bc8ce4b6d47946c9d7972e2d10259397fa1f6f551c64ea32bf9548f2e807"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/012_i-remember-when-the-stars-were-young.md",
+      "sha256": "d368af2391a164a709c241dd866a611512ee4780d32d5696c8fc122a49ae26a6"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/013_break-the-patterns.md",
+      "sha256": "b9f33ffd4b12c215fb7f261b8d81e914e2fc91571f436e5c87d251bcfb9266e9"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/014_uniqueness.md",
+      "sha256": "c0a1924ff3706019851893d12fdfae93b14ce29df852dc025d2e9262d6cfd5ef"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/015_no-void-shall-consume-me.md",
+      "sha256": "59c142469ed752fa3ac5b8a0f2504abfe91d2504784ab5b3ddbe380ebbec54c2"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/016_life-is-ironic.md",
+      "sha256": "f5e957668f57aacfaff56bcd0327279df8226879081cb416e508292e9c7c6106"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/017_life-awaits-no-one.md",
+      "sha256": "a7e9c7d896fbf33e07182e342458276b91cb0d43dae13e03ab2da915f59263a7"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/018_your-struggle-was-not-in-vain.md",
+      "sha256": "8b0dc731dc44b1c3576ba0051075d2a2b3899f3e3f18428fd86c075ffe3a9e8a"
+    },
+    {
+      "path": "alchemy_writing/zzz_citrinitas/the-seraph-collection/019_you-bleed-silence.md",
+      "sha256": "934ab4164007fafc908c35b0391a4de60ad979f3275c5daf251a9cee21e80eb0"
+    },
+    {
+      "path": "alchemy_writing/zzzz_rubedo/absurd-faith/00__ A Squall.md",
+      "sha256": "11c88ff8c98a61679644255cccb739d97cb9751b1844cbb42702cee82d39e268"
+    },
     {
       "path": "codex/characters/cinza.md",
       "sha256": "fcda536665b7a5d9f9e2862f9f1ddcb37665fc9728d30e83af7e14e853e2a5fe"
@@ -15,198 +207,6 @@
     {
       "path": "codex/relics/lantern.md",
       "sha256": "cbca639019b96d2adfcae2e75e4caf9fbef897d8a05b87b5b5a5445972d910ff"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-05_helping_hand.md",
-      "sha256": "039ff472ca3746990b36bc61e1a63c6ae133fc802cb9feba1702226159a7cadd"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-10_weak_ass.md",
-      "sha256": "e8e41897f05a8416ccabb76117152106a12e32aacaed3819f48e1e3c9c7527ad"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-23_what_the_fuck_am_i_doing.md",
-      "sha256": "2572564c73d2160d0ec32018eb34f05dd36a64572dc9578648ac4e62f59e7e1b"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-24_is_this_a_test.md",
-      "sha256": "d02318e3fed7639faff726f6949ee495dc7eaf1a3c48f2d4d73484d4e7a54956"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-29_daily_obituary_00.md",
-      "sha256": "e0b1e513c84d3d2657cedef17963eec80ead7b5b73ff3554edabc07bec291284"
-    },
-    {
-      "path": "z_nigredo/2026/05/2026-05-30_commitment.md",
-      "sha256": "e1e6367b96e7a0d4690b1f34bf647565424abcaec34d964a148741b5feb6a718"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-01_god_please.md",
-      "sha256": "5cbf5a203b167504632fd4167f94c5b45ac9c580a130e7d5db18645153010715"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-02_the_sheepdogs_visit.md",
-      "sha256": "53120bc37489888725a3a0179c34a5d7d1b6810ec564e2be2e2baede146e414c"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-04_another_303.md",
-      "sha256": "e3f8d0926f53178e00b3de4c37759c6be8d0e55fbfc7bbdbf922eb50fc51dbde"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-07_a_dolls_mission.md",
-      "sha256": "843796f43687e137298368524dbe7c3d380321a35a43da0527a793733c9b311e"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-11_why_cant_i_do_it.md",
-      "sha256": "ea14748639319b3cb77ce4dfb0be653dee29602fe49ce1ea5be020dca059a09b"
-    },
-    {
-      "path": "z_nigredo/2026/06/2026-06-13_i_lost_my_fren.md",
-      "sha256": "0c62dae0dc9536bcd12e41683439a5a4db0ed32e056d4e36a7d48554bc572d51"
-    },
-    {
-      "path": "z_nigredo/2026/07/2026-07-11_when-things-are-well.md",
-      "sha256": "17c0251dac55c7c333aef0128c85b88a08b9aeb82cd8f63504478489afa2e6b0"
-    },
-    {
-      "path": "z_nigredo/2026/07/2026-07-12_dog-days-never-over.md",
-      "sha256": "621d1653d27d156cd60757b8273b6414e5193060bc6b8f57c297626f0338f5fd"
-    },
-    {
-      "path": "z_nigredo/2026/07/2029-07-29_was_it_ever_any_different_sol.md",
-      "sha256": "b6987d79a495aed994c3927cdb80c1a6f9a400a4b60f414d60c151939b5836e9"
-    },
-    {
-      "path": "zz_albedo/2026-06-04_rain_comes_again.md",
-      "sha256": "0b8070e791df558ca6ec3e317764c62fa6062cd7358faf4cadbff253ac2787e6"
-    },
-    {
-      "path": "zz_albedo/2026-06-07_unashamed.md",
-      "sha256": "fe838f5eb1bd876144d7dc54b3ad316eb2c8b7c1252fcb41dff0d8c43c8146df"
-    },
-    {
-      "path": "zz_albedo/2026-07-03_everyday_a_step.md",
-      "sha256": "315a99b1b4d628e5d3f20b29dfb605651b1f93b867631a8daede6951659b139f"
-    },
-    {
-      "path": "zz_albedo/2026-07-15_never-a-bad-weather-friend.md",
-      "sha256": "a6a73eab69cf0fbb5e50800531f73ca0ff6dfc2d30154c871f09054c9507c430"
-    },
-    {
-      "path": "zz_albedo/2026-07-28_itll-be-fine-sol.md",
-      "sha256": "3e2f65429023e61a10b0a20dfbf428b95a879d84776f7c47bdf7eb40382a2398"
-    },
-    {
-      "path": "zzz_citrinitas/example-garden/_book.md",
-      "sha256": "2ffaf2a8a0fed72662a25fe232058fac6e771c2b57a1cf77b4f8ff35d57efab3"
-    },
-    {
-      "path": "zzz_citrinitas/example-garden/000_first-light.md",
-      "sha256": "f362e0edef948624a517f7838c331bf8f232cafaf62ec967f039c0e39b1001f2"
-    },
-    {
-      "path": "zzz_citrinitas/example-garden/001_tending.md",
-      "sha256": "24cfc440fe89eaafc283b2ef9bf43f5beb79292f93c2b174a9b578a0da8b1a1d"
-    },
-    {
-      "path": "zzz_citrinitas/fur-ys/_book.md",
-      "sha256": "068a1d15d4e84591bff6f68c246317eacb45abfa65c9227ee864d441b1a6261c"
-    },
-    {
-      "path": "zzz_citrinitas/fur-ys/000_pour-mon-petit-renard.md",
-      "sha256": "83af8e974ffe4e57c9b22515aa1caac4d7d090a5628a69833698d8c54fa9f9af"
-    },
-    {
-      "path": "zzz_citrinitas/fur-ys/media/20260716_155548.jpg",
-      "sha256": "fdae11e90e12bc224a42c46d96003d576a68b2b3bc0a31cc9690f6dbac7290ce"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/_book.md",
-      "sha256": "a062706c1b3fa0dfa751374347046bbe113de2970d105c3c92aa214cb0f5fa36"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/000_youve-been-here-before.md",
-      "sha256": "7ee5bfb756fd279651a1bcdec73d29c044f435c9fd94f96b22de8dc32df5aa8d"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/001_an-apology.md",
-      "sha256": "8d3e2a40124b8ee06d1184c55965ffa38d7e09e321638fa0a3b8a69a393c2464"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/002_fear.md",
-      "sha256": "d1ed9d55507feb76c06b34e788daa699a7b076ec69efdd6c894cbcedc02bec39"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/003_heartbreak.md",
-      "sha256": "83b15f9c001fd2d4e8dab0feffd20fabbc638067ff63d4efe2b1231e9f195bdb"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/004_loss.md",
-      "sha256": "c04be9e8bece9f69d62ddde20e2c2f9517dfec8df9127a1d12a8a13cded12f81"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/005_for-the-ones-who-feel-invisible.md",
-      "sha256": "28c88d1f8cd0338fb70c1cc6c25c7c587b07ea3ad8b9ccd8c6dacfacd5aa58b8"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/006_envy.md",
-      "sha256": "7da53ff2d2c751311b4c468ce7a592e2415fcc29f0a575f0f9c2e0b4dfaeaeac"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/007_soul-ties.md",
-      "sha256": "359751d03d4289c0380740b934503a6f0f5381890694498c7f2242b37ad32f8b"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/008_what-leaves-you.md",
-      "sha256": "3bd68884b14d78fd17d77ec82f2c7ce5bdef03137a99e952f4a38d7f6f959bad"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/009_kindness-never-dies.md",
-      "sha256": "6b20468c0f21e46c078fed2a3d4c7abd01c9739e1eaedced4ce81a8807dc899d"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/010_fall-into-yourself.md",
-      "sha256": "228f5179d63716a348f7841d217083ca1ac21165dba899dc47d2c36ee14df738"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/011_you-are-not-behind.md",
-      "sha256": "36a3bc8ce4b6d47946c9d7972e2d10259397fa1f6f551c64ea32bf9548f2e807"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/012_i-remember-when-the-stars-were-young.md",
-      "sha256": "d368af2391a164a709c241dd866a611512ee4780d32d5696c8fc122a49ae26a6"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/013_break-the-patterns.md",
-      "sha256": "b9f33ffd4b12c215fb7f261b8d81e914e2fc91571f436e5c87d251bcfb9266e9"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/014_uniqueness.md",
-      "sha256": "c0a1924ff3706019851893d12fdfae93b14ce29df852dc025d2e9262d6cfd5ef"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/015_no-void-shall-consume-me.md",
-      "sha256": "59c142469ed752fa3ac5b8a0f2504abfe91d2504784ab5b3ddbe380ebbec54c2"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/016_life-is-ironic.md",
-      "sha256": "f5e957668f57aacfaff56bcd0327279df8226879081cb416e508292e9c7c6106"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/017_life-awaits-no-one.md",
-      "sha256": "a7e9c7d896fbf33e07182e342458276b91cb0d43dae13e03ab2da915f59263a7"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/018_your-struggle-was-not-in-vain.md",
-      "sha256": "8b0dc731dc44b1c3576ba0051075d2a2b3899f3e3f18428fd86c075ffe3a9e8a"
-    },
-    {
-      "path": "zzz_citrinitas/the-seraph-collection/019_you-bleed-silence.md",
-      "sha256": "934ab4164007fafc908c35b0391a4de60ad979f3275c5daf251a9cee21e80eb0"
-    },
-    {
-      "path": "zzzz_rubedo/absurd-faith/00__ A Squall.md",
-      "sha256": "11c88ff8c98a61679644255cccb739d97cb9751b1844cbb42702cee82d39e268"
     }
   ]
 }

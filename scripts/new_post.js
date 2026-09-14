@@ -5,7 +5,7 @@ import { NIGREDO_STATES } from "../src/data/nigredo_taxonomy.js";
 import { resolve_obsidian_vault_root } from "../src/config/obsidian_vault_root.js";
 
 const PHASE_DIRS = {
-  nigredo: "z_nigredo",
+  nigredo: "alchemy_writing/z_nigredo",
 };
 
 const args = parse_args(process.argv.slice(2));

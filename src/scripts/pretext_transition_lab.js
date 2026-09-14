@@ -1,4 +1,4 @@
-import { transition_pretext_content } from "./pretext_transitions.js";
+import { transition_pretext_content } from "scripts-of-folly/transitions";
 
 const LAB_SELECTOR = "[data-sol-transition-lab]";
 const TEXT_SELECTOR = "[data-sol-transition-lab-text]";

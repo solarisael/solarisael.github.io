@@ -1,5 +1,5 @@
 import { resolve_footer_sentences } from "../data/footer_sentences.js";
-import { transition_pretext_content } from "./pretext_transitions.js";
+import { transition_pretext_content } from "scripts-of-folly/transitions";
 
 const DEFAULT_DURATION_MS = 12000;
 const visibility_cycles = new Set();

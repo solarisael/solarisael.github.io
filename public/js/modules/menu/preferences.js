@@ -3,6 +3,7 @@ const SITE_SHELL_COOKIE_NAME = "site_shell";
 const SITE_FX_COOKIE_NAME = "site_fx";
 const SITE_SCALE_COOKIE_NAME = "site_scale";
 const SITE_DISPLAY_COOKIE_NAME = "site_display";
+const SITE_FPS_COOKIE_NAME = "site_fps";
 const SITE_MENU_OPEN_COOKIE_NAME = "site_menu_open";
 const SITE_MENU_VIEW_COOKIE_NAME = "site_menu_view";
 const USER_TEXT_COOKIE_NAME = "user_text";
@@ -16,6 +17,7 @@ const SITE_SHELL_DEFAULT = "medium";
 const SITE_FX_DEFAULT = "balanced";
 const SITE_SCALE_DEFAULT = "100";
 const SITE_DISPLAY_DEFAULT = "sdr";
+const SITE_FPS_DEFAULT = "60";
 const SITE_MENU_OPEN_DEFAULT = false;
 const SITE_MENU_VIEW_DEFAULT = "root";
 const USER_TEXT_DEFAULT = "normal";
@@ -27,6 +29,7 @@ const site_shell_options = ["subtle", "medium", "strong"];
 const site_fx_options = ["subtle", "balanced", "bold"];
 const site_scale_options = ["100", "90", "80"];
 const site_display_options = ["sdr", "hdr"];
+const site_fps_options = ["60", "120", "display"];
 const user_text_options = ["compact", "normal", "large"];
 const user_measure_options = ["focused", "comfort", "wide"];
 
@@ -121,6 +124,7 @@ const apply_site_style_state = (
   fx_name,
   scale_name = SITE_SCALE_DEFAULT,
   display_name = SITE_DISPLAY_DEFAULT,
+  fps_name = SITE_FPS_DEFAULT,
 ) => {
   if (!has_site_root(site_root)) {
     return;
@@ -131,6 +135,7 @@ const apply_site_style_state = (
   site_root.setAttribute("data-site-fx", fx_name);
   site_root.setAttribute("data-site-scale", scale_name);
   site_root.setAttribute("data-site-display", display_name);
+  site_root.setAttribute("data-site-fps", fps_name);
 };
 
 const apply_user_settings_state = (site_root, text_name, measure_name) => {
@@ -203,6 +208,11 @@ const resolve_saved_style = (cookie_header = null) => {
     site_display_options,
     SITE_DISPLAY_DEFAULT,
   );
+  const saved_fps_class = get_safe_option(
+    read_cookie_value(SITE_FPS_COOKIE_NAME, cookie_header),
+    site_fps_options,
+    SITE_FPS_DEFAULT,
+  );
 
   return {
     saved_theme_class,
@@ -210,6 +220,7 @@ const resolve_saved_style = (cookie_header = null) => {
     saved_fx_class,
     saved_scale_class,
     saved_display_class,
+    saved_fps_class,
   };
 };
 
@@ -258,6 +269,8 @@ export {
   LEGACY_HOME_THEME_COOKIE_NAME,
   SITE_DISPLAY_COOKIE_NAME,
   SITE_DISPLAY_DEFAULT,
+  SITE_FPS_COOKIE_NAME,
+  SITE_FPS_DEFAULT,
   SITE_FX_COOKIE_NAME,
   SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
@@ -289,6 +302,7 @@ export {
   resolve_saved_style,
   resolve_saved_user_settings,
   site_display_options,
+  site_fps_options,
   site_fx_options,
   site_scale_options,
   site_shell_options,

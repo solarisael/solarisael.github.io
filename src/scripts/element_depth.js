@@ -1,4 +1,5 @@
 import { WATER_OPTICS, water_transmission } from "./water_optics.js";
+import { create_frame_gate } from "./gpu/frame_gate.js";
 
 const fields = new WeakMap();
 const LIMIT = 16;
@@ -42,6 +43,7 @@ const restore_glyph = (glyph) => {
 const create_field = (menu) => {
   const tablet = menu.querySelector("sol-obsidian-tablet");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const frame_gate = create_frame_gate();
   const uniforms = {
     depth_regions: Array.from({ length: LIMIT }, () => [0, 0, 1, 1]),
     depth_params: Array.from({ length: LIMIT }, () => [0, 0, 0, 0]),
@@ -49,8 +51,7 @@ const create_field = (menu) => {
   };
   let targets = [],
     glyphs = [],
-    frame = null,
-    last = 0;
+    frame = null;
   let dirty = true,
     disposed = false,
     warned = false;
@@ -158,7 +159,7 @@ const create_field = (menu) => {
   const cancel = () => {
     if (frame !== null) cancelAnimationFrame(frame);
     frame = null;
-    last = 0;
+    frame_gate.reset();
   };
   const request = () => {
     if (frame === null && active()) frame = requestAnimationFrame(draw);
@@ -166,13 +167,16 @@ const create_field = (menu) => {
   function draw(now) {
     frame = null;
     if (!active()) return;
-    if (now - last >= 1000 / 30 || motion.matches) {
-      last = now;
-      const origin = measure();
-      if (motion.matches) {
-        for (const glyph of glyphs) restore_glyph(glyph);
-      } else project_glyphs(origin);
+    if (!motion.matches && !frame_gate.due(now)) {
+      request();
+      return;
     }
+
+    const origin = measure();
+    if (motion.matches) {
+      for (const glyph of glyphs) restore_glyph(glyph);
+    } else project_glyphs(origin);
+
     if (!motion.matches) request();
   }
   const sync = () => {

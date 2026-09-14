@@ -14,4 +14,4 @@ que talvez essa casa não seja tão fantasiosa.
 
 I love you lots and lots and lots, minha cotoquinha.
 
-![[zzz_citrinitas/fur-ys/media/20260716_155548.jpg]]
+![[alchemy_writing/zzz_citrinitas/fur-ys/media/20260716_155548.jpg]]

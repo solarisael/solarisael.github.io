@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import { wgslVitePlugin } from "@vgpu/wgsl/loader-vite";
 import { resolve_obsidian_vault_root } from "./src/config/obsidian_vault_root.js";
-import { remark_text_effects } from "./scripts/remark_text_effects.js";
+import { remark_text_effects } from "scripts-of-folly/remark";
 import { remark_interactions } from "./scripts/remark_interactions.js";
 import { remark_soft_breaks } from "./scripts/remark_soft_breaks.js";
 import { remark_wikilinks } from "./scripts/remark_wikilinks.js";
@@ -31,9 +31,9 @@ const normalize_path = (path_value = "") =>
 
 const obsidian_rubedo_hot_reload = () => {
   const vault_root = normalize_path(OBSIDIAN_VAULT_ROOT).replace(/\/+$/, "");
-  const rubedo_root = `${vault_root}/zzzz_rubedo/`;
+  const rubedo_root = `${vault_root}/alchemy_writing/zzzz_rubedo/`;
   const rubedo_root_match = rubedo_root.toLowerCase();
-  const rubedo_watch_root = `${vault_root}/zzzz_rubedo`;
+  const rubedo_watch_root = `${vault_root}/alchemy_writing/zzzz_rubedo`;
 
   const is_rendered_rubedo_scene = (file = "") => {
     const changed_file = normalize_path(file).toLowerCase();
@@ -151,7 +151,7 @@ export default defineConfig({
     },
     // `@vault` resolves to the obsidian vault root. Used by
     // src/data/rubedo/book_timeline_runtime.js's `import.meta.glob` so
-    // rubedo book scenes can be authored in obsidian/zzzz_rubedo/
+    // rubedo book scenes can be authored in obsidian/alchemy_writing/zzzz_rubedo/
     // alongside the rest of the alchemical content. Vite's glob analyzer
     // expands aliases at build time — keep the alias literal at callsite.
     resolve: {
