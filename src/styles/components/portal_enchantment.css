@@ -59,6 +59,14 @@
   pointer-events: none;
   user-select: none;
 }
+:root[data-site-scheme="dark"] #sol_side_menu .sol__enchanted_glyph {
+  color: #282b2e;
+  text-shadow: 0 1px 1px #fffdf3a0;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__letter_bleed {
+  color: #17191b;
+  text-shadow: 0 1px 1px #fffdf3a0;
+}
 .sol__depth_glyph {
   display: inline-block;
   opacity: var(--water-transmission, 1);

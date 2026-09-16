@@ -8,6 +8,7 @@ import { PRETEXT_TRANSITION_EFFECTS } from "scripts-of-folly/transitions";
 import {
   next_footer_index,
   previous_footer_index,
+  random_footer_index,
 } from "../src/scripts/footer_cycle.js";
 
 const alignments = new Set(["start", "center", "end"]);
@@ -49,5 +50,11 @@ describe("footer cycle index", () => {
     expect(previous_footer_index(0, 4)).toBe(3);
     expect(previous_footer_index(2, 4)).toBe(1);
     expect(previous_footer_index(0, 0)).toBe(0);
+  });
+
+  test("chooses a different row for a timed transition", () => {
+    expect(random_footer_index(1, 4, () => 0)).toBe(0);
+    expect(random_footer_index(1, 4, () => 0.999)).toBe(3);
+    expect(random_footer_index(0, 1, () => 0.5)).toBe(0);
   });
 });

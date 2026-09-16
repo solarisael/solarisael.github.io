@@ -2,6 +2,7 @@ import field_source from "../shaders/obsidian_field.wgsl";
 import diffusion_source from "../shaders/obsidian_diffusion.wgsl";
 import glass_source from "../shaders/obsidian_glass.wgsl";
 import fog_source from "../shaders/obsidian_fog.wgsl";
+import ink_field_source from "../shaders/portal_ink_field.wgsl";
 import { create_obsidian_material } from "./obsidian_material.js";
 import {
   effect_pixel_budget,
@@ -29,7 +30,7 @@ const request_hardware_adapter = async () => {
   return adapter;
 };
 
-export const create_obsidian_gpu = async (canvas, { on_error }) => {
+export const create_obsidian_gpu = async (canvas, { on_error, ink }) => {
   const adapter = await request_hardware_adapter();
   const api = await import("vgpu");
   const device = await adapter.requestDevice({ label: "obsidian-tablet" });
@@ -63,8 +64,10 @@ export const create_obsidian_gpu = async (canvas, { on_error }) => {
         diffusion: diffusion_source,
         glass: glass_source,
         fog: fog_source,
+        ink: ink_field_source,
       },
       format,
+      ink,
     );
     await gpu.settled();
     if (failure) throw failure;

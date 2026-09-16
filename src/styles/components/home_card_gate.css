@@ -95,7 +95,7 @@
 }
 
 .sol__phase_card_link:hover {
-  border-color: rgb(64 64 64 / 55%);
+  border-color: color-mix(in srgb, var(--mono_ink, #171717) 55%, transparent);
   background: var(--mono_paper, #f7f4ed);
 }
 

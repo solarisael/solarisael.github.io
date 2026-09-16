@@ -63,23 +63,3 @@ const seams = [
     ))
   }
 </sol-tablet-frame>
-
-<script>
-  if (!customElements.get("sol-tablet-frame")) {
-    customElements.define(
-      "sol-tablet-frame",
-      class extends HTMLElement {
-        on_visibility = () => {
-          this.dataset.pageVisible = String(!document.hidden);
-        };
-        connectedCallback() {
-          this.on_visibility();
-          document.addEventListener("visibilitychange", this.on_visibility);
-        }
-        disconnectedCallback() {
-          document.removeEventListener("visibilitychange", this.on_visibility);
-        }
-      },
-    );
-  }
-</script>

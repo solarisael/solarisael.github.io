@@ -50,7 +50,11 @@
 
     color: var(--mono_ink, #171717);
     opacity: 0.7;
-    background-color: rgb(23 23 23 / 0.08);
+    background-color: color-mix(
+      in srgb,
+      var(--mono_ink, #171717) 8%,
+      transparent
+    );
   }
 
   li:last-child a,

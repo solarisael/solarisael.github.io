@@ -10,27 +10,3 @@ import "../../styles/components/obsidian_tablet.css";
     <slot name="foreground" />
   </div>
 </sol-obsidian-tablet>
-
-<script>
-  import { create_obsidian_runtime } from "../../scripts/obsidian_runtime.js";
-
-  if (!customElements.get("sol-obsidian-tablet")) {
-    customElements.define(
-      "sol-obsidian-tablet",
-      class extends HTMLElement {
-        connectedCallback() {
-          if (this.runtime) return;
-          const menu = this.closest("#sol_side_menu");
-          const canvas = menu?.querySelector("[data-obsidian-surface]");
-          if (!menu) return;
-          if (!canvas) return;
-          this.runtime = create_obsidian_runtime({ owner: this, menu, canvas });
-        }
-        disconnectedCallback() {
-          this.runtime?.dispose();
-          this.runtime = null;
-        }
-      },
-    );
-  }
-</script>

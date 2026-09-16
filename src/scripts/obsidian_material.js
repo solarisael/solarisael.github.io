@@ -1,6 +1,16 @@
 import { WATER_OPTICS } from "./water_optics.js";
+import {
+  effect_pixel_budget,
+  resize_effect_surface,
+} from "./gpu/render_size.js";
 
-export const create_obsidian_material = async (api, gpu, sources, format) => {
+export const create_obsidian_material = async (
+  api,
+  gpu,
+  sources,
+  format,
+  ink,
+) => {
   const field = api.target(gpu, {
     size: [1536, 1536],
     format: "rgba16float",
@@ -58,6 +68,21 @@ export const create_obsidian_material = async (api, gpu, sources, format) => {
   };
   const diffuse = make_diffusion(384, 1 / 384, "obsidian-diffusion");
   const emission = make_diffusion(768, 1 / 1536, "obsidian-edge-emission");
+  const plume = api.target(gpu, {
+    size: [1, 1],
+    format: "rgba16float",
+    label: "obsidian-plume-boundary",
+  });
+  const plume_pass = api.effect(gpu, sources.ink, {
+    label: "obsidian-plume-boundary",
+    set: { ink },
+  });
+  const plume_sampler = api.sampler(gpu, {
+    minFilter: "linear",
+    magFilter: "linear",
+    addressModeU: "clamp-to-edge",
+    addressModeV: "clamp-to-edge",
+  });
   const material = api.effect(gpu, sources.glass, {
     label: "obsidian-glass-and-halo",
     set: {
@@ -67,6 +92,9 @@ export const create_obsidian_material = async (api, gpu, sources, format) => {
       fog_field: fog.color,
       field_sampler: sampler,
       water: WATER_OPTICS,
+      ink,
+      plume_field: plume.color,
+      plume_sampler,
       glass: {
         resolution: [1, 1],
         tablet_size: [1, 1],
@@ -79,6 +107,7 @@ export const create_obsidian_material = async (api, gpu, sources, format) => {
         depth_params: Array.from({ length: 16 }, () => [0, 0, 0, 0]),
         depth_count: 0,
         sdr: 1,
+        scheme: 0,
         button_regions: Array.from({ length: 16 }, () => [0, 0, 0, 0]),
         button_bounds: [0, 0, 0, 0],
         button_count: 0,
@@ -93,16 +122,28 @@ export const create_obsidian_material = async (api, gpu, sources, format) => {
   ];
   await Promise.all([
     ...passes.map(([target, pass]) => pass.compile(target)),
+    plume_pass.compile(plume),
     material.compile({ colors: [format] }),
   ]);
   api.frame(gpu, (frame) => {
     for (const [target, pass] of passes) frame.pass(target, pass);
   });
-  const uniforms = { glass: null };
+  const uniforms = { glass: null, ink, plume_field: plume.color };
+  const plume_uniforms = { ink };
   let destination;
-  const submit = (frame) => frame.pass(destination, material);
+  const submit = (frame) => {
+    frame.pass(plume, plume_pass);
+    frame.pass(destination, material);
+  };
   return {
     render(target, values) {
+      resize_effect_surface(
+        plume,
+        ink.resolution,
+        effect_pixel_budget("ink", ink.resolution),
+      );
+      plume_pass.set(plume_uniforms);
+      uniforms.plume_field = plume.color;
       destination = target;
       uniforms.glass = values;
       material.set(uniforms);

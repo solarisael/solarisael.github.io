@@ -506,3 +506,127 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
     transition: none !important;
   }
 }
+
+.sol__side_menu_icon[data-site-scheme-toggle] {
+  min-width: var(--control_target_min);
+  min-height: var(--control_target_min);
+}
+
+.sol__side_menu_scheme_icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+html[data-site-scheme="light"] .sol__scheme_sun,
+html[data-site-scheme="dark"] .sol__scheme_moon {
+  display: none;
+}
+:root[data-site-scheme="dark"] #sol_side_menu {
+  --portal-gold: #17191b;
+}
+:root[data-site-scheme="dark"] #sol_side_menu_trigger {
+  color: #fff8df;
+  border-color: #fff5d4a6;
+  box-shadow: 0 0 1.5rem #fff5d433;
+}
+:root[data-site-scheme="dark"] #sol_side_menu_panel {
+  color-scheme: light;
+  color: #393328;
+}
+:root[data-site-scheme="dark"] #sol_side_menu_panel::backdrop {
+  background: #090b1080;
+  backdrop-filter: none;
+  animation: none;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu[data-portal-ink-renderer="vgpu"]
+  #sol_side_menu_panel::backdrop {
+  background: #090b1026;
+}
+:root[data-site-scheme="dark"] #sol_side_menu_panel_scroll {
+  scrollbar-color: #938365 #e9e5d9;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_route {
+  color: #17191b;
+  text-shadow:
+    0 1px 1px #fffef5,
+    1px 0 1px #fffef5,
+    0 -1px 1px #fffef5,
+    -1px 0 1px #fffef5;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  .sol__side_menu_route:is(
+    :hover,
+    :focus-visible,
+    [data-route-active="true"],
+    [data-portal-selected="true"]
+  ) {
+  color: #050709;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  #sol_side_menu_panel_header
+  [data-side-menu-close] {
+  color: #17191b;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__close_rim circle {
+  fill: #fffcef80;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon {
+  background: #dad3c180;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  sol-obsidian-tablet[data-obsidian-renderer="webgpu"]
+  .sol__side_menu_icon {
+  background: transparent;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon svg {
+  filter: none;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  .sol__side_menu_icon:is(:hover, :focus-visible) {
+  color: #050709;
+}
+:root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon_label {
+  color: #17191b;
+  background: #fffcef;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  button:not(#sol_side_menu_trigger):not(.sol__side_menu_icon):not(
+    [data-side-menu-close]
+  ),
+:root[data-site-scheme="dark"] #sol_side_menu select {
+  color: #393328;
+  background: #fffcf0e6;
+  border-color: #77644160;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  :is(.sol__side_menu_view_header h2, .sol__side_menu_settings_section h3) {
+  color: #17191b;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  :is(
+    .sol__side_menu_view_header p,
+    .sol__side_menu_note,
+    .sol__side_menu_label,
+    .sol__side_menu_status_list dt,
+    #sol_portal_touch_hint
+  ) {
+  color: #615744;
+}
+:root[data-site-scheme="dark"]
+  #sol_side_menu
+  :is(a, button, select):focus-visible {
+  outline-color: #17191b;
+}

@@ -26,11 +26,36 @@ export const next_footer_index = (index, row_count) =>
 export const previous_footer_index = (index, row_count) =>
   row_count > 0 ? (Number(index) - 1 + row_count) % row_count : 0;
 
+export const random_footer_index = (index, row_count, random = Math.random) => {
+  if (row_count <= 1) {
+    return 0;
+  }
+
+  const current_index = Number(index);
+  const candidate = Math.floor(random() * (row_count - 1));
+  return candidate >= current_index ? candidate + 1 : candidate;
+};
+
 const clear_timer = (cycle) => {
   if (cycle.timer !== null) {
     clearTimeout(cycle.timer);
     cycle.timer = null;
   }
+};
+
+const update_counter = (cycle) => {
+  const counter = cycle.root
+    .closest("#sol_footer")
+    ?.querySelector("[data-footer-cycle-counter]");
+  if (!counter) {
+    return;
+  }
+
+  counter.textContent = `${cycle.index + 1} / ${cycle.rows.length}`;
+  counter.setAttribute(
+    "aria-label",
+    `Message ${cycle.index + 1} of ${cycle.rows.length}`,
+  );
 };
 
 const schedule_cycle = (cycle) => {
@@ -54,28 +79,36 @@ const schedule_cycle = (cycle) => {
       return;
     }
 
-    step_cycle(cycle, "next");
+    show_cycle_index(
+      cycle,
+      random_footer_index(cycle.index, cycle.rows.length),
+    );
   }, duration_ms);
 };
 
-// Shared by the timer and the manual arrows. Manual steps deliberately skip
-// the visible/hidden gates — a click IS the visibility proof.
+// Manual arrows stay sequential. The timer chooses a different random row.
+const show_cycle_index = (cycle, index) => {
+  clear_timer(cycle);
+  cycle.index = index;
+  const next_row = cycle.rows[cycle.index];
+  transition_plain_content(cycle.root, next_row.html, () => {
+    cycle.root.dataset.cycleAlign = next_row.align;
+    update_counter(cycle);
+  });
+  schedule_cycle(cycle);
+};
+
 const step_cycle = (cycle, direction) => {
   if (!cycle.root.isConnected || cycle.rows.length <= 1) {
     schedule_cycle(cycle);
     return;
   }
 
-  clear_timer(cycle);
-  cycle.index =
+  const next_index =
     direction === "prev"
       ? previous_footer_index(cycle.index, cycle.rows.length)
       : next_footer_index(cycle.index, cycle.rows.length);
-  const next_row = cycle.rows[cycle.index];
-  transition_plain_content(cycle.root, next_row.html, () => {
-    cycle.root.dataset.cycleAlign = next_row.align;
-  });
-  schedule_cycle(cycle);
+  show_cycle_index(cycle, next_index);
 };
 
 const retire_cycle = (cycle) => {
@@ -97,6 +130,7 @@ const hydrate_footer_cycle = (root) => {
   // from another footer group is reading the wrong row table and must be rebuilt.
   if (existing) {
     if (existing.footer_group === footer_group) {
+      update_counter(existing);
       return;
     }
     retire_cycle(existing);
@@ -118,6 +152,7 @@ const hydrate_footer_cycle = (root) => {
     observer: null,
   };
   active_cycles.set(root, cycle);
+  update_counter(cycle);
   visibility_cycles.add(cycle);
 
   if (typeof IntersectionObserver === "function") {

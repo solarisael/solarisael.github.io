@@ -1,6 +1,7 @@
 import { acquire_element_depth } from "./element_depth.js";
 import { create_obsidian_button_geometry } from "./obsidian_button_geometry.js";
 import { create_frame_gate } from "./gpu/frame_gate.js";
+import { ensure_portal_ink_values } from "./portal_ink_state.js";
 
 const load_obsidian_gpu = async (canvas, options) => {
   const { create_obsidian_gpu } = await import("./obsidian_gpu.js");
@@ -26,6 +27,7 @@ export const create_obsidian_runtime = ({
     rim: 0,
     time: 0,
     sdr: 1,
+    scheme: 0,
     ...depth.field.uniforms,
     button_regions: Array.from({ length: 16 }, () => [0, 0, 0, 0]),
     button_bounds: [0, 0, 0, 0],
@@ -88,6 +90,8 @@ export const create_obsidian_runtime = ({
     values.rim =
       parseFloat(style.getPropertyValue("--obsidian-rim-width")) || 0;
     values.sdr = document.documentElement.dataset.siteDisplay === "hdr" ? 0 : 1;
+    values.scheme =
+      document.documentElement.dataset.siteScheme === "dark" ? 1 : 0;
 
     button_geometry.measure(tablet, values);
     dirty = false;
@@ -151,7 +155,10 @@ export const create_obsidian_runtime = ({
     pending = true;
     owner.dataset.obsidianRenderer = "loading";
     try {
-      const loaded = await load_gpu(canvas, { on_error: fail });
+      const loaded = await load_gpu(canvas, {
+        on_error: fail,
+        ink: ensure_portal_ink_values(menu),
+      });
       if (disposed || failed) {
         loaded.dispose();
         return;
@@ -197,6 +204,10 @@ export const create_obsidian_runtime = ({
     cancel();
     invalidate();
   };
+  const ink_change = () => {
+    needs_frame = true;
+    request();
+  };
   const attributes = new MutationObserver(invalidate);
   attributes.observe(menu, {
     attributes: true,
@@ -211,6 +222,7 @@ export const create_obsidian_runtime = ({
     attributes: true,
     attributeFilter: [
       "data-site-display",
+      "data-site-scheme",
       "data-site-fps",
       "data-site-scale",
       "data-user-text",
@@ -225,6 +237,7 @@ export const create_obsidian_runtime = ({
   document.fonts?.addEventListener("loadingdone", invalidate);
   motion.addEventListener("change", motion_change);
   menu.addEventListener("sol:depth-change", invalidate);
+  menu.addEventListener("sol:ink-change", ink_change);
   document.addEventListener("visibilitychange", sync);
   sync();
 
@@ -241,6 +254,7 @@ export const create_obsidian_runtime = ({
       motion.removeEventListener("change", motion_change);
       document.removeEventListener("visibilitychange", sync);
       menu.removeEventListener("sol:depth-change", invalidate);
+      menu.removeEventListener("sol:ink-change", ink_change);
       owner.dataset.obsidianRenderer = "static";
       release();
       depth.release();

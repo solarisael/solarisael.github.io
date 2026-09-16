@@ -27,6 +27,7 @@ export const observe_lettering = (menu, canvas, layout, states) => {
       "data-user-text",
       "data-user-measure",
       "data-site-theme",
+      "data-site-scheme",
     ],
   });
   menu.addEventListener("scroll", invalidate, true);

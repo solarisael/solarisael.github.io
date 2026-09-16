@@ -120,6 +120,9 @@ const metadata_payload = JSON.stringify({
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline src={with_base("js/modules/menu/color_scheme.js")}
+    ></script>
     <meta name="description" content={resolved_page_description} />
     <meta
       name="robots"
@@ -185,6 +188,8 @@ const metadata_payload = JSON.stringify({
     <script is:inline src={with_base("js/vendor/idiomorph-ext.js")}></script>
     <script is:inline src={with_base("js/vendor/htmx-preload-ext.js")}></script>
     <script src={with_base("js/scripts.js")} type="module"></script>
+    <script type="module" src={with_base("js/modules/side_menu_runtime.js")}
+    ></script>
     <script>
       import "../scripts/monochrome_runtime.js";
       import "../scripts/footer_cycle.js";

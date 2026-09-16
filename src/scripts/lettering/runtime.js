@@ -16,7 +16,7 @@ export const create_portal_lettering = (menu) => {
   const values = {
     resolution: [1, 1],
     time: 0,
-    padding: 0,
+    scheme: 0,
     clip: [0, 0, 1, 1],
   };
   let backend = null,
@@ -119,6 +119,8 @@ export const create_portal_lettering = (menu) => {
       if (last !== null) elapsed += (now - last) / 1000;
       last = now;
       values.time = elapsed;
+      values.scheme =
+        document.documentElement.dataset.siteScheme === "dark" ? 1 : 0;
       if (pending_reveal) {
         model.reveal(elapsed);
         model.sync_states();

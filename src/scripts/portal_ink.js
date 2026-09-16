@@ -1,5 +1,6 @@
 import { create_ink_gpu } from "./portal_ink_gpu.js";
 import { create_frame_gate } from "./gpu/frame_gate.js";
+import { ensure_portal_ink_values } from "./portal_ink_state.js";
 
 export const create_ink_shadow = (menu, panel, canvas, artifact) => {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -72,14 +73,8 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
     if (active() && renderer.ready() && frame === null)
       frame = requestAnimationFrame(draw);
   };
-  const values = {
-    resolution: [1, 1],
-    center: [0.5, 0.5],
-    extent: [0.5, 0.4],
-    time: 0,
-    reveal: 0,
-    sdr: 1,
-  };
+  const values = ensure_portal_ink_values(menu);
+  const ink_change = new Event("sol:ink-change");
   const renderer_ready = () => {
     reveal_started =
       menu.dataset.portalPhase === "artifact"
@@ -125,6 +120,8 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
     values.extent[1] = 0.375;
     values.time = motion.matches ? 0 : elapsed / 1000;
     values.sdr = document.documentElement.dataset.siteDisplay === "hdr" ? 0 : 1;
+    values.scheme =
+      document.documentElement.dataset.siteScheme === "dark" ? 1 : 0;
     return true;
   };
   const advance_reveal = (now) => {
@@ -143,6 +140,7 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
     try {
       renderer.submit();
       menu.dataset.portalInkRenderer = "vgpu";
+      if (motion.matches) menu.dispatchEvent(ink_change);
       if (closing && close_progress === 1) {
         finish_close();
         return false;
@@ -170,7 +168,7 @@ export const create_ink_shadow = (menu, panel, canvas, artifact) => {
   const display = new MutationObserver(request);
   display.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ["data-site-display", "data-site-fps"],
+    attributeFilter: ["data-site-display", "data-site-fps", "data-site-scheme"],
   });
   motion.addEventListener("change", request);
   document.addEventListener("visibilitychange", visibility);

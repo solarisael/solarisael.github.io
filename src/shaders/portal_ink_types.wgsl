@@ -5,4 +5,5 @@ export struct Ink {
   time: f32,
   reveal: f32,
   sdr: f32,
+  scheme: f32,
 }

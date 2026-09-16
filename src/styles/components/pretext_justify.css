@@ -150,5 +150,5 @@
 
 .sol__pretext_transition_controls button:hover,
 .sol__pretext_transition_controls button:focus-visible {
-  background: rgb(23 23 23 / 0.08);
+  background: color-mix(in srgb, var(--mono_ink, #171717) 8%, transparent);
 }

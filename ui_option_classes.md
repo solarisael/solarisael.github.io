@@ -13,6 +13,7 @@ When new optional class variants are introduced, add them here in the same chang
 - 2026-02-08: Added `site_shell_*` option set for shell intensity control.
 - 2026-02-08: Added `verdigris` to `data-site-theme` options.
 - 2026-02-09: Replaced 4 theme options with 7 inspiration-aligned themes and dual alias naming.
+- 2026-09-15: Added the system `color-scheme` paper option for light and dark paper.
 
 ## Navigation
 
@@ -255,3 +256,19 @@ Use this attribute for a temporary visual check:
 ```html
 <html data-site-display="sdr"></html>
 ```
+
+## Color Scheme
+
+- Purpose: let the reader choose light or dark page paper.
+- Apply on: `<html>` through `data-site-scheme`.
+- Default: the system setting when no saved choice exists.
+- Options:
+  - `light`: paper `#f7f4ed`, ink `#171717`, border `rgb(64 64 64 / 30%)`.
+  - `dark`: paper `#121212`, ink `#ece7dc`, border `rgb(214 208 196 / 30%)`.
+- Storage: `site_scheme` in local storage.
+- Menu:
+  - Light pages use black glass, gold caustics, and gold lettering.
+  - Dark pages use ivory glass, black caustics, near-black lettering, pale outlines, and the full white plume.
+
+Use the sun or moon control between the settings and profile controls.
+Clear `site_scheme` in local storage to return to the system setting.

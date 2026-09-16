@@ -12,10 +12,6 @@ sol-obsidian-tablet,
   animation: obsidian-drift var(--obsidian-drift-duration) ease-in-out infinite
     paused;
 }
-[data-portal-ink] {
-  --obsidian-drift-x: 0.11rem;
-  --obsidian-drift-y: 0.14rem;
-}
 #sol_side_menu[data-portal-phase="artifact"]
   :is(sol-obsidian-tablet, [data-obsidian-surface], [data-portal-ink]) {
   animation-play-state: running;
@@ -50,6 +46,9 @@ sol-obsidian-tablet {
   --obsidian-static-dark: #080b0f;
   --obsidian-static-light: #14181f;
   --obsidian-static-end: #070a0e;
+  --obsidian-static-sheen: #0b0e1433;
+  --obsidian-static-shade: #00000099;
+  --obsidian-static-glint: #10151c22;
   position: relative;
   z-index: 2;
   display: grid;
@@ -66,10 +65,10 @@ sol-obsidian-tablet {
   background:
     linear-gradient(
       145deg,
-      #0b0e1433,
+      var(--obsidian-static-sheen),
       transparent 25%,
-      #00000099 65%,
-      #10151c22
+      var(--obsidian-static-shade) 65%,
+      var(--obsidian-static-glint)
     ),
     linear-gradient(
       100deg,
@@ -86,6 +85,22 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] {
   --obsidian-static-dark: #020407;
   --obsidian-static-light: #070a0f;
   --obsidian-static-end: #010204;
+}
+
+:root[data-site-scheme="dark"] sol-obsidian-tablet {
+  --obsidian-static-dark: #d9d5c8;
+  --obsidian-static-light: #fffdf3;
+  --obsidian-static-end: #e6e1d3;
+  --obsidian-static-sheen: #ffffff80;
+  --obsidian-static-shade: #b6ae9226;
+  --obsidian-static-glint: #fffef599;
+}
+:root[data-site-scheme="dark"]
+  sol-obsidian-tablet:not([data-obsidian-renderer="webgpu"]) {
+  box-shadow:
+    0 0 1.5rem #fff9dc40,
+    0 0 5rem #fff9dc24,
+    inset 0 0 0 1px #fffef0b3;
 }
 
 [data-obsidian-surface] {

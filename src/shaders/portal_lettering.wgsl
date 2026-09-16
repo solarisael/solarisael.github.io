@@ -1,7 +1,7 @@
 struct Frame {
   resolution: vec2f,
   time: f32,
-  padding: f32,
+  scheme: f32,
   clip: vec4f,
 }
 struct AtlasEntry { uv: vec4f, bounds: vec4f, metrics: vec4f }
@@ -125,6 +125,11 @@ struct VertexOut {
     brightness = 2.0;
     origin = center + vec2f(-entry.metrics.x * 0.5, (entry.metrics.y - entry.metrics.z) * 0.5);
   }
+  if (frame.scheme > 0.5) {
+    color = mix(vec3f(0.035, 0.038, 0.04), vec3f(0.008, 0.01, 0.012),
+      max(word.state.y, word.state.z));
+    brightness = 1.0;
+  }
 
   let corners = array<vec2f, 6>(vec2f(0, 0), vec2f(1, 0), vec2f(0, 1), vec2f(0, 1), vec2f(1, 0), vec2f(1, 1));
   let corner = corners[vertex];
@@ -142,14 +147,16 @@ struct VertexOut {
   if (any(input.pixel < frame.clip.xy) || any(input.pixel > frame.clip.zw)) { discard; }
   let masks = textureSampleLevel(glyph_texture, glyph_sampler, input.uv, 0.0);
   let brightness = input.effect.x;
-  let outer_alpha = masks.b * 0.4;
-  let inner_alpha = masks.g * 0.65;
+  let outer_alpha = masks.b * mix(0.4, 0.05, frame.scheme);
+  let inner_alpha = masks.g * mix(0.65, 0.12, frame.scheme);
   let outline = masks.a * input.effect.y;
-  var color = min(vec3f(1.0, 0.75, 0.28) * brightness, vec3f(1.0)) * outer_alpha;
+  let outer_tint = mix(vec3f(1.0, 0.75, 0.28), vec3f(0.035, 0.038, 0.04), frame.scheme);
+  let inner_tint = mix(vec3f(1.0, 0.89, 0.64), vec3f(1.0, 0.98, 0.90), frame.scheme);
+  var color = min(outer_tint * brightness, vec3f(1.0)) * outer_alpha;
   var alpha = outer_alpha;
-  color = min(vec3f(1.0, 0.89, 0.64) * brightness, vec3f(1.0)) * inner_alpha + color * (1.0 - inner_alpha);
+  color = min(inner_tint * brightness, vec3f(1.0)) * inner_alpha + color * (1.0 - inner_alpha);
   alpha = inner_alpha + alpha * (1.0 - inner_alpha);
-  color *= 1.0 - outline;
+  color = vec3f(1.0, 0.98, 0.91) * frame.scheme * outline + color * (1.0 - outline);
   alpha = outline + alpha * (1.0 - outline);
   color = min(input.color.rgb * brightness, vec3f(1.0)) * masks.r + color * (1.0 - masks.r);
   alpha = masks.r + alpha * (1.0 - masks.r);

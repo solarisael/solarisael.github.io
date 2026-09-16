@@ -1,4 +1,6 @@
 import { linearToSrgb3 } from "@vgpu/wgsl-std/color";
+import { Ink } from "./portal_ink_types.wgsl";
+import { ink_coverage } from "./portal_ink_coverage.wgsl";
 
 struct Glass {
   resolution: vec2f,
@@ -15,6 +17,7 @@ struct Glass {
   button_regions: array<vec4f, 16>,
   button_bounds: vec4f,
   button_count: f32,
+  scheme: f32,
 }
 @group(0) @binding(0) var fracture_field: texture_2d<f32>;
 @group(0) @binding(1) var diffuse_field: texture_2d<f32>;
@@ -30,6 +33,9 @@ struct Water {
   wave_depth: f32,
 }
 @group(0) @binding(6) var<uniform> water: Water;
+@group(0) @binding(7) var<uniform> ink: Ink;
+@group(0) @binding(8) var plume_field: texture_2d<f32>;
+@group(0) @binding(9) var plume_sampler: sampler;
 
 struct Current {
   near_offset: vec2f,
@@ -181,23 +187,23 @@ fn atmosphere(field_uv: vec2f, energy: f32, diffused: vec3f, distance: f32) -> v
   let scattered = density * envelope * illumination * mix(0.35, 0.65, smoke.z);
   let shadow = density * envelope * (1.0 - illumination) * 0.28;
   let tint = mix(vec3f(0.95, 0.92, 0.8), film(diffused * 4.0), 0.25);
-  return vec4f(tint * scattered, scattered + shadow * (1.0 - scattered));
+  let radiance = tint * scattered
+    + vec3f(1.0, 0.975, 0.90) * shadow * (1.0 - scattered) * glass.scheme;
+  return vec4f(radiance, scattered + shadow * (1.0 - scattered));
 }
 
-fn water_spill(mist: vec4f, field_uv: vec2f, normal: vec2f, distance: f32) -> vec4f {
+fn water_spill(mist: vec4f, field_uv: vec2f, normal: vec2f, coverage: f32) -> vec4f {
   let crest = smoothstep(0.56, 0.88, current.height);
-  let reach = max(glass.halo, 1.0) * 0.5 * crest;
-  if (reach < 0.75) {
-    return mist;
-  }
-  let profile = 1.0 - smoothstep(max(reach - 2.0, 0.0), reach + 2.0, distance);
-  let lip = exp(-abs(distance - reach) / 1.1);
   let bent_uv = field_uv + current.gradient * 0.009 + normal * crest * 0.012;
   let illumination = smoothstep(0.04, 0.65, emission_energy(bent_uv));
-  let body_alpha = profile * crest * 0.2;
-  let glint_alpha = lip * crest * illumination * 0.28;
-  let transmitted = film(fracture_at(bent_uv).rgb * 0.22);
-  let color = transmitted * body_alpha * (1.0 - glint_alpha) + vec3f(0.97, 0.95, 0.86) * glint_alpha;
+  let body_alpha = coverage * crest * 0.2;
+  let glint_alpha = coverage * crest * illumination * 0.28;
+  let fracture = fracture_at(bent_uv).rgb;
+  let dark_caustic = smoothstep(0.03, 0.8, max(max(fracture.r, fracture.g), fracture.b));
+  let transmitted = mix(film(fracture * 0.22),
+    mix(vec3f(1.0, 0.975, 0.90), vec3f(0.002, 0.0025, 0.003), dark_caustic), glass.scheme);
+  let glint_tint = mix(vec3f(0.97, 0.95, 0.86), vec3f(0.002, 0.0025, 0.003), glass.scheme);
+  let color = transmitted * body_alpha * (1.0 - glint_alpha) + glint_tint * glint_alpha;
   let alpha = body_alpha + glint_alpha * (1.0 - body_alpha);
   return vec4f(color + mist.rgb * (1.0 - alpha), alpha + mist.a * (1.0 - alpha));
 }
@@ -222,21 +228,29 @@ fn basin_surface(
   let reflection = fracture_at(field_uv + edge_normal * slope * 0.024 - ripple * 0.005).rgb;
   let red = fracture_at(curved_uv + ripple * 0.001).r;
   let blue = fracture_at(curved_uv - ripple * 0.001).b;
-  let inward_light = max(dot(-edge_normal, normalize(vec2f(-0.6, -0.8))), 0.0);
+  let inward_light = 0.5 + dot(-edge_normal, normalize(vec2f(-0.6, -0.8))) * 0.12;
   let edge_glint = exp(-inner_distance / 1.1)
     + exp(-abs(inner_distance - wall_width) / 1.2);
   let waterline = wall_width * (1.0 - current.height * 0.7);
   let water_glint = exp(-abs(inner_distance - waterline) / 1.3) * current.height;
   let contact_shadow = exp(-inner_distance / (wall_width * 0.7))
-    * mix(0.5, 0.2, inward_light);
+    * mix(0.5, 0.2, inward_light) * mix(1.0, 0.12, glass.scheme);
   let fresnel = 0.07 + edge_glint * 0.3;
-  let stone = mix(vec3f(0.009, 0.007, 0.015), vec3f(0.004, 0.005, 0.009), depth);
+  let shadow_stone = mix(vec3f(0.009, 0.007, 0.015), vec3f(0.004, 0.006, 0.009), depth);
+  let light_stone = mix(vec3f(2.4, 2.25, 1.9), vec3f(1.55, 1.5, 1.3), depth);
+  let stone = mix(shadow_stone, light_stone, glass.scheme);
   let energy = emission_energy(curved_uv);
-  let radiance = stone + vec3f(red, transmission.g, blue) * mix(0.56, 0.38, depth)
-    + reflection * fresnel * 0.45 + diffused * 0.08
+  let caustics = vec3f(red, transmission.g, blue) * mix(0.56, 0.38, depth)
+    + reflection * fresnel * 0.45;
+  let radiance = stone + caustics + diffused * 0.08
     + vec3f(0.12, 0.115, 0.1) * (edge_glint + water_glint * 0.3)
       * smoothstep(0.06, 0.5, energy);
-  let glass_color = film(radiance) * (1.0 - contact_shadow) * (1.0 - slope * 0.18);
+  var glass_color = film(radiance);
+  if (glass.scheme > 0.5) {
+    let ink = smoothstep(0.012, 0.35, max(max(caustics.r, caustics.g), caustics.b));
+    glass_color = mix(film(stone), vec3f(0.002, 0.0025, 0.003), ink);
+  }
+  glass_color *= (1.0 - contact_shadow) * (1.0 - slope * mix(0.18, 0.025, glass.scheme));
 
   // The lip hides the crossing smoke; the same world field feeds both sides.
   let world_uv = (glass.tablet_origin + local) / 640.0;
@@ -249,7 +263,7 @@ fn basin_surface(
   let density = smoke.x * crest * spill * lip_occlusion;
   let illumination = smoothstep(0.04, 0.7, energy);
   let scattered = density * illumination * 0.32;
-  let shadow = density * (1.0 - illumination) * 0.48;
+  let shadow = density * (1.0 - illumination) * mix(0.48, 0.025, glass.scheme);
   let tint = mix(vec3f(0.95, 0.92, 0.8), film(diffused * 4.0), 0.25);
   let surface = glass_color * (1.0 - shadow) * (1.0 - scattered) + tint * scattered;
   return surface;
@@ -263,9 +277,11 @@ fn button_surface(
   let reflected = fracture_at(field_uv - normal.xy * 0.012).rgb;
   let facing = max(dot(normal, normalize(vec3f(-0.6, -0.8, 0.9))), 0.0);
   let glint = pow(facing, 12.0) * bevel;
-  let radiance = vec3f(0.0006, 0.0009, 0.0016)
+  let shadow_stone = vec3f(0.0006, 0.0009, 0.0016);
+  let light_stone = mix(vec3f(1.25, 1.18, 1.0), vec3f(2.3, 2.15, 1.85), bevel);
+  let radiance = mix(shadow_stone, light_stone, glass.scheme)
     + reflected * 0.02 + diffused * 0.004
-    + vec3f(0.016, 0.017, 0.019) * glint;
+    + mix(vec3f(0.016, 0.017, 0.019), vec3f(0.4, 0.38, 0.32), glass.scheme) * glint;
   let coverage = 1.0 - smoothstep(1.0 - 0.8 / radius, 1.0, q);
   let opacity = mix(0.4, 0.62, bevel);
   return vec4f(film(radiance), coverage * opacity);
@@ -279,8 +295,13 @@ fn shade_glass(uv: vec2f) -> vec4f {
   let centered = local - half_size;
   let outside = max(abs(centered) - half_size, vec2f(0.0));
   let outside_distance = length(outside);
-  if (outside_distance > max(glass.halo, 1.0) * 4.0) {
-    return vec4f(0.0);
+  var plume = 0.0;
+  if (outside_distance > 0.0) {
+    let signals = textureSampleLevel(plume_field, plume_sampler, uv, 0.0);
+    plume = ink_coverage(uv, signals, ink).x;
+    if (outside_distance > max(glass.halo, 1.0) * 4.0 && plume <= 0.001) {
+      return vec4f(0.0);
+    }
   }
   current = sample_current(centered);
   let field_uv = centered / 640.0;
@@ -335,7 +356,7 @@ fn shade_glass(uv: vec2f) -> vec4f {
     let energy = max(max(edge_light.r, edge_light.g), edge_light.b);
     let mist = water_spill(atmosphere(
       field_uv, emission_energy(mix(refraction, field_uv, 0.35)), diffused, outside_distance
-    ), field_uv, edge_normal, outside_distance);
+    ), field_uv, edge_normal, plume);
     let center_log = log(max(energy, 0.0001));
     let minus_log = log(max(emission_energy(jet_uv - tangent * 3.0 / 640.0), 0.0001));
     let plus_log = log(max(emission_energy(jet_uv + tangent * 3.0 / 640.0), 0.0001));
@@ -350,20 +371,19 @@ fn shade_glass(uv: vec2f) -> vec4f {
     }
     let peak = exp(min(center_log - 0.5 * gradient * gradient / curvature, 2.0));
     let emission = smoothstep(0.04, 0.85, peak);
-    let reach = max(2.0, glass.halo * mix(0.1, 0.6, sqrt(emission)));
-    let progress = outside_distance / reach;
-    if (progress >= 1.0) {
+    let progress = 1.0 - plume;
+    if (plume <= 0.001) {
       return mist;
     }
     let core_half_width = mix(0.7, 0.2, progress);
     let filament = 1.0 - smoothstep(
       max(0.0, core_half_width - 0.2), core_half_width + 0.2, abs(axis_offset)
     );
-    let light = mix(
+    let light = mix(mix(
       film((edge_light * 0.95 + diffused * 0.05) * 3.4),
       vec3f(1.0, 0.985, 0.94),
       0.75
-    );
+    ), vec3f(0.002, 0.0025, 0.003), glass.scheme);
     let grain_cell = floor(field_uv * 800.0);
     let grain = fract(sin(dot(grain_cell, vec2f(12.9898, 78.233))) * 43758.5453);
     let density = mix(0.84, 1.0, grain);
@@ -380,8 +400,9 @@ fn shade_glass(uv: vec2f) -> vec4f {
     let broken = smoothstep(0.3, 0.85, 0.5 + shimmer * 0.5);
     let wake_strength = wake_profile * emission * density * broken * fade * 0.1;
     let aura = exp(-abs(axis_offset) / 1.0) * emission * fade * 0.1;
-    let wake_color = glint * wake_strength + light * aura;
     let wake_alpha = max(max(glint.r, glint.g), glint.b) * wake_strength + aura;
+    let wake_color = mix(glint * wake_strength + light * aura,
+      vec3f(0.002, 0.0025, 0.003) * wake_alpha, glass.scheme);
     let color = light * core_alpha + wake_color * (1.0 - core_alpha);
     let alpha = core_alpha + wake_alpha * (1.0 - core_alpha);
     return vec4f(color + mist.rgb * (1.0 - alpha), alpha + mist.a * (1.0 - alpha));
@@ -397,7 +418,7 @@ fn shade_glass(uv: vec2f) -> vec4f {
     edge_normal * 0.75 + facet_direction * mix(0.3, 0.7, grain_field.r),
     mix(0.35, 0.8, grain_field.g)
   ));
-  let light_direction = normalize(vec3f(-0.6, -0.8, 0.9));
+  let light_direction = normalize(vec3f(-0.12, -0.12, 1.0));
   let facing = max(dot(facet_normal, light_direction), 0.0);
   let fracture_strength = max(max(fracture.r, fracture.g), fracture.b);
   let crack = smoothstep(0.035, 0.8, fracture_strength);
@@ -407,11 +428,13 @@ fn shade_glass(uv: vec2f) -> vec4f {
   let polish = smoothstep(0.55, 0.78, grain_field.r);
   let rough_light = facing * mix(0.3, 1.0, grain);
   let shard_glint = pow(facing, 18.0) * polish * pow(bevel, 2.0);
-  let stone = mix(vec3f(0.014, 0.016, 0.021), vec3f(0.065, 0.072, 0.085), rough_light);
+  let shadow_stone = mix(vec3f(0.014, 0.016, 0.021), vec3f(0.065, 0.072, 0.085), rough_light);
+  let light_stone = mix(vec3f(1.0, 0.95, 0.80), vec3f(3.2, 3.05, 2.7), rough_light);
+  let stone = mix(shadow_stone, light_stone, glass.scheme);
   let reflected = fracture_at(field_uv - facet_normal.xy * 0.025).rgb;
   let transmitted = fracture_at(refraction + facet_direction * 0.004).rgb;
   let radiance = (stone + transmitted * 0.075 + reflected * mix(0.07, 0.22, polish)
-    + diffused * 0.035) * (1.0 - crack * 0.88)
+    + diffused * 0.035) * (1.0 - crack * mix(0.88, 0.18, glass.scheme))
     + vec3f(0.18, 0.19, 0.22) * (shard_glint + chipped_lip * facing * 0.28);
   return vec4f(film(radiance), 1.0);
 }

@@ -21,9 +21,16 @@
   --color-codex: oklch(66% 0.06 290);
 
   /* Page-scoped monochrome surface; reliquary tokens below remain menu-owned. */
-  --mono_paper: #f7f4ed;
-  --mono_ink: #171717;
-  --mono_border: rgb(64 64 64 / 30%);
+  --mono_paper_light: #f7f4ed;
+  --mono_ink_light: #171717;
+  --mono_border_light: rgb(64 64 64 / 30%);
+  --mono_paper_dark: #121212;
+  --mono_ink_dark: #ece7dc;
+  --mono_border_dark: rgb(214 208 196 / 30%);
+  --mono_paper: var(--mono_paper_light);
+  --mono_ink: var(--mono_ink_light);
+  --mono_border: var(--mono_border_light);
+  color-scheme: light dark;
 
   --ui_bg_root: oklch(8.5% 0.005 280);
   --ui_bg_mantle: oklch(11.5% 0.003 280);
@@ -64,6 +71,34 @@
 
   /* Mobile type boundaries */
   --text_display_mobile: clamp(2.25rem, 12vw, 3.5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-site-scheme]) {
+    --mono_paper: var(--mono_paper_dark);
+    --mono_ink: var(--mono_ink_dark);
+    --mono_border: var(--mono_border_dark);
+  }
+}
+
+html[data-site-scheme="light"] {
+  color-scheme: light;
+}
+
+html[data-site-scheme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-site-scheme="light"] {
+  --mono_paper: var(--mono_paper_light);
+  --mono_ink: var(--mono_ink_light);
+  --mono_border: var(--mono_border_light);
+}
+
+:root[data-site-scheme="dark"] {
+  --mono_paper: var(--mono_paper_dark);
+  --mono_ink: var(--mono_ink_dark);
+  --mono_border: var(--mono_border_dark);
 }
 
 @media (min-width: 769px) {
