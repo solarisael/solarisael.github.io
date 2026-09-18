@@ -407,6 +407,7 @@ test("render failure switches to static, releases resources and never retries", 
   await open_ready();
   advance(0);
   expect(owner.dataset.obsidianRenderer).toBe("static");
+  expect(owner.dataset.obsidianError).toBe("submission failed");
   expect(backend.dispose).toHaveBeenCalledTimes(1);
   change_menu(false);
   change_menu(true);
@@ -430,6 +431,7 @@ test("initialization rejection stays static across later activations", async () 
   change_menu(true);
   advance(1000);
   expect(owner.dataset.obsidianRenderer).toBe("static");
+  expect(owner.dataset.obsidianError).toBe("adapter unavailable");
   expect(load_gpu).toHaveBeenCalledTimes(1);
   expect(renders).toEqual([]);
 });
@@ -444,6 +446,7 @@ test("device failure during loading disposes its eventual backend without render
   change_menu(true);
   advance(1000);
   expect(owner.dataset.obsidianRenderer).toBe("static");
+  expect(owner.dataset.obsidianError).toBe("device lost");
   expect(backend.dispose).toHaveBeenCalledTimes(1);
   expect(load_gpu).toHaveBeenCalledTimes(1);
   expect(renders).toEqual([]);
