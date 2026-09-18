@@ -86,12 +86,13 @@ const SITE_SECTIONS = [
 
 const LABS = [
   ["labs/text-effects", "Text Effects Reference"],
-  ["labs/effect-windows", "Effect Windows"],
+  ["labs/block-effects", "Block and Combat Effects"],
   ["labs/pretext-shapes", "Pretext Shapes"],
   ["labs/text-transitions", "Text Transitions"],
   ["labs/shader-chalice", "Shader Chalice"],
   ["labs/fx-diagnostics", "FX Diagnostics"],
   ["labs/test-interactions", "Interaction Sandbox"],
+  ["labs/test-overlays", "Overlay Sandbox"],
 ];
 
 const clean_text = (value = "") => {

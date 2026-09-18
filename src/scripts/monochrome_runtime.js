@@ -7,9 +7,18 @@ import "./portal_navigation.js";
 import { install_route_failure } from "./route_failure.js";
 
 const RUNTIME_FLAG = "__monochrome_runtime_bound";
+const MENU_SELECTOR = "#sol_side_menu";
 
 const as_element = (value) =>
   value && typeof value.querySelectorAll === "function" ? value : document;
+
+const menu_in = (root) => {
+  if (root.matches?.(MENU_SELECTOR)) {
+    return root;
+  }
+
+  return root.querySelector(MENU_SELECTOR);
+};
 
 const root_contains = (root, selector) =>
   root.matches?.(selector) || root.querySelector(selector);
@@ -29,26 +38,6 @@ const hydrate_page_runtimes = (root) => {
 
   if (root_contains(root, "[data-search]")) {
     void import("./search.js").then(({ init_search }) => init_search());
-  }
-
-  const effect_window_lab = root.matches?.("[data-effect-window-lab]")
-    ? root
-    : root.querySelector("[data-effect-window-lab]");
-
-  if (effect_window_lab) {
-    effect_window_lab.dataset.effectWindowRuntime = "loading";
-
-    void import("./effect_window_lab.js")
-      .then(({ init_effect_window_lab }) => {
-        init_effect_window_lab(root);
-        effect_window_lab.dataset.effectWindowRuntime = "ready";
-      })
-      .catch((error) => {
-        effect_window_lab.dataset.effectWindowRuntime = "failed";
-        effect_window_lab.dataset.effectWindowError =
-          error instanceof Error ? error.message : String(error);
-        console.error("[effect-window] runtime failed", error);
-      });
   }
 };
 
@@ -109,7 +98,11 @@ export const hydrate_monochrome_runtime = (root = document) => {
 
   const hydration_root = as_element(root);
   hydrate_interactions(hydration_root);
-  hydrate_text_effects(hydration_root);
+
+  const menu = menu_in(hydration_root);
+  if (menu) {
+    hydrate_text_effects(menu);
+  }
 
   pretext_controller?.refresh(hydration_root);
   hydrate_page_runtimes(hydration_root);

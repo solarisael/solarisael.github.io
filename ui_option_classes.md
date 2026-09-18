@@ -120,15 +120,13 @@ Markdown marker (Obsidian flow):
 - Stack policy: text effects only, evaluated left-to-right.
 - Sanitization policy: blacklisted stack pairs auto-drop later tokens and emit build/dev warnings.
 - Intensity range: `0.2` -> `3` (runtime-clamped)
-- Coverage rule: every registered text effect appears in `src/pages/codex/labs/text-effects.md`.
+- Coverage rule: every registered effect must appear in at least one sandbox page (`src/pages/codex/labs/test-texts.md` or `src/pages/codex/labs/test-overlays.md`).
 
-## Effect Windows
+## Block Effects
 
-- Purpose: carry content inside a flowing visual aperture.
-- The window stays in document flow.
-- Its effect can extend beyond the content measure.
-- Apply on: a wrapper `div` generated from standalone marker pairs.
-- Internal base class: `block_fx`.
+- Purpose: full-width in-prose overlays for LitRPG system layers.
+- Apply on: wrapper `div` generated from standalone marker pairs.
+- Base class: `block_fx`.
 - Effect classes:
   - `block_fx_terminal`
   - `block_fx_stat_screen`
@@ -144,33 +142,40 @@ Markdown marker (Obsidian flow):
   - `block_fx_party_roster`
   - `block_fx_map_ping`
 
-Markdown marker:
+Markdown marker (Obsidian flow):
 
 ```md
 {{fx:terminal:1.2:0.9}}
-
 [SYSTEM] Awaiting input.
-
 {{/fx}}
 
 {{fx:stat_screen:1.1}}
 
 - HP: 100/100
 - MP: 62/62
+  {{/fx}}
 
-{{/fx}}
+{{fx:game_screen:1.2}}
+**Milestone Quest Received**
+
+- Objective A // 0%
+  {{/fx}}
+
+{{fx:quest_log:1.25}}
+**Active Quests**
+
+- [Main] Descend alive // 0%
+  {{/fx}}
 
 {{fx:system_warning:1.2}}
-
 **CAUTION: ACCESS INSTABILITY DETECTED**
-
 {{/fx}}
 ```
 
-- Generated window element: `div`.
-- Marker syntax: `{{fx:effect_name[:visual_intensity][:motion_intensity]}} ... {{/fx}}`.
-- Intensity range: `0.2` through `3`.
-- Coverage rule: every registered window effect appears in `src/pages/codex/labs/effect-windows.md`.
+- Block wrapper element: `div`
+- Marker syntax: `{{fx:block_effect[:visual_intensity][:motion_intensity]}} ... {{/fx}}`
+- Intensity range: `0.2` -> `3` (runtime-clamped)
+- Coverage rule: every registered effect must appear in at least one sandbox page (`src/pages/codex/labs/test-texts.md` or `src/pages/codex/labs/test-overlays.md`).
 
 ## Site Theme
 

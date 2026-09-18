@@ -42,24 +42,10 @@
   color: var(--vision-ink);
   font-family: var(--font_editorial);
   font-size: clamp(2.15rem, 6vw, 5.4rem);
-  font-optical-sizing: none;
-  font-variation-settings: "opsz" 12;
   font-weight: 420;
   letter-spacing: -0.035em;
   line-height: 0.92;
   text-wrap: balance;
-}
-
-:root[data-site-scheme="dark"] .sol__vision_banner_copy :is(h1, h2) {
-  font-optical-sizing: auto;
-  font-variation-settings: normal;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-site-scheme]) .sol__vision_banner_copy :is(h1, h2) {
-    font-optical-sizing: auto;
-    font-variation-settings: normal;
-  }
 }
 
 .sol__vision_banner_copy > p:last-child {
