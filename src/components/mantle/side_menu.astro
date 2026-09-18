@@ -182,11 +182,7 @@ const user_measure_options = [
           >
             <h2 class="sr-only">Site navigation</h2>
             <nav id="sol_side_menu_routes" aria-label="Site navigation">
-              <ul
-                class="sol__side_menu_route_list"
-                data-depth-region
-                data-depth-padding="36"
-              >
+              <ul class="sol__side_menu_route_list">
                 {
                   menu_items.map((nav_item) => (
                     <li>
@@ -198,7 +194,14 @@ const user_measure_options = [
                         href={with_base(nav_item.href)}
                         hx-get={with_base(nav_item.href)}
                       >
-                        <span data-inscription-text>{nav_item.label}</span>
+                        <span
+                          data-inscription-text
+                          data-depth-region
+                          data-depth="192"
+                          data-depth-padding="20"
+                        >
+                          {nav_item.label}
+                        </span>
                       </a>
                     </li>
                   ))

@@ -39,6 +39,26 @@ const hydrate_page_runtimes = (root) => {
   if (root_contains(root, "[data-search]")) {
     void import("./search.js").then(({ init_search }) => init_search());
   }
+
+  const effect_window_lab = root.matches?.("[data-effect-window-lab]")
+    ? root
+    : root.querySelector("[data-effect-window-lab]");
+
+  if (effect_window_lab) {
+    effect_window_lab.dataset.effectWindowRuntime = "loading";
+
+    void import("./effect_window_lab.js")
+      .then(({ init_effect_window_lab }) => {
+        init_effect_window_lab(root);
+        effect_window_lab.dataset.effectWindowRuntime = "ready";
+      })
+      .catch((error) => {
+        effect_window_lab.dataset.effectWindowRuntime = "failed";
+        effect_window_lab.dataset.effectWindowError =
+          error instanceof Error ? error.message : String(error);
+        console.error("[effect-window] runtime failed", error);
+      });
+  }
 };
 
 const define_obsidian_tablet_element = () => {

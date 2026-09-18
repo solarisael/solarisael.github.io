@@ -65,11 +65,16 @@ export const create_obsidian_runtime = ({
     backend = null;
     current?.dispose();
   };
-  const fail = () => {
+  const fail = (error) => {
     if (disposed || failed) return;
     failed = true;
     cancel();
     owner.dataset.obsidianRenderer = "static";
+    owner.dataset.obsidianError =
+      error instanceof Error
+        ? error.message
+        : String(error ?? "Unknown WebGPU failure");
+    console.error("[obsidian] VGPU runtime failed", error);
     release();
   };
   const measure = () => {
@@ -122,8 +127,8 @@ export const create_obsidian_runtime = ({
     values.depth_count = depth.field.uniforms.depth_count;
     try {
       backend.render(values);
-    } catch {
-      fail();
+    } catch (error) {
+      fail(error);
       return;
     }
     if (!active() || !backend) return;
@@ -164,9 +169,10 @@ export const create_obsidian_runtime = ({
         return;
       }
       backend = loaded;
+      delete owner.dataset.obsidianError;
       sync();
-    } catch {
-      fail();
+    } catch (error) {
+      fail(error);
     } finally {
       pending = false;
     }
