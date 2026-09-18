@@ -1,5 +1,3 @@
-@reference "tailwindcss";
-
 /*
 Ownership Matrix
 - `theme` (`data-site-theme`): palette identity and motif language.
@@ -96,6 +94,7 @@ Ownership Matrix
   /* Size */
   --cinza_reliquary_line_block_size: var(--cinza_tune_line_block_size);
   --cinza_reliquary_sigil_size: var(--cinza_tune_sigil_size);
+
   --cinza_sun_bleed_mix: 34%;
   --cinza_sun_bleed_alt_mix: 24%;
   --cinza_fog_halo_mix: 30%;
@@ -365,6 +364,7 @@ Ownership Matrix
 body > .sol__ix_popup {
   --ix_popup_radius: 0;
   --ix_popup_blur: 0;
+
   background: var(--mono_paper, #f7f4ed) !important;
   border: 1px solid var(--mono_ink, #171717) !important;
   box-shadow: none !important;
@@ -387,11 +387,13 @@ body > .sol__ix_popup .sol__ix_popup_explanation_body {
 #sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx),
 #sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx) * {
   animation: none !important;
+
   background: var(--mono_paper, #f7f4ed) !important;
   background-image: none !important;
   border-color: var(--mono_ink, #171717) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+
   color: var(--mono_ink, #171717) !important;
   filter: none !important;
   text-shadow: none !important;

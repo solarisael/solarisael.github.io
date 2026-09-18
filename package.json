@@ -32,8 +32,6 @@
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.1",
     "@chenglou/pretext": "^0.0.8",
-    "@tailwindcss/typography": "^0.5.20",
-    "@tailwindcss/vite": "^4.3.3",
     "@tanstack/virtual-core": "^3.17.11",
     "@vgpu/wgsl": "^0.4.1",
     "@vgpu/wgsl-std": "^0.4.1",
@@ -42,10 +40,8 @@
     "idiomorph": "^0.7.4",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.7.4",
     "rehype-raw": "^7.0.0",
     "scripts-of-folly": "github:solarisael/scripts-of-folly#0cdebccef632df2f386dda12b73bfc75e416d213",
-    "tailwindcss": "^4.3.3",
     "three": "^0.185.1",
     "vgpu": "^0.4.1"
   },

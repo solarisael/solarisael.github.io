@@ -126,6 +126,7 @@ body {
 /* CONSUMERS: READING CONTAINERS */
 :where(#sol_content, .sol__reading_container, [data-reading-container="true"]) {
   display: grid;
+
   font-family: var(--font_reading_body);
   font-size: var(--text_body);
   line-height: var(--leading_body);
@@ -212,6 +213,7 @@ body {
 :where(#sol_content, .sol__reading_container, [data-reading-container="true"])
   :where(blockquote) {
   font-style: italic;
+
   padding-left: 1.1em;
   border-left: 1px solid
     color-mix(in oklch, var(--site_style_accent, currentColor) 28%, transparent);
@@ -285,57 +287,4 @@ body {
   font-size: var(--text_fine);
   line-height: 1.4;
   letter-spacing: 0.03em;
-}
-
-@utility sol__text_body {
-  font-size: var(--text_body);
-  line-height: var(--leading_body);
-}
-
-@utility sol__text_lead {
-  font-size: var(--text_lead);
-  line-height: var(--leading_relaxed);
-}
-
-@utility sol__text_kicker {
-  font-size: var(--text_fine);
-  line-height: 1.45;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-@utility sol__text_caption {
-  font-size: var(--text_fine);
-  line-height: 1.4;
-  letter-spacing: 0.03em;
-}
-
-@utility sol__text_fine {
-  font-size: var(--text_fine);
-  line-height: 1.4;
-}
-
-@utility sol__text_sub {
-  font-size: var(--text_sub);
-  line-height: var(--leading_body);
-}
-
-@utility sol__text_mid {
-  font-size: var(--text_mid);
-  line-height: var(--leading_heading);
-}
-
-@utility sol__text_main {
-  font-size: var(--text_main);
-  line-height: var(--leading_heading);
-}
-
-@utility sol__text_large {
-  font-size: var(--text_large);
-  line-height: var(--leading_heading);
-}
-
-@utility sol__text_display {
-  font-size: var(--text_display);
-  line-height: var(--leading_display);
 }

@@ -1,12 +1,19 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 #sol_footer {
-  @apply relative grid min-h-20 w-full items-center border px-4 py-4;
+  position: relative;
+  display: grid;
+  min-height: 5rem;
+  width: 100%;
+  align-items: center;
+
+  border-style: solid;
+  border-width: 1px;
+  padding-inline: 1rem;
+  padding-block: 1rem;
 
   grid-template-areas: "previous message next";
   grid-template-columns: 2rem minmax(0, 1fr) 2rem;
   align-content: center;
+
   color: var(--mono_ink, #171717);
   border-color: var(--mono_border, rgb(64 64 64 / 30%));
   border-width: 1px;
@@ -14,8 +21,7 @@
 }
 
 #sol_footer a {
-  @apply text-center;
-
+  text-align: center;
   color: inherit;
 }
 
@@ -42,9 +48,21 @@
 }
 
 .sol__footer_step {
-  @apply grid size-8 cursor-pointer place-items-center border-none bg-transparent p-0 select-none;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  place-items: center;
+
+  border-style: none;
+  background-color: transparent;
+  padding: 0;
+
+  -webkit-user-select: none;
+  user-select: none;
 
   color: var(--mono_ink, #171717);
+
   transition: transform calc(180ms * var(--site_fx_motion_mult, 1)) ease;
 }
 
@@ -62,6 +80,7 @@
   display: block;
   width: 1.25rem;
   height: 1.25rem;
+
   fill: none;
   stroke: currentcolor;
   stroke-linecap: round;
@@ -73,6 +92,7 @@
   position: absolute;
   inset-inline-end: 1rem;
   inset-block-end: 0.625rem;
+
   color: color-mix(in srgb, var(--mono_ink, #171717) 72%, transparent);
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;

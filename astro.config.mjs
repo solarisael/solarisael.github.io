@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
-import tailwindcss from "@tailwindcss/vite";
 import { wgslVitePlugin } from "@vgpu/wgsl/loader-vite";
 import { resolve_obsidian_vault_root } from "./src/config/obsidian_vault_root.js";
 import { remark_text_effects } from "scripts-of-folly/remark";
@@ -130,7 +129,7 @@ export default defineConfig({
     }),
   },
   vite: {
-    plugins: [tailwindcss(), wgslVitePlugin(), obsidian_rubedo_hot_reload()],
+    plugins: [wgslVitePlugin(), obsidian_rubedo_hot_reload()],
     // Allow Vite to read files from the obsidian vault. Required for dev
     // mode; the build pass resolves globs ahead-of-time so this is
     // belt-and-suspender there. `..` includes the conventional escape;

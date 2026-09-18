@@ -1,6 +1,3 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 #sol_content > albedo {
   --albedo_card_padding: 1.25rem 1.5rem;
   --albedo_panel_padding: 1rem 1.25rem;
@@ -10,6 +7,7 @@
   --albedo_date_size: 0.68rem;
   --albedo_feed_gap: 0.72rem;
   --albedo_entry_left_width: 92%;
+
   --mono_paper_local: var(--mono_paper, #f7f4ed);
   --mono_ink_local: var(--mono_ink, #171717);
   --mono_ink_muted: color-mix(
@@ -17,34 +15,44 @@
     var(--mono_ink_local) 62%,
     var(--mono_paper_local)
   );
+
   color: var(--mono_ink_local);
 }
 
 .sol__albedo_archive {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
+
   gap: 0;
   margin-top: 1.5rem;
 }
 
 .sol__albedo_filter_block {
-  @apply sticky flex flex-col;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+
   top: 0;
   z-index: 20;
+
   margin-bottom: 0.85rem;
   padding: 0.75rem 0.85rem 0.8rem;
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 24%, transparent);
   border-radius: var(--albedo_card_radius);
   background: var(--mono_paper_local);
 }
 
 .sol__albedo_filter_header {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
   gap: 0.4rem;
   margin-bottom: 0.6rem;
 }
 
 .sol__albedo_filter_title {
   flex-shrink: 0;
+
   color: var(--mono_ink_local);
   font-size: 0.78rem;
   font-weight: 700;
@@ -53,11 +61,14 @@
 }
 
 .sol__albedo_filter_clear {
-  @apply cursor-pointer;
+  cursor: pointer;
+
   margin-left: auto;
   padding: 0;
+
   border: 0;
   background: none;
+
   color: var(--mono_ink_muted);
   font-size: 0.68rem;
   letter-spacing: 0.08em;
@@ -71,6 +82,7 @@
 
 .sol__albedo_filter_field {
   padding: 0.68rem 0.72rem;
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 18%, transparent);
   border-radius: 0.25rem;
   background: color-mix(
@@ -93,17 +105,21 @@
 }
 
 .sol__albedo_filter_group_label {
-  @apply cursor-pointer;
+  cursor: pointer;
+
   align-self: start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-height: calc(0.7rem * 1.4 + 0.44rem + 2px);
   padding: 0.2rem 0.62rem;
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
   background: transparent;
   color: var(--mono_ink_local);
+
   font-family: inherit;
   font-size: 0.7rem;
   font-weight: 800;
@@ -124,7 +140,8 @@
 }
 
 .sol__albedo_filter_pills {
-  @apply flex flex-wrap;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.45rem;
 }
 
@@ -134,7 +151,8 @@
 }
 
 .sol__albedo_filter_btn {
-  @apply cursor-pointer;
+  cursor: pointer;
+
   transition:
     opacity var(--albedo_transition_ms) ease,
     border-color var(--albedo_transition_ms) ease,
@@ -158,7 +176,8 @@
 }
 
 .sol__albedo_archive_status {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
   gap: 0.3rem;
   margin-bottom: 0.75rem;
 }
@@ -198,6 +217,7 @@
 .sol__albedo_measure_list {
   position: absolute;
   inset: 0 0 auto;
+
   visibility: hidden;
   pointer-events: none;
   contain: layout style;
@@ -231,18 +251,25 @@
 }
 
 .sol__albedo_entry {
-  @apply relative;
+  position: relative;
   width: 100%;
 }
 
 .sol__albedo_entry_card {
-  @apply relative flex w-full flex-col overflow-hidden no-underline;
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
   gap: var(--albedo_card_gap);
   padding: var(--albedo_card_padding);
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 25%, transparent);
   border-radius: var(--albedo_card_radius);
   background: var(--mono_paper_local);
   color: var(--mono_ink_local);
+  text-decoration-line: none;
+
   transition:
     border-color var(--albedo_transition_ms) ease,
     background var(--albedo_transition_ms) ease;
@@ -254,7 +281,9 @@
 }
 
 .sol__albedo_entry_layer_body {
-  @apply relative flex flex-col;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   z-index: 1;
   gap: 0.4rem;
 }
@@ -270,6 +299,7 @@
   grid-column: 1;
   grid-row: 1;
   min-width: 0;
+
   color: var(--mono_ink_local);
   font-family: var(--font_reading_heading);
   font-size: clamp(1rem, 0.94rem + 0.22vw, 1.13rem);
@@ -305,6 +335,7 @@
   grid-column: 3;
   grid-row: 1;
   justify-self: end;
+
   color: var(--mono_ink_muted);
   font-size: var(--albedo_date_size);
   font-variant-numeric: tabular-nums;
@@ -313,21 +344,28 @@
 }
 
 .sol__albedo_entry_states {
-  @apply flex flex-wrap items-center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   grid-column: 2;
   grid-row: 1;
+
   gap: 0.35rem;
   min-width: 0;
 }
 
 .sol__albedo_pill {
-  @apply inline-flex items-center;
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
+
   padding: 0.12rem 0.5rem;
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 28%, transparent);
   border-radius: 999px;
   background: transparent;
   color: var(--mono_ink_local);
+
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -339,6 +377,7 @@
   grid-column: 1 / -1;
   grid-row: 2;
   max-width: 68ch;
+
   color: var(--mono_ink_muted);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.48;
@@ -359,6 +398,7 @@
 .sol__albedo_entry_full {
   margin-top: 0.18rem;
   padding: var(--albedo_panel_padding);
+
   border: 1px solid color-mix(in srgb, var(--mono_ink_local) 15%, transparent);
   border-left: 3px solid var(--mono_ink_local);
   border-radius: 0.25rem;
@@ -367,6 +407,7 @@
     var(--mono_ink_local) 4%,
     var(--mono_paper_local)
   );
+
   color: var(--mono_ink_local);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.55;
@@ -390,17 +431,22 @@
 }
 
 .sol__albedo_entry_actions {
-  @apply flex flex-wrap items-center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
   gap: 0.75rem;
   margin-top: 0.12rem;
 }
 
 .sol__albedo_entry_expand,
 .sol__albedo_entry_open {
-  @apply cursor-pointer;
+  cursor: pointer;
+
   padding: 0;
   border: 0;
   background: none;
+
   color: var(--mono_ink_local);
   letter-spacing: 0.08em;
   text-decoration: none;

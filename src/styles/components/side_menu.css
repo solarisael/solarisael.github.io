@@ -1,9 +1,17 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 #sol_side_menu {
   --portal-gold: #d9bd83;
   --portal-ink: #090b0e;
+
+  /* Reader scale must not shrink the menu's calibrated controls. */
+  --portal_close_target: 44px;
+  --portal_close_rim: 6px;
+  --portal_tool_target: 52px;
+  --portal_tool_padding: 4px;
+  --portal_icon: 28px;
+  --portal_hood_icon: 34px;
+  --portal_touch_target: 44px;
+  --portal_focus_gap: 4px;
+
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -14,11 +22,14 @@
   position: absolute;
   top: max(1rem, env(safe-area-inset-top));
   left: max(1rem, env(safe-area-inset-left));
+
   display: grid;
   place-items: center;
+
   width: 3.25rem;
   height: 3.25rem;
   padding: 0;
+
   border: 1px solid #bda36c70;
   border-radius: 50%;
   color: var(--portal-gold);
@@ -26,15 +37,19 @@
   box-shadow:
     0 0 25px #b4914820,
     inset 0 0 15px #b4914810;
+
   cursor: pointer;
   pointer-events: auto;
+
   transition:
     opacity 180ms,
     box-shadow 180ms;
 }
+
 #sol_side_menu_trigger:hover {
   box-shadow: 0 0 28px #c4a05a55;
 }
+
 #sol_side_menu:is(
     [data-side-menu-open="true"],
     [data-portal-phase="closing"],
@@ -44,12 +59,14 @@
   opacity: 0;
   pointer-events: none;
 }
+
 .sol__side_menu_sun {
   position: relative;
   display: block;
   width: 1.45rem;
   height: 1.45rem;
   border-radius: 999rem;
+
   background:
     radial-gradient(
       circle,
@@ -62,6 +79,7 @@
     inset 0 0 0 var(--site_border_width_hairline)
       color-mix(in oklch, white 30%, transparent);
 }
+
 .sol__side_menu_sun::before {
   position: absolute;
   content: "";
@@ -80,50 +98,58 @@
     transparent 73%
   );
 }
-.sol__side_menu_trigger_label {
-  @apply sr-only;
-}
 
 #sol_side_menu_panel {
   position: fixed;
   inset: 0;
+
   width: 100%;
   max-width: none;
   height: 100dvh;
   max-height: none;
+
   margin: 0;
   padding: clamp(1rem, 5vh, 4rem) clamp(1rem, 5vw, 5rem);
   border: 0;
+
   overflow: hidden;
   color: #e5d8bc;
   background: transparent;
+
   pointer-events: auto;
 }
+
 #sol_side_menu_panel[open] {
   display: grid;
   place-items: center;
 }
+
 #sol_side_menu_panel::backdrop {
   background: #020306dc;
   backdrop-filter: blur(3px);
 }
+
 #sol_side_menu_panel[open]::backdrop {
   animation: portal-void-arrive 460ms ease-out both;
 }
+
 #sol_side_menu[data-portal-ink-renderer="vgpu"] #sol_side_menu_panel::backdrop {
   background: #02030626;
   backdrop-filter: none;
   animation: none;
 }
+
 [data-portal-ink] {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+
   pointer-events: none;
   opacity: 0;
   transition: opacity 100ms;
 }
+
 #sol_side_menu[data-portal-ink-renderer="vgpu"] [data-portal-ink] {
   opacity: 1;
 }
@@ -132,18 +158,23 @@
   position: relative;
   z-index: 1;
   isolation: isolate;
+
   width: 100%;
   max-height: 100%;
   min-height: calc(min(39rem, 82dvh) - var(--obsidian-rim-width) * 2);
+
   padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 3vw, 2.75rem);
   border: 0;
   background: transparent;
+
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
+
   scrollbar-width: thin;
   scrollbar-color: #73613e #0b0d10;
 }
+
 #sol_side_menu[data-portal-phase="artifact"]
   #sol_side_menu_panel[open]
   sol-obsidian-tablet {
@@ -151,108 +182,133 @@
     obsidian-drift var(--obsidian-drift-duration) ease-in-out infinite running,
     portal-artifact-arrive 540ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
+
 #sol_side_menu:is([data-portal-phase="ink"], [data-portal-phase="closing-ink"])
   sol-obsidian-tablet {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
+
 #sol_side_menu[data-portal-phase="closing"] sol-obsidian-tablet {
   pointer-events: none;
   animation:
     obsidian-drift var(--obsidian-drift-duration) ease-in-out infinite paused,
     portal-artifact-depart 220ms ease-in both;
 }
+
 @keyframes portal-artifact-depart {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
 }
+
 #sol_side_menu_panel_header {
   position: sticky;
   top: 0;
   z-index: 4;
   background: transparent;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   margin-bottom: 0.75rem;
 }
+
 #sol_side_menu_panel_header button {
   position: absolute;
   right: 0;
   top: 0;
+
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: var(--portal_close_target);
+  height: var(--portal_close_target);
 }
+
 #sol_side_menu #sol_side_menu_panel_header [data-side-menu-close] {
-  --close-rim-inset: 6px;
+  --close-rim-inset: var(--portal_close_rim);
+
   padding: 0;
   border: 0;
   border-radius: 50%;
   background: transparent;
+
   color: #dfcba1;
   cursor: pointer;
 }
+
 .sol__close_rim {
   position: absolute;
   inset: var(--close-rim-inset);
   width: calc(100% - var(--close-rim-inset) * 2);
   height: calc(100% - var(--close-rim-inset) * 2);
+
   opacity: 0.65;
   pointer-events: none;
 }
+
 #sol_side_menu_routes > [data-shape="ritual_separator"] {
   width: min(32rem, 100%);
   margin: 1rem auto;
   opacity: 0.85;
 }
+
 #sol_side_menu_viewport {
   position: relative;
   grid-template-columns: minmax(0, 1fr);
   display: grid;
 }
+
 .sol__side_menu_view {
   grid-area: 1 / 1;
   min-width: 0;
 }
+
 .sol__side_menu_view[data-view-position="active"] {
   visibility: visible;
   opacity: 1;
 }
+
 .sol__side_menu_view[data-view-position="before"],
 .sol__side_menu_view[data-view-position="after"] {
   display: none;
 }
+
 .sol__side_menu_route_list {
   list-style: none;
   padding: 0;
   margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   gap: clamp(0.35rem, 1vh, 0.75rem);
   width: min(36rem, 100%);
 }
+
 .sol__side_menu_route {
   position: relative;
   min-width: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.15rem;
+
   min-height: 4.2rem;
   padding: 0.25rem 0.5rem;
+
   color: #ffcf70;
   text-align: center;
   text-decoration: none;
   opacity: 0.85;
+
   text-shadow:
     0 1px 2px #000,
     1px 0 2px #000,
@@ -261,14 +317,17 @@
     0 0 0.22rem #ffe3a3b8,
     0 0 0.8rem #ffc24a85,
     0 0 1.4rem #eba11c3a;
+
   transition:
     opacity 180ms,
     color 180ms,
     text-shadow 180ms;
 }
+
 .sol__side_menu_route [data-inscription-text] {
   display: inline-block;
   white-space: pre;
+
   font-family: var(--font_ritual), "Solarisael Runic", "Solarisael Symbols";
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 400;
@@ -277,6 +336,7 @@
   line-height: 1.15;
   max-width: 100%;
 }
+
 .sol__side_menu_route:hover,
 .sol__side_menu_route:focus-visible,
 .sol__side_menu_route[data-route-active="true"],
@@ -292,68 +352,86 @@ a.sol__side_menu_route[data-portal-selected="true"] {
     0 0 1rem #ffca59aa,
     0 0 1.8rem #ed9d2555;
 }
+
 .sol__side_menu_tools {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin: 0.5rem auto 0;
 }
+
 .sol__side_menu_icon {
   position: relative;
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
-  padding: 4px;
+
+  width: var(--portal_tool_target);
+  height: var(--portal_tool_target);
+  padding: var(--portal_tool_padding);
+
   border: 0;
   border-radius: 50%;
   background: #030407;
   color: var(--portal-gold);
+
   cursor: pointer;
   transition: color 180ms;
 }
+
 sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
   background: transparent;
 }
+
 .sol__side_menu_icon svg {
-  width: 28px;
-  height: 28px;
+  width: var(--portal_icon);
+  height: var(--portal_icon);
+
   fill: none;
   stroke: currentColor;
   stroke-width: 1.3;
   stroke-linecap: round;
   stroke-linejoin: round;
+
   filter: drop-shadow(0 1px 2px #000);
 }
+
 .sol__side_menu_icon .sol__side_menu_hood {
-  width: 34px;
-  height: 34px;
+  width: var(--portal_hood_icon);
+  height: var(--portal_hood_icon);
 }
+
 .sol__side_menu_icon:is(:hover, :focus-visible) {
   color: #ffe29a;
 }
+
 .sol__side_menu_icon_label {
   position: absolute;
   top: calc(100% + 0.25rem);
   left: 50%;
   translate: -50% 0;
+
   padding: 0.2rem 0.4rem;
   border-radius: 0.2rem;
+
   color: #e5d8bc;
   background: #090b0ef0;
   font-size: 0.7rem;
   line-height: 1.4;
+
   white-space: nowrap;
   visibility: hidden;
   pointer-events: none;
 }
+
 .sol__side_menu_icon:is(:hover, :focus-visible) .sol__side_menu_icon_label {
   visibility: visible;
 }
+
 .sol__side_menu_touch_status {
   display: flow-root;
   min-height: 1.6rem;
 }
+
 #sol_portal_touch_hint {
   display: block;
   min-height: 1.2em;
@@ -362,91 +440,109 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
   font-size: 0.7rem;
   color: #d8c99e;
 }
+
 #sol_portal_touch_hint[hidden] {
   visibility: hidden;
 }
+
 #sol_side_menu
   button:not(#sol_side_menu_trigger):not(.sol__side_menu_icon):not(
     [data-side-menu-close]
   ),
 #sol_side_menu select {
-  min-height: 44px;
+  min-height: var(--portal_touch_target);
   border: 1px solid #bca16b45;
   border-radius: 0;
   background: #0d1118df;
   color: #dfcba1;
   cursor: pointer;
 }
+
 #sol_side_menu_panel_header button,
 .sol__side_menu_back {
   padding: 0.4rem 0.8rem;
   font-size: 0.75rem;
 }
+
 #sol_side_menu :is(a, button, select):focus-visible {
   outline: 2px solid #e8c67f;
-  outline-offset: 4px;
+  outline-offset: var(--portal_focus_gap);
 }
+
 .sol__side_menu_view_header {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
+
 .sol__side_menu_view_header h2 {
   margin: 0;
   font-family: var(--font_ritual);
   font-weight: 400;
   color: #e3c996;
 }
+
 .sol__side_menu_view_header p {
   margin: 0 0 0.2rem;
   color: #aba08b;
 }
+
 .sol__side_menu_settings_section {
   display: grid;
   gap: 0.75rem;
   max-width: 34rem;
   padding-block: 0.8rem;
 }
+
 .sol__side_menu_settings_section h3 {
   color: #d5be8c;
   margin: 0;
 }
+
 .sol__side_menu_note {
   color: #b3aea2;
   font-size: 0.8rem;
   line-height: 1.6;
 }
+
 .sol__side_menu_group {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
   align-items: center;
   gap: 1rem;
 }
+
 .sol__side_menu_group select {
   width: 100%;
   padding: 0.5rem;
 }
+
 .sol__side_menu_label {
   color: #b5b0a3;
   font-size: 0.8rem;
 }
+
 .sol__side_menu_status_list {
   margin: 0;
   display: grid;
   gap: 0.5rem;
 }
+
 .sol__side_menu_status_list > div {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
   border-bottom: 1px solid #bca16b30;
 }
+
 .sol__side_menu_status_list dt {
   color: #aaa69a;
 }
+
 .sol__side_menu_status_list dd {
   margin: 0;
 }
+
 .sol__side_menu_reset {
   padding: 0.6rem;
 }
@@ -456,21 +552,25 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
     background: #02030600;
     backdrop-filter: blur(0);
   }
+
   to {
     background: #020306dc;
     backdrop-filter: blur(3px);
   }
 }
+
 @keyframes portal-artifact-arrive {
   from {
     opacity: 0;
     filter: blur(5px);
     clip-path: polygon(46% 45%, 54% 42%, 58% 55%, 43% 58%);
   }
+
   65% {
     opacity: 1;
     filter: blur(0);
   }
+
   to {
     opacity: 1;
     clip-path: polygon(-5% -5%, 105% -5%, 105% 105%, -5% 105%);
@@ -484,21 +584,25 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
     right: max(1rem, env(safe-area-inset-right));
     bottom: max(1rem, env(safe-area-inset-bottom));
   }
+
   #sol_side_menu_panel {
     padding: max(0.65rem, env(safe-area-inset-top))
       max(0.65rem, env(safe-area-inset-right))
       max(0.65rem, env(safe-area-inset-bottom))
       max(0.65rem, env(safe-area-inset-left));
   }
+
   #sol_side_menu_panel_scroll {
     width: 100%;
     min-height: 0;
     max-height: 100%;
   }
+
   .sol__side_menu_route {
     min-height: 4rem;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   #sol_side_menu *,
   #sol_side_menu_panel::backdrop {
@@ -526,31 +630,38 @@ html[data-site-scheme="light"] .sol__scheme_sun,
 html[data-site-scheme="dark"] .sol__scheme_moon {
   display: none;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu {
   --portal-gold: #17191b;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu_trigger {
   color: #fff8df;
   border-color: #fff5d4a6;
   box-shadow: 0 0 1.5rem #fff5d433;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu_panel {
   color-scheme: light;
   color: #393328;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu_panel::backdrop {
   background: #090b1080;
   backdrop-filter: none;
   animation: none;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu[data-portal-ink-renderer="vgpu"]
   #sol_side_menu_panel::backdrop {
   background: #090b1026;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu_panel_scroll {
   scrollbar-color: #938365 #e9e5d9;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_route {
   color: #17191b;
   text-shadow:
@@ -559,6 +670,7 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
     0 -1px 1px #fffef5,
     -1px 0 1px #fffef5;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   .sol__side_menu_route:is(
@@ -569,36 +681,44 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
   ) {
   color: #050709;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   #sol_side_menu_panel_header
   [data-side-menu-close] {
   color: #17191b;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__close_rim circle {
   fill: #fffcef80;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon {
   background: #dad3c180;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   sol-obsidian-tablet[data-obsidian-renderer="webgpu"]
   .sol__side_menu_icon {
   background: transparent;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon svg {
   filter: none;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   .sol__side_menu_icon:is(:hover, :focus-visible) {
   color: #050709;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_icon_label {
   color: #17191b;
   background: #fffcef;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   button:not(#sol_side_menu_trigger):not(.sol__side_menu_icon):not(
@@ -609,11 +729,13 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
   background: #fffcf0e6;
   border-color: #77644160;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   :is(.sol__side_menu_view_header h2, .sol__side_menu_settings_section h3) {
   color: #17191b;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   :is(
@@ -625,6 +747,7 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
   ) {
   color: #615744;
 }
+
 :root[data-site-scheme="dark"]
   #sol_side_menu
   :is(a, button, select):focus-visible {

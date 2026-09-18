@@ -90,6 +90,7 @@
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
   border: var(--site_border_width_hairline, 1px) solid var(--mono_ink, #171717);
+
   pointer-events: none;
   opacity: 0;
   transform: translateY(2px);

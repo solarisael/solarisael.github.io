@@ -1,9 +1,13 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 #sol_home_card_gate {
-  @apply flex w-full grow flex-col;
-  @apply gap-7 md:gap-9;
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 1.75rem;
+
+  @media (width >= 48rem) {
+    gap: 2.25rem;
+  }
 
   color: var(--mono_ink, #171717);
 }
@@ -14,12 +18,14 @@
   margin-inline: auto;
   padding: 2rem 0.75rem;
   box-sizing: border-box;
+
   text-align: center;
 }
 
 #sol_home_gate_body p {
   max-width: none;
   margin: 0;
+
   color: var(--mono_ink, #171717);
   text-wrap: pretty;
 }
@@ -27,6 +33,7 @@
 #sol_home_gate_body .sol__home_intro_aside {
   width: fit-content;
   margin: 0.15rem 0 0 auto;
+
   font-size: 0.68em;
   line-height: 1.25;
   text-align: right;
@@ -37,8 +44,7 @@
 }
 
 #sol_phase_card_heading {
-  @apply font-semibold;
-
+  font-weight: 600;
   margin: 0;
   text-align: center;
   color: var(--mono_ink, #171717);
@@ -50,36 +56,53 @@
 }
 
 #sol_phase_card_grid {
-  @apply grid;
-  @apply gap-3 md:gap-4;
+  display: grid;
+  gap: 0.75rem;
+
+  @media (width >= 48rem) {
+    gap: 1rem;
+  }
 
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.25rem), 1fr));
 }
 
 .sol__phase_card_link {
-  @apply flex h-full flex-col;
-  @apply gap-4;
-  @apply px-4 py-4 md:px-5 md:py-5;
-  @apply no-underline;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  padding-inline: 1rem;
+  padding-block: 1rem;
 
+  @media (width >= 48rem) {
+    padding-inline: 1.25rem;
+    padding-block: 1.25rem;
+  }
+
+  text-decoration-line: none;
   min-height: 16rem;
+
   border: 1px solid var(--mono_border, rgb(64 64 64 / 30%));
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
+
   transition: border-color 180ms ease;
 }
 
 .sol__phase_card_layer_body {
-  @apply flex flex-1 flex-col items-center justify-start;
-  @apply gap-4;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
 
   padding: 1rem;
   text-align: center;
 }
 
 .sol__phase_card_title {
-  @apply font-semibold;
-
+  font-weight: 600;
   margin: 0;
   color: var(--mono_ink, #171717);
   font-family: var(--font_heading);

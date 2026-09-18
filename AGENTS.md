@@ -13,7 +13,7 @@ Tiny pointer for agents working in `solarisael`.
 
 - Project root: `C:/Projects/solarisael`.
 - Human/operator: Sol.
-- Stack: Astro 5, Tailwind CSS 4, Bun, vanilla JavaScript, HTMX 2, idiomorph.
+- Stack: Astro, native CSS, Bun, vanilla JavaScript, HTMX 2, and idiomorph.
 - Use Bun only. Do not introduce npm, Yarn, or pnpm workflows.
 - Markup intentionally uses ritual custom elements for structural shells.
 - Naming stays snake_case; Sol-owned classes use `.sol__*`; Sol-owned ids use `#sol_*`.

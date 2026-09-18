@@ -4,6 +4,7 @@ sol-effect-window {
   display: block;
   min-width: 0;
   margin-block: clamp(2rem, 6vw, 4rem);
+
   --site_style_accent: var(--mono_ink_dark, #ece7dc);
   color: var(--mono_ink_dark, #ece7dc);
 }
@@ -26,6 +27,7 @@ sol-effect-window[data-effect-window="terminal"] {
     transparent
   );
   --effect-window-terminal-halo-radius: 3rem;
+
   color: var(--effect-window-terminal-text);
 }
 

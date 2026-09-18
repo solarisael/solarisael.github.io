@@ -10,6 +10,7 @@
     min-height: var(--control_target_compact);
     margin-left: auto;
     padding-inline: 0.75rem;
+
     border: 1px solid
       color-mix(in srgb, var(--mono_ink, #171717) 28%, transparent);
     border-radius: 999px;

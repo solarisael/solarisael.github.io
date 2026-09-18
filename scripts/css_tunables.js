@@ -167,22 +167,12 @@ if (missing_variable_names.length === 0) {
   process.exit(0);
 }
 
-const insertion_anchor = selector_block_source.search(/^\s*@apply/m);
-const insertion_index_within_block =
-  insertion_anchor === -1 ? selector_block_source.length : insertion_anchor;
-const insertion_head = selector_block_source.slice(
-  0,
-  insertion_index_within_block,
-);
-const insertion_tail = selector_block_source.slice(
-  insertion_index_within_block,
-);
 const insertion_lines = missing_variable_names
   .map((name_value) => `  --${name_value}: initial;`)
   .join("\n");
-const separator = insertion_head.endsWith("\n") ? "" : "\n";
+const separator = selector_block_source.endsWith("\n") ? "" : "\n";
 
-const patched_block_source = `${insertion_head}${separator}${insertion_lines}\n${insertion_tail}`;
+const patched_block_source = `${selector_block_source}${separator}${insertion_lines}\n`;
 const patched_css_source = `${css_source.slice(0, block_open_index + 1)}${patched_block_source}${css_source.slice(block_close_index)}`;
 
 writeFileSync(file_path, patched_css_source, "utf8");

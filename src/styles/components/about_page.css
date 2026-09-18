@@ -3,6 +3,7 @@
   --sheet-faint: color-mix(in srgb, var(--sheet-ink) 62%, transparent);
   --sheet-line: color-mix(in srgb, var(--sheet-ink) 24%, transparent);
   --sheet-pad: clamp(0.7rem, 1.5vw, 1.15rem);
+
   box-sizing: border-box;
   width: min(100%, 76rem);
   margin-inline: auto;
@@ -130,6 +131,7 @@
   display: grid;
   gap: var(--orbit-gap);
 }
+
 .character-sheet__column--left {
   grid-column: 1;
   grid-row: 1;
@@ -302,6 +304,7 @@
     min-height: 0;
     margin: 0 -1rem;
   }
+
   .character-sheet__portrait > picture {
     display: block;
     width: 100%;
@@ -309,6 +312,7 @@
     max-width: 100%;
     height: min(80svh, 44rem);
   }
+
   .character-sheet__portrait img {
     display: block;
     width: 100%;
@@ -351,6 +355,7 @@
     height: auto;
     margin: 0 -0.75rem;
   }
+
   .character-sheet__portrait > picture {
     height: 34rem;
   }
@@ -358,6 +363,7 @@
   .character-sheet__body {
     grid-template-columns: minmax(0, 1fr);
   }
+
   .character-sheet__column {
     grid-row: auto;
     margin-top: 1.5rem;

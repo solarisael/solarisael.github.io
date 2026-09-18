@@ -34,6 +34,7 @@
   width: min(52rem, calc(100vw - 2rem));
   max-width: calc(100vw - 2rem);
   margin: 2rem auto;
+
   --sol_shader_chalice_text_blur: 0rem;
   --sol_shader_chalice_text_opacity: 1;
   --sol_shader_chalice_inner_padding: 1rem;
@@ -90,9 +91,11 @@
   max-width: none;
   box-sizing: border-box;
   margin: 0;
+
   color: var(--mono_ink, #171717);
   font-size: clamp(0.78rem, 1.45vw, 0.96rem);
   line-height: 1.34;
+
   opacity: var(--sol_shader_chalice_text_opacity, 1);
   filter: blur(var(--sol_shader_chalice_text_blur, 0rem));
   will-change: opacity, filter;
@@ -112,6 +115,7 @@
     font-size: clamp(0.72rem, 3.1vw, 0.88rem);
   }
 }
+
 #sol_page_shell .sol__shader_chalice_canvas {
   display: none;
 }

@@ -1,18 +1,26 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 #sol_content {
-  @apply relative flex grow flex-col justify-start overflow-hidden border;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+
+  border-style: solid;
+  border-width: 1px;
 
   view-transition-name: page_content;
   z-index: 2;
+
   width: 100%;
   padding-block: 4.5rem;
   padding-inline: calc((100% - var(--reading_plane_width)) / 4 + 2rem);
+
   border-color: var(--mono_border, rgb(64 64 64 / 30%));
   border-width: 1px;
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
+
   transition: border-color
     calc(var(--page_color_shift_ms, 320ms) * var(--site_fx_motion_mult, 1)) ease;
 }

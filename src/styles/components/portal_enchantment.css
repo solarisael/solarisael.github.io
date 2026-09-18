@@ -1,6 +1,7 @@
 #sol_side_menu [data-side-menu-route] {
   touch-action: manipulation;
 }
+
 [data-portal-lettering] {
   position: absolute;
   inset: 0;
@@ -10,13 +11,16 @@
   opacity: 0;
   pointer-events: none;
 }
+
 #sol_side_menu[data-lettering-renderer="webgpu"] [data-portal-lettering] {
   opacity: 1;
 }
+
 #sol_side_menu[data-lettering-renderer="webgpu"] [data-inscription-text] {
   color: transparent;
   text-shadow: none;
 }
+
 #sol_side_menu [data-inscription-text]::selection {
   color: #ffe29a;
   background: #59472f;
@@ -29,6 +33,7 @@
   font-weight: 400;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Solarisael Symbols";
   src: url("../../fonts/enchantment/symbols.woff2") format("woff2");
@@ -45,6 +50,7 @@
   pointer-events: none;
   user-select: none;
 }
+
 .sol__enchanted_glyph {
   display: inline-block;
   font-weight: 400;
@@ -59,28 +65,35 @@
   pointer-events: none;
   user-select: none;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__enchanted_glyph {
   color: #282b2e;
   text-shadow: 0 1px 1px #fffdf3a0;
 }
+
 :root[data-site-scheme="dark"] #sol_side_menu .sol__letter_bleed {
   color: #17191b;
   text-shadow: 0 1px 1px #fffdf3a0;
 }
+
 .sol__depth_glyph {
   display: inline-block;
   opacity: var(--water-transmission, 1);
   transform-origin: center;
 }
+
 [data-depth-exempt] .sol__depth_glyph {
   opacity: 1;
 }
+
 [data-glyph-family="runic"] {
   font-family: "Solarisael Runic", sans-serif;
 }
+
 [data-glyph-family="symbols"] {
   font-family: "Solarisael Symbols", sans-serif;
 }
+
 .sol__ambient_glyph {
   position: absolute;
   font-size: var(--glyph-size);
@@ -88,12 +101,15 @@
   filter: blur(var(--glyph-softness));
   animation: enchanted-depth 24s ease-in-out infinite paused;
 }
+
 [data-glyph-depth="near"] {
   z-index: 1;
 }
+
 [data-glyph-depth="far"] {
   z-index: 0;
 }
+
 .sol__enchantment_letters {
   position: absolute;
   inset: 0;
@@ -103,6 +119,7 @@
   user-select: none;
   --bleed-light: 0.45;
 }
+
 .sol__letter_bleed {
   position: absolute;
   font-size: max(0.16em, 0.4rem);
@@ -113,28 +130,35 @@
     0 0 0.65rem #ffb63580;
   animation: enchanted-bleed 5s linear infinite paused;
 }
+
 .sol__enchantment_rim {
   inset: var(--close-rim-inset, 0px);
   --bleed-light: 0.4;
 }
+
 .sol__enchantment_rim .sol__letter_bleed {
   font-size: 0.45rem;
 }
+
 #sol_side_menu
   [data-side-menu-close]:is(:hover, :focus-visible)
   .sol__enchantment_rim {
   --bleed-light: 0.85;
 }
+
 #sol_side_menu:not([data-portal-enchantment="active"]) [data-portal-glyphs] {
   display: none;
 }
+
 #sol_side_menu[data-portal-enchantment="active"] .sol__enchantment_letters {
   display: block;
 }
+
 #sol_side_menu[data-portal-enchantment="active"]
   :is(.sol__ambient_glyph, .sol__letter_bleed) {
   animation-play-state: running;
 }
+
 @keyframes enchanted-depth {
   0%,
   100% {
@@ -142,9 +166,11 @@
     transform: translate(-50%, -50%) scale(0.55)
       rotate(calc(var(--glyph-turn) * -1));
   }
+
   25% {
     opacity: calc(var(--glyph-light) * 0.65);
   }
+
   55% {
     opacity: var(--glyph-light);
     transform: translate(
@@ -153,18 +179,22 @@
       )
       scale(1) rotate(var(--glyph-turn));
   }
+
   80% {
     opacity: calc(var(--glyph-light) * 0.45);
   }
 }
+
 @keyframes enchanted-bleed {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) rotate(0deg) scale(0.85);
   }
+
   12% {
     opacity: var(--bleed-light);
   }
+
   70% {
     opacity: var(--bleed-light);
     transform: translate(
@@ -173,9 +203,11 @@
       )
       rotate(calc(var(--bleed-turn) * 0.75)) scale(1);
   }
+
   88% {
     opacity: calc(var(--bleed-light) * 0.65);
   }
+
   100% {
     opacity: 0;
     transform: translate(
@@ -185,11 +217,13 @@
       rotate(var(--bleed-turn)) scale(0.85);
   }
 }
+
 @media (max-width: 700px) {
   .sol__ambient_glyph:nth-child(n + 25) {
     display: none;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   [data-portal-glyphs],
   .sol__enchantment_letters {

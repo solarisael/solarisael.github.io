@@ -1,26 +1,26 @@
-@utility ctp-text {
+.ctp-text {
   --ctp-text-theme-headings: var(--mono_ink, #171717);
   --ctp-text-theme-body: var(--mono_ink, #171717);
   --ctp-text-theme-bold: var(--mono_ink, #171717);
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--ctp-text-theme-headings);
-  }
+.ctp-text h1,
+.ctp-text h2,
+.ctp-text h3,
+.ctp-text h4,
+.ctp-text h5,
+.ctp-text h6 {
+  color: var(--ctp-text-theme-headings);
+}
 
-  p,
-  span,
-  li,
-  a,
-  small {
-    color: var(--ctp-text-theme-body);
-  }
+.ctp-text p,
+.ctp-text span,
+.ctp-text li,
+.ctp-text a,
+.ctp-text small {
+  color: var(--ctp-text-theme-body);
+}
 
-  small {
-    color: var(--ctp-text-theme-bold);
-  }
+.ctp-text small {
+  color: var(--ctp-text-theme-bold);
 }

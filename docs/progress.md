@@ -19,6 +19,21 @@ Runtime failures preserve their original errors in logs and data attributes.
 `LESSON_MAP.md` routes required coding, project, and design lessons.
 Query every matching block before implementation or worker dispatch.
 
+## Local native CSS cutover
+
+The local source has 26 CSS files.
+All 26 files now use native CSS only.
+The cutover removes Tailwind, its Vite plugin, its typography plugin, and its Prettier plugin.
+`base.css` now owns the explicit reset and the `.sr-only` accessibility helper.
+The cutover keeps the current selectors and rendered geometry.
+The selector audit remains separate from this cut.
+
+The local build produces 75 pages.
+All 278 tests pass.
+The format check and all CSS audits pass.
+Chrome verified six representative route families and both responsive seams.
+This change remains local and unpublished.
+
 ## Live proof
 
 Native Chrome reported the public Terminal renderer as `vgpu` and state `ready`.

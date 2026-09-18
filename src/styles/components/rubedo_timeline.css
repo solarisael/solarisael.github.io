@@ -1,16 +1,16 @@
-@reference "tailwindcss";
-@reference "../utils.css";
-
 .sol__rubedo_timeline_header {
-  @apply mb-4;
+  margin-bottom: 1rem;
 }
 
 .sol__rubedo_timeline_interactive {
-  @apply relative mt-6 w-full overflow-hidden;
-
+  position: relative;
+  margin-top: 1.5rem;
+  width: 100%;
+  overflow: hidden;
   height: 70vh;
   min-height: 320px;
   max-height: 900px;
+
   border: var(--site_border_width_hairline) solid var(--mono_ink, #171717);
   background: var(--mono_paper, #f7f4ed);
 }
@@ -19,13 +19,17 @@
   position: absolute;
   inset: 1rem;
   z-index: 30;
+
   display: grid;
   align-content: center;
   justify-items: center;
   gap: 0.75rem;
+
   padding: 1rem;
+
   border: 1px solid var(--mono_ink, #171717);
   background: var(--mono_paper, #f7f4ed);
+
   color: var(--mono_ink, #171717);
   text-align: center;
 }
@@ -40,19 +44,24 @@
 
 .sol__rubedo_timeline_error button {
   padding: 0.35rem 0.65rem;
+
   border: 1px solid var(--mono_ink, #171717);
   background: transparent;
+
   color: inherit;
   font: inherit;
+
   cursor: pointer;
 }
 
 .sol__rubedo_timeline_canvas {
-  @apply absolute inset-0;
+  position: absolute;
+  inset: 0;
 
   display: block;
   width: 100%;
   height: 100%;
+
   cursor: grab;
   outline: none;
 }
@@ -67,7 +76,10 @@
 }
 
 .sol__rubedo_timeline_legend {
-  @apply absolute flex flex-col gap-1;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 
   right: 0.75rem;
   bottom: 0.75rem;
@@ -75,22 +87,26 @@
   max-width: min(20rem, calc(100% - 1.5rem));
   padding: 0;
   margin: 0;
+
   color: var(--mono_ink, #171717);
   font-size: 0.7rem;
   list-style: none;
+
   pointer-events: none;
 }
 
 .sol__rubedo_timeline_hover_preview {
-  @apply absolute p-3;
-
+  position: absolute;
+  padding: 0.75rem;
   top: 1rem;
   left: 1rem;
   z-index: 20;
   width: min(22rem, calc(100% - 2rem));
+
   border: var(--site_border_width_hairline) solid var(--mono_ink, #171717);
   background: var(--mono_paper, #f7f4ed);
   color: var(--mono_ink, #171717);
+
   opacity: 0;
   transform: translateY(0.6rem);
   transition:
@@ -106,14 +122,17 @@
 }
 
 .sol__rubedo_timeline_hover_preview h3 {
-  @apply text-sm uppercase;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 
   margin-top: 0;
-  letter-spacing: 0.08em;
 }
 
 .sol__rubedo_timeline_hover_preview p {
-  @apply text-sm;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 
   margin-bottom: 0;
 }
@@ -126,6 +145,7 @@
     var(--mono_ink, #171717) 68%,
     var(--mono_paper, #f7f4ed)
   );
+
   --rubedo_card_radius: 0;
   --rubedo_transition_ms: 240ms;
 }
@@ -145,10 +165,12 @@
 
 .sol__rubedo_book_card {
   display: block;
+
   border: var(--site_border_width_hairline) solid var(--rubedo_ink);
   border-radius: var(--rubedo_card_radius);
   background: var(--rubedo_base);
   color: var(--rubedo_ink);
+
   transition:
     border-color var(--rubedo_transition_ms) ease,
     background-color var(--rubedo_transition_ms) ease;
@@ -195,6 +217,7 @@
 
 .sol__rubedo_book_synopsis {
   margin: 0;
+
   color: var(--rubedo_ink_soft);
   font-size: var(--text_fine, 0.8125rem);
   line-height: 1.45;

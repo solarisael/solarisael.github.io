@@ -12,6 +12,7 @@ sol-obsidian-tablet,
   animation: obsidian-drift var(--obsidian-drift-duration) ease-in-out infinite
     paused;
 }
+
 #sol_side_menu[data-portal-phase="artifact"]
   :is(sol-obsidian-tablet, [data-obsidian-surface], [data-portal-ink]) {
   animation-play-state: running;
@@ -22,18 +23,22 @@ sol-obsidian-tablet,
   100% {
     translate: 0 0;
   }
+
   20% {
     translate: calc(var(--obsidian-drift-x) * 0.7)
       calc(var(--obsidian-drift-y) * -1);
   }
+
   45% {
     translate: calc(var(--obsidian-drift-x) * -1)
       calc(var(--obsidian-drift-y) * -0.2);
   }
+
   70% {
     translate: calc(var(--obsidian-drift-x) * -0.25)
       calc(var(--obsidian-drift-y) * 0.8);
   }
+
   86% {
     translate: calc(var(--obsidian-drift-x) * 0.6)
       calc(var(--obsidian-drift-y) * 0.4);
@@ -49,6 +54,7 @@ sol-obsidian-tablet {
   --obsidian-static-sheen: #0b0e1433;
   --obsidian-static-shade: #00000099;
   --obsidian-static-glint: #10151c22;
+
   position: relative;
   z-index: 2;
   display: grid;
@@ -62,6 +68,7 @@ sol-obsidian-tablet {
   max-height: 100%;
   min-height: 0;
   isolation: isolate;
+
   background:
     linear-gradient(
       145deg,
@@ -77,6 +84,7 @@ sol-obsidian-tablet {
       var(--obsidian-static-end)
     );
 }
+
 sol-obsidian-tablet[data-obsidian-renderer="webgpu"] {
   background: none;
 }
@@ -95,6 +103,7 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] {
   --obsidian-static-shade: #b6ae9226;
   --obsidian-static-glint: #fffef599;
 }
+
 :root[data-site-scheme="dark"]
   sol-obsidian-tablet:not([data-obsidian-renderer="webgpu"]) {
   box-shadow:
@@ -113,6 +122,7 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] {
   opacity: 0;
   transition: opacity 220ms linear;
 }
+
 #sol_side_menu[data-side-menu-open="true"][data-portal-phase="artifact"]:has(
     sol-obsidian-tablet[data-obsidian-renderer="webgpu"]
   )
