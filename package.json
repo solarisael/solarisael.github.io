@@ -42,7 +42,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "rehype-raw": "^7.0.0",
     "scripts-of-folly": "github:solarisael/scripts-of-folly#0cdebccef632df2f386dda12b73bfc75e416d213",
-    "three": "^0.185.1",
+    "three": "^0.186.0",
     "vgpu": "^0.4.1"
   },
   "devDependencies": {
