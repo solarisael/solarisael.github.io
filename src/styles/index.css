@@ -384,8 +384,8 @@ body > .sol__ix_popup .sol__ix_popup_explanation_body {
   color: var(--mono_ink, #171717) !important;
 }
 
-#sol_page_shell .sol__block_fx,
-#sol_page_shell .sol__block_fx * {
+#sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx),
+#sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx) * {
   animation: none !important;
   background: var(--mono_paper, #f7f4ed) !important;
   background-image: none !important;
@@ -397,8 +397,14 @@ body > .sol__ix_popup .sol__ix_popup_explanation_body {
   text-shadow: none !important;
 }
 
-#sol_page_shell .sol__block_fx::before,
-#sol_page_shell .sol__block_fx::after {
+#sol_page_shell
+  .sol__block_fx
+  :where(p, li, dt, dd, blockquote, pre, table, dl) {
+  max-width: none;
+}
+
+#sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx)::before,
+#sol_page_shell .sol__block_fx:not(sol-effect-window > .sol__block_fx)::after {
   animation: none !important;
   background: none !important;
   box-shadow: none !important;
