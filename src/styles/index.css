@@ -338,17 +338,35 @@ Ownership Matrix
   --site_shell_glow_mult: 0;
 }
 
-#sol_page_shell a {
-  color: var(--mono_ink, #171717);
+:root[data-folly-gpu-pending]
+  #sol_page_shell
+  .sol__text_fx:not([data-folly-capture]):not(
+    [data-folly-capture] .sol__text_fx
+  ) {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  background: none !important;
+  animation: none !important;
 }
 
-#sol_page_shell .sol__text_fx {
-  animation: none !important;
-  background: none !important;
-  color: inherit !important;
-  filter: none !important;
-  text-shadow: none !important;
-  -webkit-text-fill-color: currentColor;
+.folly-gpu-canvas {
+  transition: opacity 260ms ease-out;
+}
+
+:root[data-folly-gpu-pending] .folly-gpu-canvas {
+  opacity: 0;
+  transition-duration: 0ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folly-gpu-canvas {
+    transition: none;
+  }
+}
+
+#sol_page_shell a {
+  color: var(--mono_ink, #171717);
 }
 
 #sol_page_shell .sol__ix:not(.sol__nav_pill):not(button):not([role="button"]) {

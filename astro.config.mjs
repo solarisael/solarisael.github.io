@@ -130,6 +130,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [wgslVitePlugin(), obsidian_rubedo_hot_reload()],
+    // Keep linked Folly shaders live instead of freezing them in Vite's dependency cache.
+    optimizeDeps: {
+      exclude: ["scripts-of-folly/gpu"],
+    },
     // Allow Vite to read files from the obsidian vault. Required for dev
     // mode; the build pass resolves globs ahead-of-time so this is
     // belt-and-suspender there. `..` includes the conventional escape;

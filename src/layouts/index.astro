@@ -124,6 +124,53 @@ const metadata_payload = JSON.stringify({
     <meta name="color-scheme" content="light dark" />
     <script is:inline src={with_base("js/modules/menu/color_scheme.js")}
     ></script>
+    <script is:inline>
+      (() => {
+        if (!navigator.gpu && typeof WebGL2RenderingContext === "undefined")
+          return;
+
+        const root = document.documentElement;
+        let observer;
+        let fallback_timer;
+
+        const reveal = () => {
+          observer?.disconnect();
+          clearTimeout(fallback_timer);
+          root.removeAttribute("data-folly-gpu-pending");
+        };
+
+        const wait_for_ink = () => {
+          observer?.disconnect();
+          clearTimeout(fallback_timer);
+          root.setAttribute("data-folly-gpu-pending", "");
+          observer = new MutationObserver((records) => {
+            if (
+              records.some(
+                ({ target }) =>
+                  target.getAttribute("data-folly-gpu-text") === "ready",
+              )
+            )
+              reveal();
+          });
+          observer.observe(document, {
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["data-folly-gpu-text"],
+          });
+          fallback_timer = setTimeout(reveal, 3000);
+        };
+
+        wait_for_ink();
+        document.addEventListener("htmx:afterSwap", (event) => {
+          const target = event.detail?.target;
+          if (
+            target?.id === "sol_page_shell" &&
+            target.querySelector(".sol__text_fx")
+          )
+            wait_for_ink();
+        });
+      })();
+    </script>
     <meta name="description" content={resolved_page_description} />
     <meta
       name="robots"
