@@ -1,15 +1,177 @@
 ---
 import IndexLayout from "../layouts/index.astro";
 import HomeGate from "../components/home/home_gate.astro";
+import { with_base } from "../utils/routes.js";
+import {
+  featured_projects,
+  recent_projects,
+  wda_projects,
+} from "../data/work_projects.js";
+
+const link_href = (link) =>
+  link.internal ? with_base(link.internal) : link.href;
+const catalogue_count = recent_projects.length + wda_projects.length;
 ---
 
 <IndexLayout page_title="Work" phase="work" banner_title="Work">
   <HomeGate>
     <Fragment slot="intro">
       <p class="sol__home_intro_line">
-        Original tools, enormous systems, and the things I have built for people
-        beyond this room.
+        hi, i'm sol. i build websites, tools, and whole worlds. sometimes all
+        three at once. come look.
       </p>
     </Fragment>
+
+    <div class="sol__work">
+      <section class="sol__work_featured" aria-label="Featured projects">
+        {
+          featured_projects.map((project, index) => (
+            <article
+              class="sol__work_feature"
+              aria-labelledby={`sol_work_${project.id}`}
+            >
+              <div class="sol__work_feature_text">
+                <p class="sol__work_kicker">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {project.kicker}
+                </p>
+                <h2
+                  id={`sol_work_${project.id}`}
+                  class="sol__work_feature_title"
+                >
+                  <a href={project.href}>{project.title}</a>
+                </h2>
+                {project.copy.map((paragraph) => (
+                  <p class="sol__work_feature_copy">{paragraph}</p>
+                ))}
+                <ul
+                  class="sol__work_stack"
+                  aria-label={`${project.title} built with`}
+                >
+                  {project.stack.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+                <ul
+                  class="sol__work_links"
+                  aria-label={`${project.title} links`}
+                >
+                  {project.links.map((link) => (
+                    <li>
+                      <a href={link_href(link)}>{link.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <figure class="sol__work_feature_figure">
+                <img
+                  src={with_base(project.image.src)}
+                  alt={project.image.alt}
+                  width={project.image.width}
+                  height={project.image.height}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+                <figcaption>{project.image.caption}</figcaption>
+              </figure>
+            </article>
+          ))
+        }
+      </section>
+
+      <section
+        class="sol__work_catalogue"
+        aria-labelledby="sol_work_catalogue_title"
+      >
+        <header class="sol__work_catalogue_head">
+          <h2 id="sol_work_catalogue_title" class="sol__work_catalogue_title">
+            and here's what i've built with WDA.
+          </h2>
+          <p class="sol__work_count">{catalogue_count} pieces</p>
+        </header>
+
+        <div class="sol__work_shelf">
+          <p class="sol__work_shelf_note">
+            the design is a team sport there. the code is mine.
+          </p>
+          <ul class="sol__work_recent_grid">
+            {
+              recent_projects.map((project) => (
+                <li class="sol__work_recent">
+                  <figure class="sol__work_recent_figure">
+                    <a
+                      class="sol__work_recent_zoom"
+                      href={with_base(project.image.src)}
+                    >
+                      <img
+                        src={with_base(project.image.src)}
+                        alt={project.image.alt}
+                        width={project.image.width}
+                        height={project.image.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                    <figcaption class="sol__work_recent_caption">
+                      {project.image.source ? (
+                        <a href={project.image.source}>
+                          {project.image.caption}
+                        </a>
+                      ) : (
+                        project.image.caption
+                      )}
+                    </figcaption>
+                  </figure>
+                  <div class="sol__work_recent_text">
+                    <h4 class="sol__work_card_title">{project.title}</h4>
+                    <p class="sol__work_card_label">{project.label}</p>
+                    <p class="sol__work_recent_copy">{project.copy}</p>
+                    <ul class="sol__work_stack" aria-label="Built with">
+                      {project.stack.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="sol__work_grid">
+            {
+              wda_projects.map((project) => (
+                <li class="sol__work_card">
+                  <img
+                    class="sol__work_card_image"
+                    src={with_base(project.image)}
+                    alt={project.alt}
+                    width="960"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="sol__work_card_body">
+                    <h4 class="sol__work_card_title">
+                      {project.href ? (
+                        <a href={project.href}>{project.title}</a>
+                      ) : (
+                        project.title
+                      )}
+                    </h4>
+                    <p class="sol__work_card_label">{project.label}</p>
+                    {project.stack && (
+                      <ul class="sol__work_stack" aria-label="Built with">
+                        {project.stack.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+    </div>
   </HomeGate>
 </IndexLayout>
