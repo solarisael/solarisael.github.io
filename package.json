@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.1",
-    "@chenglou/pretext": "^0.0.8",
+    "@chenglou/pretext": "^0.0.9",
     "@tanstack/virtual-core": "^3.17.11",
     "@vgpu/wgsl": "^0.4.1",
     "@vgpu/wgsl-std": "^0.4.1",
