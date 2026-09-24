@@ -2,9 +2,9 @@
   <!--
     Reliquary center sigil — Kintsu pass-1 (2026-05-14, imported from references/generated-first-pass.html).
     Concentric circles + cardinal arms + diamond + cross. Single SVG used at 24/36/48px tiers.
-    color: currentColor.
+    color: reliquary gold (#c8a96b).
   -->
-  <g id="reliquary-sigil-concentric" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+  <g id="reliquary-sigil-concentric" stroke="#c8a96b" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="24" cy="24" r="17"/>
     <circle cx="24" cy="24" r="10"/>
     <path d="M24 7v34"/>

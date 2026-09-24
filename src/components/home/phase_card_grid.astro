@@ -1,5 +1,6 @@
 ---
 import { with_base } from "../../utils/routes.js";
+import MantleFrame from "../mantle/mantle_frame.astro";
 
 const { phase_cards = [] } = Astro.props;
 ---
@@ -20,7 +21,7 @@ const { phase_cards = [] } = Astro.props;
 
       const class_name = `sol__phase_card_link sol__phase_card_${phase_card.visual_phase_slug ?? phase_card.phase_slug}`;
 
-      return phase_card.disabled ? (
+      const card = phase_card.disabled ? (
         <article
           class={`${class_name} sol__phase_card_disabled`}
           aria-disabled="true"
@@ -36,6 +37,8 @@ const { phase_cards = [] } = Astro.props;
           {card_body}
         </a>
       );
+
+      return <MantleFrame variant="phase-card">{card}</MantleFrame>;
     })
   }
 </mantle>

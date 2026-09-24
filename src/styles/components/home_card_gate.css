@@ -63,7 +63,7 @@
     gap: 1rem;
   }
 
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.25rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr));
 }
 
 .sol__phase_card_link {
@@ -112,6 +112,8 @@
 
 .sol__phase_card_blurb {
   margin: 0;
+  width: 100%;
+  max-width: none;
   color: var(--mono_ink, #171717);
   font-size: 0.875rem;
   text-wrap: pretty;
@@ -134,6 +136,7 @@
 
 @media (max-width: 768px) {
   #sol_phase_card_grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.125rem), 1fr));
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(13.125rem, 1fr));
   }
 }

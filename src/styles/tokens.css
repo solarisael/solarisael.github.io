@@ -22,6 +22,7 @@
   --mono_paper: var(--mono_paper_light);
   --mono_ink: var(--mono_ink_light);
   --mono_border: var(--mono_border_light);
+  --mantle_glow_filter: brightness(0);
   color-scheme: light dark;
 
   --ui_bg_root: oklch(8.5% 0.005 280);
@@ -70,6 +71,7 @@
     --mono_paper: var(--mono_paper_dark);
     --mono_ink: var(--mono_ink_dark);
     --mono_border: var(--mono_border_dark);
+    --mantle_glow_filter: none;
   }
 }
 
@@ -85,12 +87,14 @@ html[data-site-scheme="dark"] {
   --mono_paper: var(--mono_paper_light);
   --mono_ink: var(--mono_ink_light);
   --mono_border: var(--mono_border_light);
+  --mantle_glow_filter: brightness(0);
 }
 
 :root[data-site-scheme="dark"] {
   --mono_paper: var(--mono_paper_dark);
   --mono_ink: var(--mono_ink_dark);
   --mono_border: var(--mono_border_dark);
+  --mantle_glow_filter: none;
 }
 
 @media (min-width: 769px) {

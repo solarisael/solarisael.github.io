@@ -182,6 +182,33 @@ describe("menu navigation lifecycle", () => {
     expect(document.documentElement.style.overflow).toBe("hidden");
   });
 
+  test("Escape returns through the nested parent and focuses its entry control", async () => {
+    const settings = menu.querySelector(
+      '[data-side-menu-view-page="settings"]',
+    );
+    settings.insertAdjacentHTML(
+      "beforeend",
+      '<button data-side-menu-view-target="effects">Effects</button>',
+    );
+    panel.insertAdjacentHTML(
+      "beforeend",
+      '<section data-side-menu-view-page="effects" data-side-menu-parent="settings"><input type="range"></section>',
+    );
+    set_menu_state(menu, true, "effects");
+    keydown(menu.querySelector("input"));
+    await next_task();
+
+    expect(menu.dataset.sideMenuView).toBe("settings");
+    expect(panel.open).toBe(true);
+    expect(document.activeElement).toBe(
+      settings.querySelector('[data-side-menu-view-target="effects"]'),
+    );
+    keydown(document.activeElement);
+    await next_task();
+    expect(menu.dataset.sideMenuView).toBe("root");
+    expect(panel.open).toBe(true);
+  });
+
   test("Tab wraps past inert, disabled, and non-visible controls", () => {
     set_menu_state(menu, true, "root");
     // Happy DOM has no layout; supply visibility without replacing focus behavior.

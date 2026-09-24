@@ -1,0 +1,236 @@
+.sol__mantle_frame {
+  position: relative;
+  min-width: 0;
+  overflow: visible;
+  isolation: isolate;
+}
+.sol__mantle_glow_canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  filter: var(--mantle_glow_filter);
+}
+
+.sol__mantle_frame > ornament {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+
+  color: var(--ui_accent, #c8a96b);
+  opacity: var(--cinza_reliquary_opacity, 0.88);
+  filter: var(--mantle_glow_filter);
+}
+
+.sol__mantle_frame > ornament > :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  overflow: visible;
+}
+
+.sol__mantle_frame[data-shape="container"] {
+  --mantle_container_corner_size: clamp(3.6rem, 7vw, 5.25rem);
+  --mantle_container_corner_inline_offset: calc(
+    var(--mantle_container_corner_size) * -0.25
+  );
+  --mantle_container_corner_block_offset: calc(
+    var(--mantle_container_corner_size) * -0.13
+  );
+  --mantle_container_crest_size: clamp(2.2rem, 4.5vw, 3.2rem);
+  --mantle_container_crest_offset: calc(
+    var(--mantle_container_crest_size) * -0.5
+  );
+  --mantle_container_flourish_inline: clamp(3rem, 7vw, 4.8rem);
+  --mantle_container_flourish_block: 1.1rem;
+  --mantle_container_flourish_inline_offset: calc(
+    var(--mantle_container_flourish_inline) * -0.5
+  );
+
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.sol__mantle_frame[data-shape="container"] > #sol_content {
+  flex: 1 0 auto;
+}
+
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="northwest"],
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="northeast"],
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="southeast"],
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="southwest"] {
+  width: var(--mantle_container_corner_size);
+  height: var(--mantle_container_corner_size);
+}
+
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="northwest"] {
+  top: var(--mantle_container_corner_block_offset);
+  left: var(--mantle_container_corner_inline_offset);
+}
+
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="northeast"] {
+  top: var(--mantle_container_corner_block_offset);
+  right: var(--mantle_container_corner_inline_offset);
+  transform: scaleX(-1);
+}
+
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="southeast"] {
+  right: var(--mantle_container_corner_inline_offset);
+  bottom: var(--mantle_container_corner_block_offset);
+  transform: scale(-1);
+}
+
+.sol__mantle_frame[data-shape="container"]
+  > ornament[data-position="southwest"] {
+  bottom: var(--mantle_container_corner_block_offset);
+  left: var(--mantle_container_corner_inline_offset);
+  transform: scaleY(-1);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="north"],
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="south"] {
+  left: calc(50% - (var(--mantle_container_crest_size) * 0.5));
+  width: var(--mantle_container_crest_size);
+  height: var(--mantle_container_crest_size);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="north"] {
+  top: var(--mantle_container_crest_offset);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="south"] {
+  bottom: var(--mantle_container_crest_offset);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="east"],
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="west"] {
+  top: calc(50% - (var(--mantle_container_flourish_block) * 0.5));
+  width: var(--mantle_container_flourish_inline);
+  height: var(--mantle_container_flourish_block);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="east"] {
+  right: var(--mantle_container_flourish_inline_offset);
+  transform: rotate(-90deg);
+}
+
+.sol__mantle_frame[data-shape="container"] > ornament[data-position="west"] {
+  left: var(--mantle_container_flourish_inline_offset);
+  transform: rotate(90deg);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] {
+  --mantle_card_corner_offset: -0.06rem;
+  --mantle_card_corner_northwest_size: 2.9rem;
+  --mantle_card_corner_northeast_size: 3.05rem;
+  --mantle_card_corner_southwest_size: 2.75rem;
+  --mantle_card_corner_southeast_size: 3rem;
+  --mantle_card_crest_size: 1.7rem;
+  --mantle_card_side_width: 1.15rem;
+  --mantle_card_side_height: 82%;
+
+  display: flex;
+  align-self: stretch;
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > .sol__phase_card_link {
+  flex: 1;
+}
+
+.sol__mantle_frame[data-shape="phase-card"]
+  > ornament[data-position="northwest"] {
+  top: var(--mantle_card_corner_offset);
+  left: var(--mantle_card_corner_offset);
+  width: var(--mantle_card_corner_northwest_size);
+  height: var(--mantle_card_corner_northwest_size);
+}
+
+.sol__mantle_frame[data-shape="phase-card"]
+  > ornament[data-position="northeast"] {
+  top: var(--mantle_card_corner_offset);
+  right: var(--mantle_card_corner_offset);
+  width: var(--mantle_card_corner_northeast_size);
+  height: var(--mantle_card_corner_northeast_size);
+}
+
+.sol__mantle_frame[data-shape="phase-card"]
+  > ornament[data-position="southeast"] {
+  right: var(--mantle_card_corner_offset);
+  bottom: var(--mantle_card_corner_offset);
+  width: var(--mantle_card_corner_southeast_size);
+  height: var(--mantle_card_corner_southeast_size);
+}
+
+.sol__mantle_frame[data-shape="phase-card"]
+  > ornament[data-position="southwest"] {
+  bottom: var(--mantle_card_corner_offset);
+  left: var(--mantle_card_corner_offset);
+  width: var(--mantle_card_corner_southwest_size);
+  height: var(--mantle_card_corner_southwest_size);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="north"],
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="south"] {
+  left: calc(50% - (var(--mantle_card_crest_size) * 0.5));
+  width: var(--mantle_card_crest_size);
+  height: var(--mantle_card_crest_size);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="north"] {
+  top: calc(var(--mantle_card_crest_size) * -0.5);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="south"] {
+  bottom: calc(var(--mantle_card_crest_size) * -0.5);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="east"],
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="west"] {
+  top: calc(50% - (var(--mantle_card_side_height) * 0.5));
+  width: var(--mantle_card_side_width);
+  height: var(--mantle_card_side_height);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="east"] {
+  right: -0.05rem;
+}
+
+.sol__mantle_frame[data-shape="phase-card"]
+  > ornament[data-position="east"]
+  > img {
+  transform: rotate(180deg);
+}
+
+.sol__mantle_frame[data-shape="phase-card"] > ornament[data-position="west"] {
+  left: -0.05rem;
+}
+
+.sol__mantle_frame[data-shape="phase-card"]:has(> .sol__phase_card_disabled)
+  > ornament {
+  opacity: calc(var(--cinza_reliquary_opacity, 0.88) * 0.58);
+}
+
+@media (max-width: 768px) {
+  .sol__mantle_frame[data-shape="container"] {
+    --mantle_container_corner_inline_offset: calc(
+      var(--mantle_container_corner_size) * -0.14
+    );
+    --mantle_container_flourish_inline_offset: calc(
+      var(--mantle_container_flourish_inline) * -0.32
+    );
+  }
+}

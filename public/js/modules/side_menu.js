@@ -16,6 +16,10 @@ import {
   resolve_saved_user_settings,
   resolve_saved_menu_state,
 } from "./menu/preferences.js";
+import {
+  bind_effect_controls,
+  restore_effect_controls,
+} from "./menu/effect_controls.js";
 
 const window_any = /** @type {any} */ (globalThis);
 const initialized_menus = new WeakSet();
@@ -27,8 +31,6 @@ const apply_saved_preferences = () => {
 
   const {
     saved_theme_class,
-    saved_shell_class,
-    saved_fx_class,
     saved_scale_class,
     saved_display_class,
     saved_fps_class,
@@ -40,8 +42,6 @@ const apply_saved_preferences = () => {
   apply_site_style_state(
     document.documentElement,
     saved_theme_class,
-    saved_shell_class,
-    saved_fx_class,
     saved_scale_class,
     saved_display_class,
     saved_fps_class,
@@ -53,8 +53,6 @@ const apply_saved_preferences = () => {
   );
   sync_side_menu_controls(
     saved_theme_class,
-    saved_shell_class,
-    saved_fx_class,
     saved_scale_class,
     saved_text_class,
     saved_measure_class,
@@ -63,6 +61,7 @@ const apply_saved_preferences = () => {
     saved_display_class,
     saved_fps_class,
   );
+  restore_effect_controls(document.querySelector("#sol_side_menu"));
 };
 
 const bind_side_menu_controls = () => {
@@ -83,6 +82,7 @@ const bind_side_menu_controls = () => {
   initialized_menus.add(menu_node);
   bind_navigation_controls(menu_node);
   bind_settings_controls(menu_node);
+  bind_effect_controls(menu_node);
 };
 
 const init_side_menu = () => {
@@ -141,22 +141,17 @@ export { init_side_menu, apply_side_menu_route_state };
 export { set_menu_view_state } from "./menu/view_state.js";
 export {
   COOKIE_MAX_AGE_SECONDS,
-  LEGACY_HOME_FX_COOKIE_NAME,
   LEGACY_HOME_THEME_COOKIE_NAME,
   SITE_DISPLAY_COOKIE_NAME,
   SITE_DISPLAY_DEFAULT,
   SITE_FPS_COOKIE_NAME,
   SITE_FPS_DEFAULT,
-  SITE_FX_COOKIE_NAME,
-  SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
   SITE_SCALE_DEFAULT,
   SITE_MENU_OPEN_COOKIE_NAME,
   SITE_MENU_OPEN_DEFAULT,
   SITE_MENU_VIEW_COOKIE_NAME,
   SITE_MENU_VIEW_DEFAULT,
-  SITE_SHELL_COOKIE_NAME,
-  SITE_SHELL_DEFAULT,
   SITE_THEME_COOKIE_NAME,
   SITE_THEME_DEFAULT,
   USER_MEASURE_COOKIE_NAME,
@@ -169,7 +164,6 @@ export {
   get_safe_option,
   has_site_root,
   legacy_theme_alias_map,
-  normalize_legacy_fx_value,
   normalize_legacy_theme_value,
   normalize_theme_alias_value,
   parse_cookie_map,
@@ -179,9 +173,7 @@ export {
   resolve_saved_user_settings,
   site_display_options,
   site_fps_options,
-  site_fx_options,
   site_scale_options,
-  site_shell_options,
   site_theme_options,
   user_measure_options,
   user_text_options,

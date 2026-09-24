@@ -25,6 +25,7 @@
     font-feature-settings: normal;
     font-variation-settings: normal;
     -webkit-tap-highlight-color: transparent;
+    scrollbar-gutter: stable;
   }
 
   body {

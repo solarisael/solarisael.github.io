@@ -6,6 +6,28 @@ import {
 } from "./preferences.js";
 import { set_menu_state, set_menu_view_state } from "./view_state.js";
 
+const navigate_menu_view = (menu_node, requested_view) => {
+  const previous_view = menu_node.dataset.sideMenuView;
+  const safe_view = set_menu_view_state(menu_node, requested_view);
+  write_cookie_value(SITE_MENU_VIEW_COOKIE_NAME, safe_view);
+
+  const active_view = menu_node.querySelector(
+    `[data-side-menu-view-page="${safe_view}"]`,
+  );
+  const focus_target =
+    active_view?.querySelector(
+      `[data-side-menu-view-target="${previous_view}"]`,
+    ) ?? active_view?.querySelector("[data-side-menu-view-focus]");
+  window.setTimeout(() => {
+    if (
+      focus_target instanceof HTMLElement &&
+      menu_node.dataset.sideMenuView === safe_view
+    ) {
+      focus_target.focus();
+    }
+  }, 0);
+};
+
 const is_menu_open_escape = (menu_node, event) =>
   !(
     !menu_node.isConnected ||
@@ -33,7 +55,7 @@ const is_escape_reserved = (event) => {
 const cycle_panel_focus = (panel_node, event) => {
   const focusable = [
     ...panel_node.querySelectorAll(
-      "a[href], button:not([disabled]), select:not([disabled]), [tabindex='0']",
+      "a[href], button:not([disabled]), select:not([disabled]), input:not([disabled]), [tabindex='0']",
     ),
   ].filter(
     (node) => !node.closest("[inert]") && node.getClientRects().length > 0,
@@ -95,23 +117,7 @@ export const bind_navigation_controls = (menu_node) => {
     }
 
     target_node.addEventListener("click", () => {
-      const previous_view = menu_node.dataset.sideMenuView;
-      const next_view = target_node.dataset.sideMenuViewTarget;
-      const safe_view = set_menu_view_state(menu_node, next_view);
-      write_cookie_value(SITE_MENU_VIEW_COOKIE_NAME, safe_view);
-
-      const active_view = menu_node.querySelector(
-        `[data-side-menu-view-page="${safe_view}"]`,
-      );
-      const focus_target =
-        active_view?.querySelector(
-          `[data-side-menu-view-target="${previous_view}"]`,
-        ) ?? active_view?.querySelector("[data-side-menu-view-focus]");
-      window.setTimeout(() => {
-        if (focus_target instanceof HTMLElement) {
-          focus_target.focus();
-        }
-      }, 0);
+      navigate_menu_view(menu_node, target_node.dataset.sideMenuViewTarget);
     });
   }
 
@@ -160,20 +166,12 @@ export const bind_navigation_controls = (menu_node) => {
     event.preventDefault();
     if (menu_node.dataset.sideMenuView !== SITE_MENU_VIEW_DEFAULT) {
       const previous_view = menu_node.dataset.sideMenuView;
-      const safe_view = set_menu_view_state(menu_node, SITE_MENU_VIEW_DEFAULT);
-      write_cookie_value(SITE_MENU_VIEW_COOKIE_NAME, safe_view);
-      const active_view = menu_node.querySelector(
-        `[data-side-menu-view-page="${safe_view}"]`,
+      const current_view = menu_node.querySelector(
+        `[data-side-menu-view-page="${previous_view}"]`,
       );
-      const focus_target =
-        active_view?.querySelector(
-          `[data-side-menu-view-target="${previous_view}"]`,
-        ) ?? active_view?.querySelector("[data-side-menu-view-focus]");
-      window.setTimeout(() => {
-        if (focus_target instanceof HTMLElement) {
-          focus_target.focus();
-        }
-      }, 0);
+      const parent_view =
+        current_view?.dataset.sideMenuParent ?? SITE_MENU_VIEW_DEFAULT;
+      navigate_menu_view(menu_node, parent_view);
       return;
     }
 

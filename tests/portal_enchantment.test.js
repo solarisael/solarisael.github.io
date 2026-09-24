@@ -25,7 +25,6 @@ beforeEach(() => {
   menu.dataset.portalPhase = "closed";
   menu.dataset.sideMenuView = "root";
   menu.innerHTML = `<sol-obsidian-tablet><div>
-    <div data-portal-glyphs aria-hidden="true"></div>
     <button data-side-menu-close aria-label="Close menu"></button>
     <a href="/writing" data-side-menu-route>
       <span data-inscription-text>writing</span>
@@ -68,30 +67,6 @@ test("fonts wait for an open artifact and late readiness cannot revive a closed 
   await open();
   expect(menu.dataset.portalEnchantment).toBe("active");
   expect(load_fonts).toHaveBeenCalledTimes(1);
-});
-
-test("depth glyphs and close-rim motes remain decorative and dispose without accumulation", async () => {
-  controller = create_portal_enchantment(menu, { load_fonts });
-  expect(
-    menu.querySelectorAll("[data-glyph-depth=near]").length,
-  ).toBeGreaterThan(0);
-  expect(
-    menu.querySelectorAll("[data-glyph-depth=far]").length,
-  ).toBeGreaterThan(0);
-  expect(menu.querySelectorAll(".sol__letter_bleed").length).toBeGreaterThan(0);
-  expect(
-    menu.querySelector(".sol__enchantment_letters").getAttribute("aria-hidden"),
-  ).toBe("true");
-  expect(menu.querySelector("[data-inscription-text]").textContent).toBe(
-    "writing",
-  );
-  controller.dispose();
-  expect(menu.querySelectorAll(".sol__enchanted_glyph").length).toBe(0);
-  expect(menu.querySelector(".sol__enchantment_letters")).toBeNull();
-  expect(menu.hasAttribute("data-portal-enchantment")).toBe(false);
-  fonts.resolve();
-  await settle();
-  expect(menu.hasAttribute("data-portal-enchantment")).toBe(false);
 });
 
 test("reduced motion avoids fonts and gathers, then permits a normal-motion reveal", async () => {

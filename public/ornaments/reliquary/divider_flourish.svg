@@ -2,9 +2,9 @@
   <!--
     Reliquary divider flourish — Kintsu pass-1 (2026-05-14, imported from references/generated-first-pass.html).
     Curved flourish + arrow-cross terminus. Use on left side as-is; right side: transform: scaleX(-1).
-    color: currentColor.
+    color: reliquary gold (#c8a96b).
   -->
-  <g id="reliquary-divider-flourish" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <g id="reliquary-divider-flourish" stroke="#c8a96b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M2 7c4 0 6-2 8-5"/>
     <path d="M2 7c4 0 6 2 8 5"/>
     <path d="M10 7c4 0 6-2.5 8-5"/>

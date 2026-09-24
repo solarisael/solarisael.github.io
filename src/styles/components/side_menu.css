@@ -161,7 +161,7 @@
 
   width: 100%;
   max-height: 100%;
-  min-height: calc(min(39rem, 82dvh) - var(--obsidian-rim-width) * 2);
+  min-height: 0;
 
   padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 3vw, 2.75rem);
   border: 0;
@@ -170,9 +170,15 @@
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
-
+  scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
-  scrollbar-color: #73613e #0b0d10;
+  scrollbar-color: color-mix(in srgb, var(--portal-gold) 35%, transparent)
+    transparent;
+}
+
+#sol_side_menu_panel_scroll:is(:hover, :focus-within) {
+  scrollbar-color: color-mix(in srgb, var(--portal-gold) 65%, transparent)
+    transparent;
 }
 
 #sol_side_menu[data-portal-phase="artifact"]
@@ -217,7 +223,8 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  min-height: var(--portal_close_target);
+  margin-bottom: 1.5rem;
 }
 
 #sol_side_menu_panel_header button {
@@ -255,7 +262,7 @@
 
 #sol_side_menu_routes > [data-shape="ritual_separator"] {
   width: min(32rem, 100%);
-  margin: 1rem auto;
+  margin: 2rem auto;
   opacity: 0.85;
 }
 
@@ -287,7 +294,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: clamp(0.35rem, 1vh, 0.75rem);
+  gap: 1.25rem;
   width: min(36rem, 100%);
 }
 
@@ -301,8 +308,8 @@
   justify-content: center;
   gap: 0.15rem;
 
-  min-height: 4.2rem;
-  padding: 0.25rem 0.5rem;
+  min-height: 5rem;
+  padding: 0.75rem 0.5rem;
 
   color: #ffcf70;
   text-align: center;
@@ -357,7 +364,7 @@ a.sol__side_menu_route[data-portal-selected="true"] {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin: 0.5rem auto 0;
+  margin: 1rem auto 0;
 }
 
 .sol__side_menu_icon {
@@ -464,15 +471,16 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
   font-size: 0.75rem;
 }
 
-#sol_side_menu :is(a, button, select):focus-visible {
+#sol_side_menu :is(a, button, select, input):focus-visible {
   outline: 2px solid #e8c67f;
   outline-offset: var(--portal_focus_gap);
 }
 
 .sol__side_menu_view_header {
   display: flex;
-  gap: 1rem;
-  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
 .sol__side_menu_view_header h2 {
@@ -487,11 +495,15 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
   color: #aba08b;
 }
 
+.sol__side_menu_settings_view {
+  width: min(100%, 28rem);
+  margin-inline: auto;
+}
+
 .sol__side_menu_settings_section {
   display: grid;
-  gap: 0.75rem;
-  max-width: 34rem;
-  padding-block: 0.8rem;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
 }
 
 .sol__side_menu_settings_section h3 {
@@ -507,14 +519,46 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
 
 .sol__side_menu_group {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+button.sol__side_menu_group {
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1rem;
+  padding: 0.75rem;
 }
 
 .sol__side_menu_group select {
   width: 100%;
   padding: 0.5rem;
+}
+
+.sol__side_menu_effect_category {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.sol__side_menu_effect_slider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+}
+
+.sol__side_menu_effect_slider input {
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  width: 100%;
+  min-height: var(--portal_touch_target);
+  accent-color: var(--portal-gold);
+}
+
+.sol__side_menu_effect_slider output {
+  text-align: right;
+  color: var(--portal-gold);
+  font-variant-numeric: tabular-nums;
 }
 
 .sol__side_menu_label {
@@ -591,16 +635,6 @@ sol-obsidian-tablet[data-obsidian-renderer="webgpu"] .sol__side_menu_icon {
       max(0.65rem, env(safe-area-inset-bottom))
       max(0.65rem, env(safe-area-inset-left));
   }
-
-  #sol_side_menu_panel_scroll {
-    width: 100%;
-    min-height: 0;
-    max-height: 100%;
-  }
-
-  .sol__side_menu_route {
-    min-height: 4rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -659,7 +693,12 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
 }
 
 :root[data-site-scheme="dark"] #sol_side_menu_panel_scroll {
-  scrollbar-color: #938365 #e9e5d9;
+  scrollbar-color: #93836570 transparent;
+}
+
+:root[data-site-scheme="dark"]
+  #sol_side_menu_panel_scroll:is(:hover, :focus-within) {
+  scrollbar-color: #938365b0 transparent;
 }
 
 :root[data-site-scheme="dark"] #sol_side_menu .sol__side_menu_route {
@@ -750,6 +789,6 @@ html[data-site-scheme="dark"] .sol__scheme_moon {
 
 :root[data-site-scheme="dark"]
   #sol_side_menu
-  :is(a, button, select):focus-visible {
+  :is(a, button, select, input):focus-visible {
   outline-color: #17191b;
 }

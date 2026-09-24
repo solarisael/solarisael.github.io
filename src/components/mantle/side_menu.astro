@@ -9,46 +9,26 @@ import RitualSeparator from "../ornament/ritual_separator.astro";
 import ObsidianTablet from "../ornament/obsidian_tablet.astro";
 import { with_base } from "../../utils/routes.js";
 import { site_fps_options } from "../../../public/js/modules/menu/preferences.js";
-
+import {
+  effect_categories,
+  effect_presets,
+} from "../../../public/js/modules/menu/effect_preferences.js";
 const menu_items = [
   ...SITE_NAV_ITEMS,
   ...WRITING_PHASE_NAV_ITEMS.filter((item) => item.phase === "codex"),
 ];
 
+const setting_depth = {
+  "data-depth-region": true,
+  "data-depth": 96,
+  "data-depth-padding": 48,
+  "data-depth-inner": 0.5,
+};
+
 const site_theme_options = [
   {
     label: "solarisael",
     value: "solarisael",
-  },
-];
-
-const site_fx_options = [
-  {
-    label: "subtle",
-    value: "subtle",
-  },
-  {
-    label: "balanced",
-    value: "balanced",
-  },
-  {
-    label: "bold",
-    value: "bold",
-  },
-];
-
-const site_shell_options = [
-  {
-    label: "subtle",
-    value: "subtle",
-  },
-  {
-    label: "medium",
-    value: "medium",
-  },
-  {
-    label: "strong",
-    value: "strong",
   },
 ];
 
@@ -126,7 +106,7 @@ const user_measure_options = [
     <canvas data-portal-ink aria-hidden="true"></canvas>
 
     <ObsidianTablet>
-      <div slot="scene" data-portal-glyphs aria-hidden="true"></div>
+      <canvas slot="scene" data-portal-moths aria-hidden="true"></canvas>
       <canvas slot="foreground" data-portal-lettering aria-hidden="true"
       ></canvas>
       <div id="sol_side_menu_panel_scroll">
@@ -136,7 +116,7 @@ const user_measure_options = [
             data-side-menu-close
             data-depth-region
             data-depth="12"
-            data-depth-padding="18"
+            data-depth-padding="48"
             data-depth-inner="0.25"
             aria-label="Close Solarisael menu"
           >
@@ -198,7 +178,7 @@ const user_measure_options = [
                           data-inscription-text
                           data-depth-region
                           data-depth="192"
-                          data-depth-padding="20"
+                          data-depth-padding="48"
                         >
                           {nav_item.label}
                         </span>
@@ -230,7 +210,7 @@ const user_measure_options = [
                 data-obsidian-button
                 data-depth-region
                 data-depth="60"
-                data-depth-padding="24"
+                data-depth-padding="48"
                 data-depth-inner="0.5"
                 data-side-menu-view-target="settings"
                 data-side-menu-view-focus
@@ -254,7 +234,7 @@ const user_measure_options = [
                 data-obsidian-button
                 data-depth-region
                 data-depth="60"
-                data-depth-padding="24"
+                data-depth-padding="48"
                 data-depth-inner="0.5"
                 aria-label="Use dark colour scheme"
                 title="Use dark colour scheme"
@@ -287,7 +267,7 @@ const user_measure_options = [
                 data-obsidian-button
                 data-depth-region
                 data-depth="60"
-                data-depth-padding="24"
+                data-depth-padding="48"
                 data-depth-inner="0.5"
                 data-side-menu-view-focus
                 aria-controls="sol_side_menu_view_profile"
@@ -329,14 +309,14 @@ const user_measure_options = [
 
           <section
             id="sol_side_menu_view_settings"
-            class="sol__side_menu_view"
+            class="sol__side_menu_view sol__side_menu_settings_view"
             data-side-menu-view-page="settings"
             data-view-position="after"
             aria-labelledby="sol_side_menu_settings_title"
             aria-hidden="true"
             inert
           >
-            <div class="sol__side_menu_view_header">
+            <div class="sol__side_menu_view_header" {...setting_depth}>
               <button
                 class="sol__side_menu_back"
                 type="button"
@@ -361,7 +341,11 @@ const user_measure_options = [
 
             <div class="sol__side_menu_settings_section">
               <h3>Appearance</h3>
-              <label class="sol__side_menu_group" for="sol_side_menu_theme">
+              <label
+                class="sol__side_menu_group"
+                for="sol_side_menu_theme"
+                {...setting_depth}
+              >
                 <span class="sol__side_menu_label sol__text_caption">theme</span
                 >
                 <select id="sol_side_menu_theme" data-site-theme-control>
@@ -375,7 +359,11 @@ const user_measure_options = [
                 </select>
               </label>
 
-              <label class="sol__side_menu_group" for="sol_side_menu_display">
+              <label
+                class="sol__side_menu_group"
+                for="sol_side_menu_display"
+                {...setting_depth}
+              >
                 <span class="sol__side_menu_label sol__text_caption"
                   >display tuning</span
                 >
@@ -394,7 +382,11 @@ const user_measure_options = [
                 your display settings.
               </p>
 
-              <label class="sol__side_menu_group" for="sol_side_menu_fps">
+              <label
+                class="sol__side_menu_group"
+                for="sol_side_menu_fps"
+                {...setting_depth}
+              >
                 <span class="sol__side_menu_label sol__text_caption"
                   >menu animation limit</span
                 >
@@ -411,34 +403,25 @@ const user_measure_options = [
                 </select>
               </label>
 
-              <label class="sol__side_menu_group" for="sol_side_menu_fx">
+              <button
+                type="button"
+                class="sol__side_menu_group"
+                data-side-menu-view-target="effects"
+                data-side-menu-view-focus
+                aria-controls="sol_side_menu_view_effects"
+                {...setting_depth}
+              >
                 <span class="sol__side_menu_label sol__text_caption">
-                  intensity
+                  effects
                 </span>
-                <select id="sol_side_menu_fx" data-site-fx-control>
-                  {
-                    site_fx_options.map((fx_option) => (
-                      <option value={fx_option.value}>{fx_option.label}</option>
-                    ))
-                  }
-                </select>
-              </label>
+                <span aria-hidden="true">open</span>
+              </button>
 
-              <label class="sol__side_menu_group" for="sol_side_menu_shell">
-                <span class="sol__side_menu_label sol__text_caption">shell</span
-                >
-                <select id="sol_side_menu_shell" data-site-shell-control>
-                  {
-                    site_shell_options.map((shell_option) => (
-                      <option value={shell_option.value}>
-                        {shell_option.label}
-                      </option>
-                    ))
-                  }
-                </select>
-              </label>
-
-              <label class="sol__side_menu_group" for="sol_side_menu_scale">
+              <label
+                class="sol__side_menu_group"
+                for="sol_side_menu_scale"
+                {...setting_depth}
+              >
                 <span class="sol__side_menu_label sol__text_caption">scale</span
                 >
                 <select id="sol_side_menu_scale" data-site-scale-control>
@@ -456,8 +439,124 @@ const user_measure_options = [
                 type="button"
                 class="sol__side_menu_reset"
                 data-side-menu-reset="site"
+                {...setting_depth}
               >
                 reset site configuration
+              </button>
+            </div>
+          </section>
+          <section
+            id="sol_side_menu_view_effects"
+            class="sol__side_menu_view sol__side_menu_settings_view"
+            data-side-menu-view-page="effects"
+            data-side-menu-parent="settings"
+            data-view-position="after"
+            aria-labelledby="sol_side_menu_effects_title"
+            aria-hidden="true"
+            inert
+          >
+            <div class="sol__side_menu_view_header" {...setting_depth}>
+              <button
+                class="sol__side_menu_back"
+                type="button"
+                data-side-menu-view-target="settings"
+                data-side-menu-view-focus
+                aria-controls="sol_side_menu_view_settings"
+              >
+                <span aria-hidden="true">‹</span>
+                back
+              </button>
+              <div>
+                <p class="sol__text_kicker">inner chamber</p>
+                <h2 id="sol_side_menu_effects_title">Effects</h2>
+              </div>
+            </div>
+
+            <RitualSeparator />
+
+            <div class="sol__side_menu_settings_section">
+              <label
+                class="sol__side_menu_group"
+                for="sol_side_menu_effect_preset_all"
+                {...setting_depth}
+              >
+                <span class="sol__side_menu_label sol__text_caption"
+                  >overall theme</span
+                >
+                <select
+                  id="sol_side_menu_effect_preset_all"
+                  data-effect-preset="all"
+                >
+                  {
+                    Object.keys(effect_presets).map((value) => (
+                      <option value={value}>{value}</option>
+                    ))
+                  }
+                  <option value="custom" disabled>custom</option>
+                </select>
+              </label>
+
+              {
+                effect_categories.map((category) => (
+                  <div class="sol__side_menu_effect_category">
+                    <h3>{category.label}</h3>
+                    <label
+                      class="sol__side_menu_group"
+                      for={`sol_side_menu_effect_preset_${category.id}`}
+                      {...setting_depth}
+                    >
+                      <span class="sol__side_menu_label sol__text_caption">
+                        preset
+                      </span>
+                      <select
+                        id={`sol_side_menu_effect_preset_${category.id}`}
+                        data-effect-preset={category.id}
+                        aria-label={`${category.label} preset`}
+                      >
+                        {Object.keys(effect_presets).map((value) => (
+                          <option value={value}>{value}</option>
+                        ))}
+                        <option value="custom" disabled>
+                          custom
+                        </option>
+                      </select>
+                    </label>
+                    {category.sliders.map((slider) => {
+                      const input_id = `sol_side_menu_effect_${slider.key}`;
+                      return (
+                        <div
+                          class="sol__side_menu_effect_slider"
+                          {...setting_depth}
+                        >
+                          <label class="sol__side_menu_label" for={input_id}>
+                            {slider.label}
+                          </label>
+                          <input
+                            id={input_id}
+                            type="range"
+                            data-effect-slider={slider.key}
+                            min={slider.min}
+                            max={slider.max}
+                            step={slider.step}
+                            value={slider.defaultValue}
+                          />
+                          <output data-effect-value={slider.key} for={input_id}>
+                            {slider.defaultValue}%
+                          </output>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))
+              }
+
+              <button
+                type="button"
+                class="sol__side_menu_reset"
+                data-effect-reset
+                {...setting_depth}
+              >
+                Reset effects
               </button>
             </div>
           </section>

@@ -1,24 +1,16 @@
 import { hydrate_interactions } from "scripts-of-folly/interactions";
 import { install_pretext } from "scripts-of-folly/pretext";
 import { hydrate_text_effects } from "scripts-of-folly/text";
+import { install_gpu_effects } from "scripts-of-folly/gpu";
 import { define_inscription_element } from "./inscription_element.js";
 import { create_obsidian_runtime } from "./obsidian_runtime.js";
 import "./portal_navigation.js";
 import { install_route_failure } from "./route_failure.js";
 
 const RUNTIME_FLAG = "__monochrome_runtime_bound";
-const MENU_SELECTOR = "#sol_side_menu";
 
 const as_element = (value) =>
   value && typeof value.querySelectorAll === "function" ? value : document;
-
-const menu_in = (root) => {
-  if (root.matches?.(MENU_SELECTOR)) {
-    return root;
-  }
-
-  return root.querySelector(MENU_SELECTOR);
-};
 
 const root_contains = (root, selector) =>
   root.matches?.(selector) || root.querySelector(selector);
@@ -118,11 +110,7 @@ export const hydrate_monochrome_runtime = (root = document) => {
 
   const hydration_root = as_element(root);
   hydrate_interactions(hydration_root);
-
-  const menu = menu_in(hydration_root);
-  if (menu) {
-    hydrate_text_effects(menu);
-  }
+  hydrate_text_effects(hydration_root);
 
   pretext_controller?.refresh(hydration_root);
   hydrate_page_runtimes(hydration_root);
@@ -139,6 +127,9 @@ const boot = () => {
   if (!pretext_controller) {
     pretext_controller = install_pretext({ root: document });
   }
+
+  const gpu_key = Symbol.for("scripts-of-folly.gpu");
+  globalThis[gpu_key] ??= install_gpu_effects();
 
   hydrate_monochrome_runtime();
 };

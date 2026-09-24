@@ -156,3 +156,6 @@ references/
 .omp-shots/
 __pycache__/
 *.zip
+
+# Local workspace search index
+.zvec-grep/

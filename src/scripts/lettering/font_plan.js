@@ -1,4 +1,5 @@
 import { RUNIC_GLYPHS, SYMBOL_GLYPHS } from "../enchantment_glyphs.js";
+import { MOTE_SIZE, MOTH_DEPTHS } from "./moths.js";
 
 const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
 const seeds = new WeakMap();
@@ -91,5 +92,18 @@ export const create_font_plan = (menu) => {
       0,
     );
   }
-  return { groups, requests: [...requests.values()] };
+  const flock_keys = (category, size) =>
+    glyph_keys(
+      category,
+      root_size * size,
+      root_size * 0.25,
+      root_size * 0.65,
+      0,
+    );
+  const moths = {
+    near: flock_keys("moth", MOTH_DEPTHS.near.size),
+    far: flock_keys("moth", MOTH_DEPTHS.far.size),
+  };
+  const motes = flock_keys("mote", MOTE_SIZE);
+  return { groups, moths, motes, root_size, requests: [...requests.values()] };
 };

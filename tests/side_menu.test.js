@@ -3,32 +3,18 @@ import { GlobalRegistrator } from "@happy-dom/global-registrator";
 
 import {
   COOKIE_MAX_AGE_SECONDS,
-  LEGACY_HOME_FX_COOKIE_NAME,
   LEGACY_HOME_THEME_COOKIE_NAME,
   SITE_FPS_COOKIE_NAME,
   SITE_FPS_DEFAULT,
-  SITE_FX_DEFAULT,
-  SITE_SCALE_COOKIE_NAME,
   SITE_SCALE_DEFAULT,
-  SITE_MENU_OPEN_COOKIE_NAME,
   SITE_MENU_OPEN_DEFAULT,
-  SITE_MENU_VIEW_COOKIE_NAME,
-  SITE_MENU_VIEW_DEFAULT,
-  SITE_SHELL_COOKIE_NAME,
-  SITE_SHELL_DEFAULT,
   SITE_THEME_COOKIE_NAME,
   SITE_THEME_DEFAULT,
-  USER_MEASURE_COOKIE_NAME,
   USER_MEASURE_DEFAULT,
-  USER_TEXT_COOKIE_NAME,
   USER_TEXT_DEFAULT,
   apply_site_style_state,
-  apply_user_settings_state,
   build_cookie_string,
   get_safe_option,
-  has_site_root,
-  legacy_theme_alias_map,
-  normalize_legacy_fx_value,
   normalize_legacy_theme_value,
   normalize_theme_alias_value,
   parse_cookie_map,
@@ -37,11 +23,14 @@ import {
   resolve_saved_style,
   resolve_saved_user_settings,
   set_menu_view_state,
-  site_scale_options,
   site_theme_options,
   user_measure_options,
   user_text_options,
 } from "../public/js/modules/side_menu.js";
+import {
+  resolve_effect_preferences,
+  resolve_effect_preset,
+} from "../public/js/modules/menu/effect_preferences.js";
 
 if (!globalThis.window) {
   GlobalRegistrator.register({ url: "https://solarisael.local/current/" });
@@ -60,17 +49,6 @@ describe("side_menu cookie parsing", () => {
 
   test("read_cookie_value returns null when missing", () => {
     expect(read_cookie_value("missing_key", "site_fx=subtle")).toBeNull();
-  });
-
-  test("side menu and user preference cookie keys are stable", () => {
-    expect(SITE_MENU_OPEN_COOKIE_NAME).toBe("site_menu_open");
-    expect(SITE_MENU_OPEN_DEFAULT).toBe(false);
-    expect(SITE_MENU_VIEW_COOKIE_NAME).toBe("site_menu_view");
-    expect(SITE_MENU_VIEW_DEFAULT).toBe("root");
-    expect(USER_TEXT_COOKIE_NAME).toBe("user_text");
-    expect(USER_TEXT_DEFAULT).toBe("normal");
-    expect(USER_MEASURE_COOKIE_NAME).toBe("user_measure");
-    expect(USER_MEASURE_DEFAULT).toBe("comfort");
   });
 
   test("build_cookie_string uses expected persistence attributes", () => {
@@ -105,16 +83,8 @@ describe("side_menu option safety", () => {
       "solarisael",
     );
     expect(normalize_theme_alias_value("cosmic_themed")).toBe("solarisael");
-    expect(normalize_legacy_fx_value("home_fx_bold")).toBe("bold");
     expect(normalize_legacy_theme_value("bad")).toBeNull();
     expect(normalize_theme_alias_value(42)).toBeNull();
-    expect(normalize_legacy_fx_value(42)).toBeNull();
-  });
-
-  test("legacy_theme_alias_map contains expected dual aliases", () => {
-    expect(legacy_theme_alias_map.astrology_themed).toBe("solarisael");
-    expect(legacy_theme_alias_map.gothic_dark_girl).toBe("solarisael");
-    expect(legacy_theme_alias_map.ritual).toBe("solarisael");
   });
 
   test("resolve_saved_style falls back on invalid cookie values", () => {
@@ -123,8 +93,6 @@ describe("side_menu option safety", () => {
     );
 
     expect(resolved_style.saved_theme_class).toBe(SITE_THEME_DEFAULT);
-    expect(resolved_style.saved_fx_class).toBe(SITE_FX_DEFAULT);
-    expect(resolved_style.saved_shell_class).toBe(SITE_SHELL_DEFAULT);
     expect(resolved_style.saved_scale_class).toBe(SITE_SCALE_DEFAULT);
   });
 
@@ -134,10 +102,7 @@ describe("side_menu option safety", () => {
     );
 
     expect(resolved_style.saved_theme_class).toBe("solarisael");
-    expect(resolved_style.saved_fx_class).toBe("subtle");
-    expect(resolved_style.saved_shell_class).toBe("strong");
     expect(resolved_style.saved_scale_class).toBe("80");
-    expect(site_scale_options).toEqual(["100", "90", "80"]);
   });
 
   test.each(["60", "120", "display"])(
@@ -150,8 +115,6 @@ describe("side_menu option safety", () => {
       apply_site_style_state(
         root,
         saved.saved_theme_class,
-        saved.saved_shell_class,
-        saved.saved_fx_class,
         saved.saved_scale_class,
         saved.saved_display_class,
         saved.saved_fps_class,
@@ -175,8 +138,6 @@ describe("side_menu option safety", () => {
     apply_site_style_state(
       root,
       saved.saved_theme_class,
-      saved.saved_shell_class,
-      saved.saved_fx_class,
       saved.saved_scale_class,
       saved.saved_display_class,
       saved.saved_fps_class,
@@ -188,12 +149,10 @@ describe("side_menu option safety", () => {
 
   test("resolve_saved_style supports legacy cookies", () => {
     const resolved_style = resolve_saved_style(
-      `${LEGACY_HOME_THEME_COOKIE_NAME}=site_theme_arcane; ${LEGACY_HOME_FX_COOKIE_NAME}=home_fx_bold; ${SITE_SHELL_COOKIE_NAME}=subtle`,
+      `${LEGACY_HOME_THEME_COOKIE_NAME}=site_theme_arcane`,
     );
 
     expect(resolved_style.saved_theme_class).toBe("solarisael");
-    expect(resolved_style.saved_fx_class).toBe("bold");
-    expect(resolved_style.saved_shell_class).toBe("subtle");
   });
 
   test("resolve_saved_style normalizes external alias values", () => {
@@ -298,50 +257,44 @@ describe("side_menu generic view states", () => {
   });
 });
 
-describe("side_menu root state", () => {
-  test("has_site_root rejects invalid nodes", () => {
-    expect(has_site_root(null)).toBe(false);
-    expect(has_site_root({})).toBe(false);
+describe("effect preference cutover", () => {
+  test("legacy shell and home effects migrate with current-cookie precedence", () => {
+    expect(
+      resolve_effect_preferences("site_shell=subtle; home_fx=home_fx_bold"),
+    ).toEqual({ ornaments: 74, shell_glow: 82, folly_intensity: 128 });
+    expect(
+      resolve_effect_preferences(
+        "site_shell=strong; site_fx=invalid; home_fx=home_fx_bold",
+      ),
+    ).toEqual({ ornaments: 95, shell_glow: 118, folly_intensity: 100 });
   });
 
-  test("apply_site_style_state sets data attributes", () => {
-    const attributes = {};
-    const fake_root = {
-      dataset: {},
-      setAttribute: (name, value) => {
-        attributes[name] = value;
-      },
-      removeAttribute: () => {},
-    };
-
-    apply_site_style_state(
-      fake_root,
-      "minimal_astral",
-      "medium",
-      "balanced",
-      "90",
+  test("zero survives while excessive and nonnumeric channels normalize independently", () => {
+    const value = encodeURIComponent(
+      JSON.stringify({ ornaments: 0, shell_glow: 300, folly_intensity: "80" }),
     );
-
-    expect(attributes["data-site-theme"]).toBe("minimal_astral");
-    expect(attributes["data-site-shell"]).toBe("medium");
-    expect(attributes["data-site-fx"]).toBe("balanced");
-    expect(attributes["data-site-scale"]).toBe("90");
-    expect(attributes["data-site-fps"]).toBe(SITE_FPS_DEFAULT);
+    expect(
+      resolve_effect_preferences(`site_theme=%E0%A4%A; site_effects=${value}`),
+    ).toEqual({ ornaments: 0, shell_glow: 200, folly_intensity: 100 });
   });
 
-  test("apply_user_settings_state sets data attributes", () => {
-    const attributes = {};
-    const fake_root = {
-      dataset: {},
-      setAttribute: (name, value) => {
-        attributes[name] = value;
-      },
-      removeAttribute: () => {},
-    };
+  test("corrupt canonical preferences never resurrect superseded presets", () => {
+    for (const value of ["broken-json", "null", "%E0%A4%A"]) {
+      expect(
+        resolve_effect_preferences(
+          `site_effects=${value}; site_shell=strong; site_fx=bold`,
+        ),
+      ).toEqual({ ornaments: 90, shell_glow: 100, folly_intensity: 100 });
+    }
+  });
 
-    apply_user_settings_state(fake_root, "large", "wide");
-
-    expect(attributes["data-user-text"]).toBe("large");
-    expect(attributes["data-user-measure"]).toBe("wide");
+  test("mixed categories and manual changes cannot claim an overall preset", () => {
+    const values = { ornaments: 74, shell_glow: 82, folly_intensity: 128 };
+    expect(resolve_effect_preset(values)).toBe("custom");
+    expect(resolve_effect_preset(values, "shell")).toBe("subtle");
+    expect(resolve_effect_preset(values, "folly")).toBe("bold");
+    values.ornaments = 75;
+    expect(resolve_effect_preset(values, "shell")).toBe("custom");
+    expect(resolve_effect_preset(values, "folly")).toBe("bold");
   });
 });

@@ -1,16 +1,4 @@
-/*
-Ownership Matrix
-- `theme` (`data-site-theme`): palette identity and motif language.
-- `shell` (`data-site-shell`): container/surface structure intensity.
-  - Owns: `--site_style_strength_mult`, `--site_style_blur`,
-    `--site_shell_blur_mult`, `--site_shell_surface_mult`, `--site_shell_glow_mult`.
-  - Also owns shell-facing decor intensity (for example gilded ornaments and
-    home gate structural shadow depth).
-- `fx` (`data-site-fx`): content emphasis intensity.
-  - Owns: `--site_fx_glow_mult`, `--site_fx_motion_mult`, `--site_fx_lift_mult`.
-  - Also owns non-shell interaction motion (for example hover lift and
-    transition pacing on content/interactions).
-*/
+/* Shell decoration and authored Folly effects have independent controls. */
 :root {
   --site_style_accent: var(--ui_accent);
   --site_style_accent_alt: var(--ui_accent_2);
@@ -28,7 +16,7 @@ Ownership Matrix
   --site_shell_surface_mult: 1;
   --site_shell_glow_mult: 1;
   --site_shell_top_light_mult: 0.5;
-  --site_shell_bottom_light_mult: 1;
+  --site_shell_bottom_light_mult: 1.15;
 
   --site_fx_glow_mult: 1;
   --site_fx_motion_mult: 1;
@@ -57,13 +45,13 @@ Ownership Matrix
   --site_style_accent: var(--ui_accent);
   --site_style_accent_alt: var(--ui_accent_2);
   --site_style_shell_mix: 48%;
-  --site_style_border_mix: 28%;
-  --site_style_halo_mix: 26%;
-  --site_style_edge_mix: 22%;
-  --site_style_noise_opacity: 0.1;
-  --site_style_deco_opacity: 0.46;
-  --cinza_reliquary_opacity: 0.88;
-  --cinza_reliquary_line_mix: 26%;
+  --site_style_border_mix: 34%;
+  --site_style_halo_mix: 31%;
+  --site_style_edge_mix: 26%;
+  --site_style_noise_opacity: 0.14;
+  --site_style_deco_opacity: 0.52;
+  --cinza_reliquary_opacity: 0.9;
+  --cinza_reliquary_line_mix: 36%;
   --sol_ornament_luminance: 0.86;
 
   /* Away from border + vertical positioning */
@@ -95,100 +83,11 @@ Ownership Matrix
   --cinza_reliquary_line_block_size: var(--cinza_tune_line_block_size);
   --cinza_reliquary_sigil_size: var(--cinza_tune_sigil_size);
 
-  --cinza_sun_bleed_mix: 34%;
-  --cinza_sun_bleed_alt_mix: 24%;
-  --cinza_fog_halo_mix: 30%;
-  --cinza_fog_depth_mix: 20%;
-  --cinza_fog_shadow_mix: 34%;
-}
-
-:root[data-site-theme="solarisael"][data-site-shell="subtle"] {
-  --site_style_deco_opacity: 0.38;
-  --cinza_reliquary_opacity: 0.74;
-  --cinza_reliquary_line_mix: 20%;
-  --cinza_sun_bleed_mix: 24%;
-  --cinza_sun_bleed_alt_mix: 16%;
-  --cinza_fog_halo_mix: 18%;
-  --cinza_fog_depth_mix: 14%;
-  --cinza_fog_shadow_mix: 24%;
-}
-
-:root[data-site-theme="solarisael"][data-site-shell="medium"] {
-  --site_style_border_mix: 34%;
-  --site_style_halo_mix: 31%;
-  --site_style_edge_mix: 26%;
-  --site_style_noise_opacity: 0.14;
-  --site_style_deco_opacity: 0.52;
-  --cinza_reliquary_opacity: 0.9;
-  --cinza_reliquary_line_mix: 36%;
   --cinza_sun_bleed_mix: 42%;
   --cinza_sun_bleed_alt_mix: 28%;
   --cinza_fog_halo_mix: 40%;
   --cinza_fog_depth_mix: 24%;
   --cinza_fog_shadow_mix: 42%;
-}
-
-:root[data-site-theme="solarisael"][data-site-shell="strong"] {
-  --site_style_border_mix: 42%;
-  --site_style_halo_mix: 37%;
-  --site_style_edge_mix: 32%;
-  --site_style_noise_opacity: 0.18;
-  --site_style_deco_opacity: 0.62;
-  --cinza_reliquary_opacity: 0.95;
-  --cinza_reliquary_line_mix: 46%;
-  --cinza_sun_bleed_mix: 50%;
-  --cinza_sun_bleed_alt_mix: 36%;
-  --cinza_fog_halo_mix: 52%;
-  --cinza_fog_depth_mix: 34%;
-  --cinza_fog_shadow_mix: 56%;
-}
-
-:root[data-site-shell="subtle"] {
-  --site_style_strength_mult: 0.78;
-  --site_style_blur: 3px;
-  --site_shell_blur_mult: 0.84;
-  --site_shell_surface_mult: 0.9;
-  --site_shell_glow_mult: 0.84;
-  --site_shell_top_light_mult: 0.5;
-  --site_shell_bottom_light_mult: 0.9;
-}
-
-:root[data-site-shell="medium"] {
-  --site_style_strength_mult: 1;
-  --site_style_blur: 5px;
-  --site_shell_blur_mult: 1;
-  --site_shell_surface_mult: 1;
-  --site_shell_glow_mult: 1;
-  --site_shell_top_light_mult: 0.5;
-  --site_shell_bottom_light_mult: 1.15;
-}
-
-:root[data-site-shell="strong"] {
-  --site_style_strength_mult: 1.28;
-  --site_style_blur: 8px;
-  --site_shell_blur_mult: 1.22;
-  --site_shell_surface_mult: 1.16;
-  --site_shell_glow_mult: 1.22;
-  --site_shell_top_light_mult: 0.5;
-  --site_shell_bottom_light_mult: 1.4;
-}
-
-:root[data-site-fx="subtle"] {
-  --site_fx_glow_mult: 0.8;
-  --site_fx_motion_mult: 0.82;
-  --site_fx_lift_mult: 0.72;
-}
-
-:root[data-site-fx="balanced"] {
-  --site_fx_glow_mult: 1;
-  --site_fx_motion_mult: 1;
-  --site_fx_lift_mult: 1;
-}
-
-:root[data-site-fx="bold"] {
-  --site_fx_glow_mult: 1.28;
-  --site_fx_motion_mult: 1.18;
-  --site_fx_lift_mult: 1.4;
 }
 
 :root[data-user-text="compact"] {
@@ -337,7 +236,6 @@ Ownership Matrix
   --site_shell_surface_mult: 0;
   --site_shell_glow_mult: 0;
 }
-
 :root[data-folly-gpu-pending]
   #sol_page_shell
   .sol__text_fx:not([data-folly-capture]):not(
@@ -427,6 +325,6 @@ body > .sol__ix_popup .sol__ix_popup_explanation_body {
 }
 
 :where(#sol_page_shell, body > .sol__ix_popup, body > .sol__wikilink_popup)
-  img {
+  img:not(ornament > img) {
   filter: grayscale(1);
 }

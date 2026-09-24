@@ -1,0 +1,48 @@
+---
+import {
+  MANTLE_ORNAMENTS,
+  MANTLE_POSITIONS,
+} from "../../data/mantle_ornaments.js";
+import "../../styles/components/mantle_frame.css";
+
+const { variant = "container", class: class_name, ...attributes } = Astro.props;
+const ornaments = MANTLE_ORNAMENTS[variant];
+
+if (!ornaments) {
+  throw new TypeError(`Unknown mantle variant: ${variant}`);
+}
+
+const mantle_class = ["sol__mantle_frame", class_name]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<mantle {...attributes} class={mantle_class} data-shape={variant}>
+  <slot />
+  {
+    variant === "container" && (
+      <canvas
+        class="sol__mantle_glow_canvas"
+        data-mantle-glow
+        aria-hidden="true"
+      />
+    )
+  }
+  {
+    MANTLE_POSITIONS.map((position) => {
+      const ornament = ornaments[position];
+
+      return (
+        <ornament data-position={position} aria-hidden="true">
+          {ornament.symbol ? (
+            <svg viewBox={ornament.view_box} fill="none" focusable="false">
+              <use href={`${ornament.src}#${ornament.symbol}`} />
+            </svg>
+          ) : (
+            <img src={ornament.src} alt="" decoding="async" />
+          )}
+        </ornament>
+      );
+    })
+  }
+</mantle>

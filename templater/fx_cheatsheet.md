@@ -16,7 +16,7 @@ Use canonical markers in notes:
 ## Color
 
 - Accepted colors: CSS named colors (`gold`, `crimson`, ...), hex (`#fc0`, `#ffcc00`, including 4/8-digit forms), or palette tokens (`accent`, `accent_alt`, `nigredo`, `albedo`, `citrinitas`, `rubedo`, `codex`).
-- Color-capable effects: `aura`, `glow`, `gradient`, `neon`, `shadow`, `sigil_pulse`, `veil`, `whisper`.
+- The color-capable effects are `aura`, `glow`, `gradient`, `neon`, `rift`, `shadow`, `sigil_pulse`, `veil`, and `whisper`.
 - Color is position-insensitive: `{{fx:neon:gold:1.2}}` equals `{{fx:neon:1.2:gold}}`.
 - Per-effect stacks use slash-separated values after `=`: `{{fx:glow=gold|aura:1.1}}` and `{{fx:neon=1.2/0.9/gold}}`.
 - Fixed palettes: `chroma`, `rainbow`, and `glitch` refuse color args; supplied colors are dropped with a build warning.
@@ -27,6 +27,7 @@ Use canonical markers in notes:
 - `glow`
 - `neon`
 - `shadow`
+- `rift`
 - `chroma`
 - `blur`
 - `flicker`
@@ -66,6 +67,7 @@ Use canonical markers in notes:
 {{fx:glow:1.4}}brighter line{{/fx}}
 {{fx:flicker:1.2:0.8}}fading lantern{{/fx}}
 {{fx:glow|flicker|shadow:1.2:0.9}}stacked signal{{/fx}}
+{{fx:rift:0.85}}the page tears open{{/fx}}
 {{fx:aura:1.5}}sanctuary ember{{/fx}}
 {{fx:etch:1.2}}carved vow{{/fx}}
 {{fx:whisper:1.3}}faint confession{{/fx}}

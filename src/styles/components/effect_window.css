@@ -26,12 +26,13 @@ sol-effect-window[data-effect-window="terminal"] {
     var(--mono_ink, #171717) 90%,
     transparent
   );
-  --effect-window-terminal-halo-radius: 3rem;
+  --folly_terminal_halo_radius: 3rem;
+  --folly_terminal_scheme: 0;
 
   color: var(--effect-window-terminal-text);
 }
 
-sol-effect-window[data-effect-window="terminal"][data-effect-window-renderer="vgpu"] {
+sol-effect-window[data-effect-window="terminal"][data-folly-terminal-renderer="vgpu"] {
   --effect-window-terminal-text: #ece7dc;
   --effect-window-terminal-outline: rgb(217 189 131);
 }
@@ -78,14 +79,24 @@ sol-effect-window[data-effect-window="terminal"] > .sol__effect_window_field {
 }
 
 :root[data-site-scheme="dark"]
-  sol-effect-window[data-effect-window="terminal"][data-effect-window-renderer="vgpu"] {
+  sol-effect-window[data-effect-window="terminal"] {
+  --folly_terminal_scheme: 1;
+}
+
+:root[data-site-scheme="dark"]
+  sol-effect-window[data-effect-window="terminal"][data-folly-terminal-renderer="vgpu"] {
   --effect-window-terminal-text: #17191b;
   --effect-window-terminal-outline: rgb(23 25 27);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-site-scheme])
-    sol-effect-window[data-effect-window="terminal"][data-effect-window-renderer="vgpu"] {
+    sol-effect-window[data-effect-window="terminal"] {
+    --folly_terminal_scheme: 1;
+  }
+
+  :root:not([data-site-scheme])
+    sol-effect-window[data-effect-window="terminal"][data-folly-terminal-renderer="vgpu"] {
     --effect-window-terminal-text: #17191b;
     --effect-window-terminal-outline: rgb(23 25 27);
   }

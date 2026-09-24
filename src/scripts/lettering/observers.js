@@ -1,9 +1,9 @@
-export const observe_lettering = (menu, canvas, layout, states) => {
+export const observe_lettering = (menu, canvases, layout, states) => {
   const invalidate = () => layout();
   const fonts = () => layout(true);
   const selection = () => queueMicrotask(states);
   const resize = new ResizeObserver(invalidate);
-  resize.observe(canvas);
+  for (const canvas of canvases) resize.observe(canvas);
   const text = new MutationObserver(invalidate);
   const selection_changes = new MutationObserver(states);
   for (const link of menu.querySelectorAll("[data-side-menu-route]")) {

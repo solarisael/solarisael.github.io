@@ -3,12 +3,8 @@ import {
   SITE_DISPLAY_DEFAULT,
   SITE_FPS_COOKIE_NAME,
   SITE_FPS_DEFAULT,
-  SITE_FX_COOKIE_NAME,
-  SITE_FX_DEFAULT,
   SITE_SCALE_COOKIE_NAME,
   SITE_SCALE_DEFAULT,
-  SITE_SHELL_COOKIE_NAME,
-  SITE_SHELL_DEFAULT,
   SITE_THEME_COOKIE_NAME,
   SITE_THEME_DEFAULT,
   USER_MEASURE_COOKIE_NAME,
@@ -22,9 +18,7 @@ import {
   resolve_saved_user_settings,
   site_display_options,
   site_fps_options,
-  site_fx_options,
   site_scale_options,
-  site_shell_options,
   site_theme_options,
   user_measure_options,
   user_text_options,
@@ -32,6 +26,7 @@ import {
   delete_cookie_value,
 } from "./preferences.js";
 import { sync_side_menu_controls } from "./view_state.js";
+import { reset_effect_controls } from "./effect_controls.js";
 
 const bind_select_change = (select_node, commit_state) => {
   if (select_node instanceof HTMLSelectElement) {
@@ -43,10 +38,6 @@ export const bind_settings_controls = (menu_node) => {
   const theme_select_node = menu_node.querySelector(
     "[data-site-theme-control]",
   );
-  const shell_select_node = menu_node.querySelector(
-    "[data-site-shell-control]",
-  );
-  const fx_select_node = menu_node.querySelector("[data-site-fx-control]");
   const scale_select_node = menu_node.querySelector(
     "[data-site-scale-control]",
   );
@@ -66,20 +57,6 @@ export const bind_settings_controls = (menu_node) => {
         : SITE_THEME_DEFAULT,
       site_theme_options,
       SITE_THEME_DEFAULT,
-    );
-    const selected_shell_name = get_safe_option(
-      shell_select_node instanceof HTMLSelectElement
-        ? shell_select_node.value
-        : SITE_SHELL_DEFAULT,
-      site_shell_options,
-      SITE_SHELL_DEFAULT,
-    );
-    const selected_fx_name = get_safe_option(
-      fx_select_node instanceof HTMLSelectElement
-        ? fx_select_node.value
-        : SITE_FX_DEFAULT,
-      site_fx_options,
-      SITE_FX_DEFAULT,
     );
     const selected_scale_name = get_safe_option(
       scale_select_node instanceof HTMLSelectElement
@@ -106,15 +83,11 @@ export const bind_settings_controls = (menu_node) => {
     apply_site_style_state(
       document.documentElement,
       selected_theme_name,
-      selected_shell_name,
-      selected_fx_name,
       selected_scale_name,
       selected_display_name,
       selected_fps_name,
     );
     write_cookie_value(SITE_THEME_COOKIE_NAME, selected_theme_name);
-    write_cookie_value(SITE_SHELL_COOKIE_NAME, selected_shell_name);
-    write_cookie_value(SITE_FX_COOKIE_NAME, selected_fx_name);
     write_cookie_value(SITE_SCALE_COOKIE_NAME, selected_scale_name);
     write_cookie_value(SITE_DISPLAY_COOKIE_NAME, selected_display_name);
     write_cookie_value(SITE_FPS_COOKIE_NAME, selected_fps_name);
@@ -146,8 +119,6 @@ export const bind_settings_controls = (menu_node) => {
   };
 
   bind_select_change(theme_select_node, commit_site_state);
-  bind_select_change(shell_select_node, commit_site_state);
-  bind_select_change(fx_select_node, commit_site_state);
   bind_select_change(scale_select_node, commit_site_state);
   bind_select_change(display_select_node, commit_site_state);
   bind_select_change(fps_select_node, commit_site_state);
@@ -159,12 +130,13 @@ export const bind_settings_controls = (menu_node) => {
   )) {
     if (!(reset_node instanceof HTMLButtonElement)) continue;
     reset_node.addEventListener("click", () => {
+      if (reset_node.dataset.sideMenuReset === "site") {
+        reset_effect_controls(menu_node);
+      }
       const cookie_names =
         reset_node.dataset.sideMenuReset === "site"
           ? [
               SITE_THEME_COOKIE_NAME,
-              SITE_SHELL_COOKIE_NAME,
-              SITE_FX_COOKIE_NAME,
               SITE_SCALE_COOKIE_NAME,
               SITE_DISPLAY_COOKIE_NAME,
               SITE_FPS_COOKIE_NAME,
@@ -174,8 +146,6 @@ export const bind_settings_controls = (menu_node) => {
 
       const {
         saved_theme_class,
-        saved_shell_class,
-        saved_fx_class,
         saved_scale_class,
         saved_display_class,
         saved_fps_class,
@@ -185,8 +155,6 @@ export const bind_settings_controls = (menu_node) => {
       apply_site_style_state(
         document.documentElement,
         saved_theme_class,
-        saved_shell_class,
-        saved_fx_class,
         saved_scale_class,
         saved_display_class,
         saved_fps_class,
@@ -198,8 +166,6 @@ export const bind_settings_controls = (menu_node) => {
       );
       sync_side_menu_controls(
         saved_theme_class,
-        saved_shell_class,
-        saved_fx_class,
         saved_scale_class,
         saved_text_class,
         saved_measure_class,

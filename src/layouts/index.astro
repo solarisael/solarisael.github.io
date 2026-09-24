@@ -24,6 +24,7 @@ import "../styles/components/search.css";
 import Breadcrumbers from "../components/mantle/breadcrumbs.astro";
 import SideMenu from "../components/mantle/side_menu.astro";
 import Footer from "../components/mantle/footer.astro";
+import MantleFrame from "../components/mantle/mantle_frame.astro";
 import VisionBanner from "../components/page/vision_banner.astro";
 import RouteFailure from "../components/page/route_failure.astro";
 import { base_path, with_base } from "../utils/routes.js";
@@ -112,8 +113,6 @@ const metadata_payload = JSON.stringify({
 <html
   lang="en"
   data-site-theme="solarisael"
-  data-site-shell="medium"
-  data-site-fx="balanced"
   data-site-scale="100"
   data-site-display="sdr"
   data-site-fps={SITE_FPS_DEFAULT}
@@ -246,6 +245,7 @@ const metadata_payload = JSON.stringify({
       import "../scripts/shader_chalice_lab.js";
       import "../scripts/pretext_transition_lab.js";
       import "../scripts/metadata_lifecycle.js";
+      import "../scripts/mantle_glow.js";
     </script>
   </head>
   <body
@@ -306,9 +306,11 @@ const metadata_payload = JSON.stringify({
           />
         )
       }
-      <vessel id="sol_content">
-        <slot />
-      </vessel>
+      <MantleFrame variant="container">
+        <vessel id="sol_content">
+          <slot />
+        </vessel>
+      </MantleFrame>
       <slot name="footer">
         <Footer footer_group={footer_group} />
       </slot>

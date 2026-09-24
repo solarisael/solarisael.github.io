@@ -14,6 +14,8 @@ When new optional class variants are introduced, add them here in the same chang
 - 2026-02-08: Added `verdigris` to `data-site-theme` options.
 - 2026-02-09: Replaced 4 theme options with 7 inspiration-aligned themes and dual alias naming.
 - 2026-09-15: Added the system `color-scheme` paper option for light and dark paper.
+- 2026-09-21: Separated shell decoration from Folly intensity and restored authored text effects.
+- 2026-09-21: Added the nested Effects view, combined presets, and persistent numeric sliders.
 
 ## Navigation
 
@@ -70,9 +72,49 @@ For each new option set, document:
 4. Full options list
 5. One-line quick switch example
 
+## Effects Menu
+
+Open Site configuration.
+Select Effects.
+The overall theme preset sets both categories.
+Each category preset changes only that category.
+Manual values show `custom` unless they match a preset.
+Back and Escape return from Effects to Site configuration.
+
+| Category         | Slider           | Range   | Balanced value | Root CSS property           |
+| ---------------- | ---------------- | ------- | -------------- | --------------------------- |
+| Shell decoration | Ornament opacity | 0–100%  | 90%            | `--cinza_reliquary_opacity` |
+| Shell decoration | Ornament glow    | 0–200%  | 100%           | `--site_shell_glow_mult`    |
+| Scripts of Folly | Visual intensity | 20–200% | 100%           | `--site_fx_glow_mult`       |
+
+| Preset     | Ornament opacity | Ornament glow | Folly intensity |
+| ---------- | ---------------- | ------------- | --------------- |
+| `subtle`   | 74%              | 82%           | 80%             |
+| `balanced` | 90%              | 100%          | 100%            |
+| `bold`     | 95%              | 118%          | 128%            |
+
+The `site_effects` cookie stores numeric percentages.
+Old `site_shell`, `site_fx`, and `home_fx` cookies migrate once.
+Current numeric preferences take precedence over old presets.
+Invalid values return to their defaults; valid values stay within each slider's range.
+Sliders use whole percentage steps.
+Neither category changes animation timing or authored motion parameters.
+
+Reset effects restores balanced values without changing display or reading settings.
+Reset site configuration also resets effects.
+Reset profile leaves effects unchanged.
+
+Quick switch through the bound menu:
+
+```js
+const preset = document.querySelector('[data-effect-preset="all"]');
+preset.value = "balanced";
+preset.dispatchEvent(new Event("change", { bubbles: true }));
+```
+
 ## Text Effects
 
-- Purpose: inline visual emphasis that follows global `data-site-fx` intensity.
+- Purpose: inline visual emphasis that follows the Folly visual intensity slider.
 - Apply on: inline `span` elements only.
 - Base class: `text_fx`.
 - Effect classes:

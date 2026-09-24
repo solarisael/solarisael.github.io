@@ -1,6 +1,4 @@
-import { create_ambient_glyphs } from "./enchantment_ambient.js";
 import { create_portal_lettering } from "./lettering/runtime.js";
-import { create_enchanted_rim } from "./enchantment_rim.js";
 import { acquire_element_depth } from "./element_depth.js";
 import { load_enchantment_fonts } from "./enchantment_glyphs.js";
 
@@ -11,15 +9,11 @@ export const create_portal_enchantment = (
   menu,
   { load_fonts = load_enchantment_fonts } = {},
 ) => {
-  const layer = menu.querySelector("[data-portal-glyphs]");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
-  const lettering = menu.querySelector("[data-portal-lettering]")
-    ? create_portal_lettering(menu)
-    : null;
-  const ambient = create_ambient_glyphs(layer);
-  const close = menu.querySelector("[data-side-menu-close]");
-  const rim = close ? create_enchanted_rim(close) : null;
   const depth = acquire_element_depth(menu);
+  const lettering = menu.querySelector("[data-portal-lettering]")
+    ? create_portal_lettering(menu, depth.field.uniforms)
+    : null;
   let disposed = false;
   let fonts_ready = false;
   let fonts_pending = false;
@@ -124,8 +118,6 @@ export const create_portal_enchantment = (
       document.removeEventListener("visibilitychange", sync);
       motion.removeEventListener("change", sync);
       lettering?.dispose();
-      ambient.dispose();
-      rim?.dispose();
       depth.release();
       delete menu.dataset.portalEnchantment;
     },

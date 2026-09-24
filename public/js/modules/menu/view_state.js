@@ -138,8 +138,6 @@ const set_menu_state = (menu_node, is_open, view_name) => {
 
 const sync_side_menu_controls = (
   theme_name,
-  shell_name,
-  fx_name,
   scale_name,
   text_name,
   measure_name,
@@ -157,10 +155,6 @@ const sync_side_menu_controls = (
   const theme_select_node = menu_node.querySelector(
     "[data-site-theme-control]",
   );
-  const shell_select_node = menu_node.querySelector(
-    "[data-site-shell-control]",
-  );
-  const fx_select_node = menu_node.querySelector("[data-site-fx-control]");
   const scale_select_node = menu_node.querySelector(
     "[data-site-scale-control]",
   );
@@ -174,8 +168,6 @@ const sync_side_menu_controls = (
   );
 
   set_select_value(theme_select_node, theme_name);
-  set_select_value(shell_select_node, shell_name);
-  set_select_value(fx_select_node, fx_name);
   set_select_value(scale_select_node, scale_name);
   set_select_value(display_select_node, display_name);
   set_select_value(fps_select_node, fps_name);

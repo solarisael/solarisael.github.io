@@ -35,6 +35,12 @@ Supports: color, visual intensity.
 
 {{fx:shadow:0.85}}A thought with a quiet edge.{{/fx}}
 
+### Rift
+
+Rift supports color and visual intensity.
+
+{{fx:rift:0.85}}A seam opens beneath the words.{{/fx}}
+
 ### Chroma
 
 Supports: visual intensity; fixed aberration palette.
