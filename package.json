@@ -40,7 +40,7 @@
     "htmx.org": "^2.0.10",
     "idiomorph": "^0.7.4",
     "prettier": "^3.9.6",
-    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-astro": "^1.0.1",
     "rehype-raw": "^7.0.0",
     "scripts-of-folly": "github:solarisael/scripts-of-folly#5488d3b05d77234f17118ccd281d3eca4b56dcea",
     "three": "^0.185.1",
