@@ -28,6 +28,7 @@ import MantleFrame from "../components/mantle/mantle_frame.astro";
 import VisionBanner from "../components/page/vision_banner.astro";
 import RouteFailure from "../components/page/route_failure.astro";
 import { base_path, with_base } from "../utils/routes.js";
+import { build_id } from "../lib/build_id.js";
 import { SITE_FPS_DEFAULT } from "../../public/js/modules/menu/preferences.js";
 import {
   get_publication_entries,
@@ -122,6 +123,7 @@ const metadata_payload = JSON.stringify({
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="sol-build" content={build_id} />
     <script is:inline src={with_base("js/modules/menu/color_scheme.js")}
     ></script>
     <script is:inline>
@@ -245,6 +247,7 @@ const metadata_payload = JSON.stringify({
       import "../scripts/shader_chalice_lab.js";
       import "../scripts/pretext_transition_lab.js";
       import "../scripts/metadata_lifecycle.js";
+      import "../scripts/build_guard.js";
       import "../scripts/mantle_glow.js";
     </script>
   </head>
@@ -268,6 +271,7 @@ const metadata_payload = JSON.stringify({
     <main
       id="sol_page_shell"
       hx-history-elt
+      data-sol-build={build_id}
       data-sol-page-title={resolved_page_title}
       data-sol-page-description={resolved_page_description}
       data-sol-canonical-url={canonical_url}

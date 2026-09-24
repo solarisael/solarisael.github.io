@@ -1,4 +1,4 @@
-import { register_node_disposal } from "../../public/js/modules/node_disposal.js";
+import { register_node_disposal } from "./node_disposal_bridge.js";
 import {
   ACTOR_FLOATS,
   MAX_GLOWS,

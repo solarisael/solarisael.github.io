@@ -28,6 +28,11 @@ const is_route_request = (event) => {
 };
 
 const request_method = (detail) => {
+  // htmx history cache misses always refetch the restored path with GET.
+  if (detail.historyElt instanceof HTMLElement) {
+    return "GET";
+  }
+
   const method = detail.requestConfig?.verb ?? detail.requestConfig?.method;
   if (typeof method === "string") {
     return method.toUpperCase();
@@ -175,6 +180,11 @@ const handle_route_error = (state, event) => {
   show_route_failure(state.root_node, event);
 };
 
+const handle_history_restore_error = (state, event) => {
+  state.active_xhr = null;
+  show_route_failure(state.root_node, event);
+};
+
 const handle_route_after_settle = (state, event) => {
   if (!is_route_swap_target(request_detail(event).target)) {
     return;
@@ -188,7 +198,8 @@ const bind_route_failure_events = (body_node, state) => {
   body_node.addEventListener("htmx:beforeRequest", (event) =>
     handle_route_before_request(state, event),
   );
-  body_node.addEventListener("htmx:abort", (event) =>
+  // htmx listens for htmx:abort as a command; it reports aborts as sendAbort.
+  body_node.addEventListener("htmx:sendAbort", (event) =>
     handle_route_abort(state, event),
   );
   body_node.addEventListener("htmx:afterRequest", (event) =>
@@ -212,6 +223,9 @@ const bind_route_failure_events = (body_node, state) => {
     state.active_xhr = null;
     clear_route_failure(state.root_node);
   });
+  body_node.addEventListener("htmx:historyCacheMissLoadError", (event) =>
+    handle_history_restore_error(state, event),
+  );
 };
 
 const install_route_failure = (document_node = globalThis.document) => {

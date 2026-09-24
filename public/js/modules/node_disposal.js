@@ -4,11 +4,24 @@
  * HTMX's ordinary cleanup event fires before the node is detached. Idiomorph
  * removes unmatched nodes without that event, so the afterSwap sweep is the
  * second half of this seam: it only retires roots that are no longer connected.
+ *
+ * The registry lives on globalThis, not in module scope: this file is served
+ * from /js/modules/ and may also be inlined by a bundler, and every instance
+ * must feed the one registry the HTMX listeners sweep.
  */
 
-const registered_disposals = new Map();
-const installed_documents = new WeakSet();
 const NODE_DISPOSAL_API_SYMBOL = Symbol.for("solarisael.node_disposal");
+const NODE_DISPOSAL_REGISTRY_SYMBOL = Symbol.for(
+  "solarisael.node_disposal.registry",
+);
+
+globalThis[NODE_DISPOSAL_REGISTRY_SYMBOL] ??= Object.freeze({
+  registered_disposals: new Map(),
+  installed_documents: new WeakSet(),
+});
+
+const { registered_disposals, installed_documents } =
+  globalThis[NODE_DISPOSAL_REGISTRY_SYMBOL];
 
 const is_disposable_root = (root_node) => {
   const element_constructor = globalThis.Element;

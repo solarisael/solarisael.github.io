@@ -135,6 +135,12 @@ if (!existsSync(dist)) {
         fail(`${relative}: missing local resource ${resource}`);
       }
     }
+    if (relative === "codex/labs/text-effects/index.html") {
+      if (!html.includes('class="sol__text_fx sol__text_fx_rift"'))
+        fail(`${relative}: Rift marker was not rendered`);
+      if (html.includes("{{fx:rift:"))
+        fail(`${relative}: raw Rift marker leaked into the page`);
+    }
   }
 
   const required_files = [

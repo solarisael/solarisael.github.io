@@ -4,7 +4,16 @@
 - Release source: current `main` tree
 - Public site: `https://solarisael.github.io/`
 - Build: pass, 75 pages
-- Tests: pass, 273 tests across 29 files
+- Tests: pass, 274 tests across 29 files
+
+## Route cleanup and Rift
+
+The node disposal registry is shared by both module copies.
+The mantle glow uses the installed registry during HTMX swaps and history navigation.
+Route failure handling listens for the HTMX abort and history error events.
+The build guard reloads the page when the head and incoming shell have different build IDs.
+The site pins Folly commit `5488d3b` for the Rift marker.
+Local Chrome showed the Rift effect with WebGL2, and each route probe disposed once.
 
 ## Ornament color correction
 

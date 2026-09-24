@@ -117,4 +117,28 @@ describe("node disposal lifecycle", () => {
 
     expect(second_disposal_count).toBe(1);
   });
+
+  test("a second module instance feeds the installed registry", async () => {
+    // Production serves this module from /js/modules/ and the Astro bundle
+    // may inline another copy; the copy that loads last owns the global API.
+    const bundled_copy =
+      await import("../public/js/modules/node_disposal.js?bundled_copy");
+    const global_api = globalThis[Symbol.for("solarisael.node_disposal")];
+    const root = document.createElement("div");
+    let disposal_count = 0;
+    document.body.append(root);
+
+    expect(bundled_copy.register_node_disposal).not.toBe(
+      register_node_disposal,
+    );
+    expect(bundled_copy.install_node_disposal_lifecycle(document)).toBe(false);
+
+    global_api.register_node_disposal(root, () => {
+      disposal_count += 1;
+    });
+    root.remove();
+    dispatch_htmx_event("htmx:afterSwap", { target: document.body });
+
+    expect(disposal_count).toBe(1);
+  });
 });
